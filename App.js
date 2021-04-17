@@ -1,21 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React, { useContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { SafeAreaView } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-export default function App() {
+import { Provider as AuthProvider } from "./app/context/AuthContext";
+import { Context as AuthContext } from "./app/context/AuthContext";
+
+import MainTabs from "./app/navigation/MainTabs";
+import Authentication from "./app/navigation/stacks/AuthenticationStack";
+
+import globalStyles from "./global/globalStyles";
+
+const App = () => {
+  const {
+    state: { jwt },
+  } = useContext(AuthContext);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <SafeAreaView style={globalStyles.AndroidSafeArea}>
+        <StatusBar style="dark" backgroundColor="white" />
+        {!jwt ? <MainTabs /> : <Authentication />}
+      </SafeAreaView>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default () => {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+};
