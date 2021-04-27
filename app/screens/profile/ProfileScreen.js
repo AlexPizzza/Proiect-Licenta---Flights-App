@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 24,
+    marginTop: 20,
+    marginBottom: 24,
     ...globalStyles.marginHorizontal,
   },
   manageAccountText: {

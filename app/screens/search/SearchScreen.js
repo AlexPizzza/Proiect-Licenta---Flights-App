@@ -5,12 +5,13 @@ import AppLoading from "expo-app-loading";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 import Ripple from "react-native-material-ripple";
-import { SearchBar } from "react-native-elements";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
+import SearchBar from "../../components/Search/SearchBar";
 import RecommendedCard from "../../components/Search/RecommendedCard";
+
 import useFontsHook from "../../hooks/useFonts";
 import useLocation from "../../hooks/useLocation";
 
@@ -66,17 +67,7 @@ const SearchScreen = () => {
           </Text>
         </View>
 
-        <SearchBar
-          placeholder="Search your next flight"
-          platform="ios"
-          containerStyle={styles.sbContainerStyle}
-          inputContainerStyle={styles.sbInputContainerStyle}
-          inputStyle={styles.sbInputStyle}
-          searchIcon={styles.sbSearchIcon}
-          clearIcon={null}
-          value={searchQuery}
-          onChangeText={(text) => setSearchQuery(text)}
-        />
+        <SearchBar sbText="Search your next flight" bdRadius={20} />
 
         <View style={styles.recommended_viewAll_Container}>
           <Text style={globalStyles.normalText}>Recommended</Text>
