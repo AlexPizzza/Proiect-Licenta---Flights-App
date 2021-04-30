@@ -3,8 +3,6 @@ import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import globalStyles from "../../../global/globalStyles";
 
-const { width, height } = Dimensions.get("window");
-
 const ExploreBasicCard = ({ item }) => {
   return (
     <View style={styles.container}>
@@ -18,6 +16,7 @@ const ExploreBasicCard = ({ item }) => {
   );
 };
 
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,

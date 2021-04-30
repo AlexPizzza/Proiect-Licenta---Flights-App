@@ -6,8 +6,6 @@ import Ripple from "react-native-material-ripple";
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-const { width, height } = Dimensions.get("window");
-
 const ProfileCard = ({ title, useNavigation }) => {
   return (
     <View style={styles.container}>
@@ -29,6 +27,7 @@ const ProfileCard = ({ title, useNavigation }) => {
   );
 };
 
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     width: 0.45 * width,

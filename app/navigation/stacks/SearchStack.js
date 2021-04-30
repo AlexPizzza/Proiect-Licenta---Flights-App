@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import SearchScreen from "../../screens/search/SearchScreen";
+import AuthenticationStack from "./AuthenticationStack";
 
 const Stack = createStackNavigator();
 

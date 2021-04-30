@@ -1,5 +1,6 @@
 const colors = {
   BG_COLOR: "#FFFFFF",
+  BLUE: "#4285F4",
   BLACK: "#000000",
   GRAY_SUBHEADER_TEXT: "#8087AB",
   EXPLORE_CARD_TAP: "#E0E0E0",

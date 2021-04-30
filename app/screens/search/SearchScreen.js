@@ -37,8 +37,6 @@ const SearchScreen = () => {
   let [fontsLoaded] = useFontsHook();
   const [locationText] = useLocation();
 
-  const [searchQuery, setSearchQuery] = useState("");
-
   if (!fontsLoaded || locationText === "") return <AppLoading />;
   else {
     return (

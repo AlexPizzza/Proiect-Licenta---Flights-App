@@ -8,8 +8,6 @@ import exploreEverywhereImage from "../../../assets/explore-everywhere.jpg";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const { width, height } = Dimensions.get("window");
-
 const ExploreEverywhereCard = () => {
   return (
     <Ripple
@@ -29,6 +27,7 @@ const ExploreEverywhereCard = () => {
   );
 };
 
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     height: height / 3,

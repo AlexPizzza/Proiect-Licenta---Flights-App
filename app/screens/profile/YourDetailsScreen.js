@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
+
+import { Context as AuthContext } from "../../context/AuthContext";
 
 import { ListItem } from "react-native-elements";
 
@@ -21,6 +23,8 @@ const list = [
 ];
 
 const YourDetailsScreen = () => {
+  const { signout } = useContext(AuthContext);
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
@@ -30,7 +34,16 @@ const YourDetailsScreen = () => {
             key={index}
             rippleColor={colors.PURPLE}
             rippleOpacity={0.8}
-            onLongPress={() => {}}
+            onPress={() => {
+              if (item.title === "Log out") {
+                signout();
+              }
+            }}
+            onLongPress={() => {
+              if (item.title === "Log out") {
+                signout();
+              }
+            }}
             delayLongPress={150}
           >
             <ListItem bottomDivider>
