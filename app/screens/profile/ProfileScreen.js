@@ -36,18 +36,18 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.details_settings_Container}>
         <ProfileCard
           title="Your Details"
-          useNavigation={() => navigation.navigate("YourDetails")}
+          useNavigation={() => navigation.navigate("YourDetailsStack")}
         />
         <ProfileCard
           title="Settings"
-          useNavigation={() => navigation.navigate("Settings")}
+          useNavigation={() => navigation.navigate("SettingsStack")}
         />
       </View>
 
       <View style={styles.supportCard}>
         <ProfileCard
           title="Support"
-          useNavigation={() => navigation.navigate("Support")}
+          useNavigation={() => navigation.navigate("SupportStack")}
         />
       </View>
     </View>

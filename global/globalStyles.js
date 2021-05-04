@@ -27,6 +27,7 @@ const globalStyles = StyleSheet.create({
   marginHorizontal: {
     marginHorizontal: 16,
   },
+  imageHeightRatio: 0.14,
 });
 
 export default globalStyles;

@@ -35,7 +35,6 @@ const signin = (dispatch) => async ({ email, password }) => {
     const authUser = await auth.signInWithEmailAndPassword(email, password);
     const token = authUser.user.getIdToken().toString();
     await AsyncStorage.setItem("token", token);
-    // console.log(JSON.stringify(token));
     dispatch({ type: "signin", payload: token });
   } catch (error) {
     dispatch({ type: "add_error", payload: error.message });

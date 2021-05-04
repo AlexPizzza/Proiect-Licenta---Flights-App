@@ -1,52 +1,53 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-import { Context as AuthContext } from "../../context/AuthContext";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ListItem } from "react-native-elements";
 import Ripple from "react-native-material-ripple";
 
-import colors from "../../../global/colors";
-import globalStyles from "../../../global/globalStyles";
+import colors from "../../../../global/colors";
+import globalStyles from "../../../../global/globalStyles";
 
 const list = [
   {
-    title: "Login info",
+    title: "Clear app search history",
   },
   {
-    title: "Account management",
-  },
-  {
-    title: "Log out",
+    title: "Clear async storage",
   },
 ];
 
-const YourDetailsScreen = () => {
-  const { signout } = useContext(AuthContext);
-  const navigation = useNavigation();
-
+const AccountManagementScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
-        <Text style={styles.yourDetailsHeaderText}>Your Details</Text>
+        <Text style={styles.yourDetailsHeaderText}>Manage your account</Text>
         {list.map((item, index) => (
           <Ripple
             key={index}
             rippleColor={colors.PURPLE}
             rippleOpacity={0.8}
             onPress={() => {
-              if (item.title === "Log out") {
-                signout();
-              } else if (item.title === "Account management") {
-                navigation.navigate("AccountManagement");
+              if (item.title.toLowerCase().includes("search".toLowerCase())) {
+                // signout();
+              } else if (
+                item.title.toLowerCase().includes("async".toLowerCase())
+              ) {
+                const clear = async () => {
+                  await AsyncStorage.clear();
+                };
+                clear();
               }
             }}
             onLongPress={() => {
-              if (item.title === "Log out") {
-                signout();
-              } else if (item.title === "Account management") {
-                navigation.navigate("AccountManagement");
+              if (item.title.toLowerCase().includes("search".toLowerCase())) {
+              } else if (
+                item.title.toLowerCase().includes("async".toLowerCase())
+              ) {
+                const clear = async () => {
+                  await AsyncStorage.clear();
+                };
+                clear();
               }
             }}
             delayLongPress={150}
@@ -88,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default YourDetailsScreen;
+export default AccountManagementScreen;
