@@ -42,7 +42,7 @@ const SignIn = () => {
             />
           )}
           errorStyle={[globalStyles.normalText, styles.errorMessage]}
-          errorMessage={state.errorMessage}
+          errorMessage={state.emailError}
         />
         <Input
           placeholder="Enter your password"
@@ -57,15 +57,10 @@ const SignIn = () => {
               style={{ marginRight: 4 }}
             />
           )}
+          errorStyle={[globalStyles.normalText, styles.errorMessage]}
+          errorMessage={state.passwordError}
         />
       </View>
-
-      {/* <View style={styles.buttonContainer}>
-        <Button
-          title="Log into your account"
-          onPress={() => signin({ email, password })}
-        />
-      </View> */}
 
       <AuthButton authText="signin" email={email} password={password} />
     </View>
@@ -78,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   formContainer: {
-    flex: 5,
+    flex: 1,
     borderRadius: 60,
     borderTopLeftRadius: 0,
     backgroundColor: colors.BG_COLOR,

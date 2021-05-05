@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   welcomeTextStyle: {
     flex: 1,
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 20,
     marginBottom: 50,
   },
   headerText: {

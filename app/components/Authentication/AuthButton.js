@@ -1,14 +1,16 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "react-native-elements";
+import colors from "../../../global/colors";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 
-const AuthButton = ({ authText, email, password }) => {
-  const { signin, signup, state } = useContext(AuthContext);
+const AuthButton = ({ authText, fullName, email, password }) => {
+  const { signin, signup } = useContext(AuthContext);
   return (
     <View style={styles.buttonContainer}>
       <Button
+        buttonStyle={styles.buttonStyle}
         title={
           authText === "signin"
             ? "Log into your account"
@@ -29,7 +31,12 @@ const AuthButton = ({ authText, email, password }) => {
 };
 
 const styles = StyleSheet.create({
-  buttonContainer: { flex: 2 },
+  buttonContainer: { flex: 1, alignItems: "center" },
+  buttonStyle: {
+    width: 250,
+    borderRadius: 40,
+    backgroundColor: colors.ORANGE,
+  },
 });
 
 export default AuthButton;
