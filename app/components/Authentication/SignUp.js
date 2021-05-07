@@ -1,10 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 import WelcomeText from "./WelcomeText";
 
@@ -16,21 +20,27 @@ import AuthButton from "./AuthButton";
 
 const SignupSchema = Yup.object().shape({
   fullName: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
+    .min(2, "Name is too short.")
+    .max(25, "Name is too long.")
     .required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().email("Email badly formatted!").required("Required"),
   password: Yup.string()
-    .matches(/[a-zA-Z]/, "Password can only contain Latin letters.")
-    .min(8, "Password is too short!")
+    .matches(/[a-zA-Z]/, "Password can not contain special characters.")
+    .min(6, "The password must be 6 characters long or more.")
     .required("No password provided."),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .oneOf([Yup.ref("password"), null], "Passwords do not match.")
     .required("Required"),
 });
 
 const SignUp = () => {
-  const { state } = useContext(AuthContext);
+  const {
+    state,
+    clearFullNameErrorMessage,
+    clearEmailErrorMessage,
+    clearPasswordErrorMessage,
+    clearConfirmPasswordErrorMessage,
+  } = useContext(AuthContext);
 
   return (
     <View style={styles.formContainer}>
@@ -38,6 +48,7 @@ const SignUp = () => {
         headerText="Create account"
         normalText="Let us know your name, email and password"
       />
+
       <Formik
         initialValues={{
           fullName: "",
@@ -45,95 +56,100 @@ const SignUp = () => {
           password: "",
           confirmPassword: "",
         }}
-        // validateOnChange={false}
         validationSchema={SignupSchema}
-        onSubmit={(values) => {
-          // same shape as initial values
-          console.log(values);
-        }}
       >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
+        {({ handleChange, handleBlur, values, errors, touched }) => (
           <View style={styles.inputsContainer}>
             <Input
               placeholder="Full Name"
               focusable
               autoCapitalize="words"
               value={values.fullName}
-              onChangeText={handleChange("fullName")}
+              onChangeText={(text) => {
+                handleChange("fullName")(text);
+                clearFullNameErrorMessage();
+              }}
               onBlur={handleBlur("fullName")}
               leftIcon={() => (
                 <Ionicons
                   name="ios-person"
-                  size={24}
-                  color={colors.FOOTER}
-                  style={{ marginRight: 4 }}
-                />
-              )}
-              errorStyle={[globalStyles.normalText, styles.errorMessage]}
-              errorMessage={touched.fullName && errors.fullName}
-            />
-            <Input
-              placeholder="Enter your email"
-              autoCapitalize="none"
-              value={values.email}
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              leftIcon={() => (
-                <MaterialIcons
-                  name="email"
-                  size={24}
+                  size={globalStyles.authIconSize}
                   color={colors.FOOTER}
                   style={{ marginRight: 4 }}
                 />
               )}
               errorStyle={[globalStyles.normalText, styles.errorMessage]}
               errorMessage={
-                state.emailError
-                // !== ""
-                //   ? state.emailError
-                //   : touched.email && errors.email
+                state.fullNameError || (touched.fullName && errors.fullName)
               }
+            />
+            <Input
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              value={values.email}
+              onChangeText={(text) => {
+                handleChange("email")(text);
+                clearEmailErrorMessage();
+              }}
+              onBlur={handleBlur("email")}
+              leftIcon={() => (
+                <MaterialIcons
+                  name="email"
+                  size={globalStyles.authIconSize}
+                  color={colors.FOOTER}
+                  style={{ marginRight: 4 }}
+                />
+              )}
+              errorStyle={[globalStyles.normalText, styles.errorMessage]}
+              errorMessage={state.emailError || (touched.email && errors.email)}
             />
             <Input
               placeholder="Enter your password"
               secureTextEntry
               value={values.password}
-              onChangeText={handleChange("password")}
+              onChangeText={(text) => {
+                handleChange("password")(text);
+                clearPasswordErrorMessage();
+              }}
               onBlur={handleBlur("password")}
               leftIcon={() => (
-                <Feather
+                <MaterialCommunityIcons
                   name="lock"
-                  size={24}
+                  size={globalStyles.authIconSize}
                   color={colors.FOOTER}
                   style={{ marginRight: 4 }}
                 />
               )}
               errorStyle={[globalStyles.normalText, styles.errorMessage]}
-              errorMessage={touched.password && errors.password}
+              errorMessage={
+                state.passwordError || (touched.password && errors.password)
+              }
+              contextMenuHidden={true}
             />
             <Input
               placeholder="Confirm password"
               secureTextEntry
               value={values.confirmPassword}
-              onChangeText={handleChange("passwordConfirmation")}
-              onBlur={handleBlur("passwordConfirmation")}
+              onChangeText={(text) => {
+                handleChange("confirmPassword")(text);
+                clearConfirmPasswordErrorMessage();
+                clearPasswordErrorMessage();
+              }}
+              onBlur={handleBlur("confirmPassword")}
               leftIcon={() => (
-                <Feather
-                  name="lock"
-                  size={24}
+                <MaterialCommunityIcons
+                  name="lock-check"
+                  size={globalStyles.authIconSize}
                   color={colors.FOOTER}
                   style={{ marginRight: 4 }}
                 />
               )}
               errorStyle={[globalStyles.normalText, styles.errorMessage]}
-              errorMessage={touched.confirmPassword && errors.confirmPassword}
+              errorMessage={
+                state.confirmPasswordError ||
+                (touched.confirmPassword && errors.confirmPassword)
+              }
+              contextMenuHidden={true}
             />
 
             <AuthButton
@@ -141,6 +157,7 @@ const SignUp = () => {
               fullName={values.fullName}
               email={values.email}
               password={values.password}
+              confirmPassword={values.confirmPassword}
             />
           </View>
         )}
@@ -157,7 +174,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 5,
-    borderRadius: 60,
+    borderRadius: globalStyles.authBorderRadius,
     borderTopLeftRadius: 0,
     backgroundColor: colors.BG_COLOR,
     paddingHorizontal: globalStyles.marginHorizontal.marginHorizontal,

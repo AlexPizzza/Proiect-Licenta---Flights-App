@@ -14,15 +14,19 @@ import SignIn from "../../components/Authentication/SignIn";
 import { Context as AuthContext } from "../../context/AuthContext";
 
 import colors from "../../../global/colors";
+import globalStyles from "../../../global/globalStyles";
 
 import authImage from "../../../assets/auth.jpg";
 
 const SignInScreen = ({ navigation }) => {
-  const { clearErrorMessage } = useContext(AuthContext);
+  const { clearEmailErrorMessage, clearPasswordErrorMessage } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
-      clearErrorMessage();
+      clearEmailErrorMessage();
+      clearPasswordErrorMessage();
     });
 
     return unsubscribe;
@@ -58,7 +62,7 @@ const styles = StyleSheet.create({
   },
   imageAndFormContainer: {
     flex: 1,
-    borderTopLeftRadius: 60,
+    borderTopLeftRadius: globalStyles.authBorderRadius,
   },
 });
 

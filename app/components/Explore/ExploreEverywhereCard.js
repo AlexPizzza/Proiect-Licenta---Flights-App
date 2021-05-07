@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     height: height / 3,
     ...globalStyles.marginHorizontal,
     alignItems: "center",
+    marginBottom: 8,
   },
   imageStyle: {
     height: height / 3,

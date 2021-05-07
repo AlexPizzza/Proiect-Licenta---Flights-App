@@ -18,11 +18,14 @@ import colors from "../../../global/colors";
 import authImage from "../../../assets/auth.jpg";
 
 const SignUpScreen = ({ navigation }) => {
-  const { clearErrorMessage } = useContext(AuthContext);
+  const { clearEmailErrorMessage, clearPasswordErrorMessage } = useContext(
+    AuthContext
+  );
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
-      clearErrorMessage();
+      clearEmailErrorMessage();
+      clearPasswordErrorMessage();
     });
 
     return unsubscribe;

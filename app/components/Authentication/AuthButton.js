@@ -5,10 +5,18 @@ import colors from "../../../global/colors";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 
-const AuthButton = ({ authText, fullName, email, password }) => {
+const AuthButton = ({
+  authText,
+  fullName,
+  email,
+  password,
+  confirmPassword,
+  style,
+}) => {
   const { signin, signup } = useContext(AuthContext);
+
   return (
-    <View style={styles.buttonContainer}>
+    <View style={[styles.buttonContainer, style]}>
       <Button
         buttonStyle={styles.buttonStyle}
         title={
@@ -22,7 +30,7 @@ const AuthButton = ({ authText, fullName, email, password }) => {
           authText === "signin"
             ? () => signin({ email, password })
             : authText === "signup"
-            ? () => signup({ email, password })
+            ? () => signup({ fullName, email, password, confirmPassword })
             : null
         }
       />

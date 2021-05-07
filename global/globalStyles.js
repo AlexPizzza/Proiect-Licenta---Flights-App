@@ -28,6 +28,8 @@ const globalStyles = StyleSheet.create({
     marginHorizontal: 16,
   },
   imageHeightRatio: 0.14,
+  authIconSize: 26,
+  authBorderRadius: 80,
 });
 
 export default globalStyles;

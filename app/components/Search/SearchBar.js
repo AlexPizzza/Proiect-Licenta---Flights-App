@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   ripple: {
     padding: 12,
     ...globalStyles.marginHorizontal,
-    marginVertical: 16,
+    marginVertical: 20,
     backgroundColor: colors.SEARCH_CONTAINER,
   },
   innerView: {

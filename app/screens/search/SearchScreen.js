@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import Ripple from "react-native-material-ripple";
 
-import AppLoading from "expo-app-loading";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import Ripple from "react-native-material-ripple";
+import RecommendedCard from "../../components/Search/RecommendedCard";
+import SearchBar from "../../components/Search/SearchBar";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-import SearchBar from "../../components/Search/SearchBar";
-import RecommendedCard from "../../components/Search/RecommendedCard";
-
-import useFontsHook from "../../hooks/useFonts";
+import { Context as UserContext } from "../../context/UserContext";
+import { auth } from "../../config/firebase";
 import useLocation from "../../hooks/useLocation";
 
 const data = [
@@ -34,66 +33,70 @@ const data = [
 ];
 
 const SearchScreen = () => {
-  let [fontsLoaded] = useFontsHook();
-  const [locationText] = useLocation();
+  const { state } = useContext(UserContext);
 
-  if (!fontsLoaded || locationText === "") return <AppLoading />;
-  else {
-    return (
-      <View style={styles.container}>
-        <View style={styles.location}>
-          <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />
+  let [locationText] = useLocation();
 
-          <View style={styles.locationText}>
-            <Text style={globalStyles.headerBoldText}>
-              {locationText.split(",")[0]}
-            </Text>
-            <Text style={globalStyles.headerText}>
-              {"," + locationText.split(",")[1]}
-            </Text>
-          </View>
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.location}>
+        <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />
 
-        <View style={styles.nameContainer}>
-          <Text style={globalStyles.headerText}>Hi</Text>
-          <Text style={globalStyles.headerBoldText}> Alex,</Text>
-        </View>
-
-        <View style={styles.welcomeTextContainer}>
-          <Text style={styles.welcomeText}>
-            Let's Discover a New Adventure!
+        <View style={styles.locationText}>
+          <Text style={globalStyles.headerBoldText}>
+            {state.userLocation !== undefined
+              ? state.userLocation.split(",")[0]
+              : locationText.split(",")[0]}
+          </Text>
+          <Text style={globalStyles.headerText}>
+            {state.userLocation !== undefined
+              ? state.userLocation.split(",")[1]
+              : locationText.split(",")[1]}
           </Text>
         </View>
-
-        <SearchBar sbText="Search your next flight" bdRadius={20} />
-
-        <View style={styles.recommended_viewAll_Container}>
-          <Text style={globalStyles.normalText}>Recommended</Text>
-
-          <Ripple
-            rippleColor={colors.PURPLE}
-            rippleOpacity={0.8}
-            rippleContainerBorderRadius={12}
-            style={{ padding: 8 }}
-            onLongPress={() => {}}
-            delayLongPress={150}
-          >
-            <Text style={styles.viewAll}>View All</Text>
-          </Ripple>
-        </View>
-
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return <RecommendedCard item={item} />;
-          }}
-        />
       </View>
-    );
-  }
+      {/* )} */}
+
+      <View style={styles.nameContainer}>
+        <Text style={globalStyles.headerText}>Hi</Text>
+        <Text style={globalStyles.headerBoldText}>
+          {" "}
+          {auth.currentUser.displayName.split(" ")[0]},
+        </Text>
+      </View>
+
+      <View style={styles.welcomeTextContainer}>
+        <Text style={styles.welcomeText}>Let's Discover a New Adventure!</Text>
+      </View>
+
+      <SearchBar sbText="Search your next flight" bdRadius={20} />
+
+      <View style={styles.recommended_viewAll_Container}>
+        <Text style={globalStyles.normalText}>Recommended</Text>
+
+        <Ripple
+          rippleColor={colors.PURPLE}
+          rippleOpacity={0.8}
+          rippleContainerBorderRadius={12}
+          style={{ padding: 8 }}
+          onLongPress={() => {}}
+          delayLongPress={150}
+        >
+          <Text style={styles.viewAll}>View All</Text>
+        </Ripple>
+      </View>
+
+      <FlatList
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => {
+          return <RecommendedCard item={item} />;
+        }}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

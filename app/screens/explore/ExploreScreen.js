@@ -42,7 +42,7 @@ const ExploreScreen = () => {
       <SearchBar
         sbText="Find your next destination"
         bdRadius={8}
-        marginBottom={20}
+        marginBottom={22}
       />
 
       <ExploreEverywhereCard />
@@ -54,6 +54,7 @@ const ExploreScreen = () => {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
+        style={{ marginBottom: 14 }}
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
@@ -73,7 +74,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    // marginBottom: 10,
     ...globalStyles.marginHorizontal,
   },
   profileHeaderText: {

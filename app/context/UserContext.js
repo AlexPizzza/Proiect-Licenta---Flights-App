@@ -5,6 +5,10 @@ const userReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
+    case "add_user_location":
+      return { ...state, userLocation: action.payload };
+    case "add_user_location_error":
+      return { ...state, errorUserLocation: action.payload };
     case "chkFirstTime":
       return { isFirstTime: action.payload, errorMessage: "" };
     case "clear_error_message":
@@ -19,13 +23,13 @@ const checkIsFirstTime = (dispatch) => async () => {
     const result = await AsyncStorage.getItem("isFirstTime");
 
     const isFirstTime = JSON.parse(result);
-    console.log(isFirstTime);
 
     dispatch({ type: "chkFirstTime", payload: isFirstTime });
   } catch (error) {
     dispatch({
       type: "add_error",
       payload: "An error occured while checking if is user first time.",
+      userLocation: "",
     });
   }
 };
@@ -44,10 +48,32 @@ const setValueIsFirstTime = (dispatch) => async (value) => {
   }
 };
 
+const addUserLocation = (dispatch) => (locationText) => {
+  if (locationText === "") {
+    dispatch({
+      type: "add_user_location_error",
+      payload: "No location permission provided!",
+    });
+  } else {
+    dispatch({ type: "add_user_location", payload: locationText });
+  }
+};
+
+const addUserLocationError = (dispatch) => (errorMsg) => {
+  dispatch({ type: "add_user_location_error", payload: errorMsg });
+};
+
 export const { Context, Provider } = createDataContext(
   userReducer,
-  { checkIsFirstTime, setValueIsFirstTime },
   {
+    addUserLocation,
+    addUserLocationError,
+    checkIsFirstTime,
+    setValueIsFirstTime,
+  },
+  {
+    userLocation: "",
+    errorUserLocation: "",
     isFirstTime: true,
     errorMessage: "",
   }

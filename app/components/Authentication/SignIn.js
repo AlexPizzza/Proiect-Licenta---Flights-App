@@ -1,23 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
+import { Input } from "react-native-elements";
+import { Formik } from "formik";
 
-import { Button, Input } from "react-native-elements";
-
-import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import WelcomeText from "./WelcomeText";
+import AuthButton from "./AuthButton";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
-import AuthButton from "./AuthButton";
 
 const SignIn = () => {
-  const { signin, state } = useContext(AuthContext);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    state,
+    clearEmailErrorMessage,
+    clearPasswordErrorMessage,
+  } = useContext(AuthContext);
 
   return (
     <View style={styles.formContainer}>
@@ -26,43 +27,66 @@ const SignIn = () => {
         normalText="Use your credentials below and login to your account"
       />
 
-      <View style={styles.inputsContainer}>
-        <Input
-          placeholder="Enter your email"
-          autoCapitalize="none"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-          leftIcon={() => (
-            <MaterialIcons
-              name="email"
-              size={24}
-              color={colors.FOOTER}
-              style={{ marginRight: 4 }}
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+      >
+        {({ handleChange, handleBlur, values }) => (
+          <View style={styles.inputsContainer}>
+            <Input
+              placeholder="Enter your email"
+              autoCapitalize="none"
+              value={values.email}
+              onChangeText={(text) => {
+                handleChange("email")(text);
+                clearEmailErrorMessage();
+              }}
+              onBlur={handleBlur("email")}
+              keyboardType="email-address"
+              leftIcon={() => (
+                <MaterialIcons
+                  name="email"
+                  size={globalStyles.authIconSize}
+                  color={colors.FOOTER}
+                  style={{ marginRight: 4 }}
+                />
+              )}
+              errorStyle={[globalStyles.normalText, styles.errorMessage]}
+              errorMessage={state.emailError}
             />
-          )}
-          errorStyle={[globalStyles.normalText, styles.errorMessage]}
-          errorMessage={state.emailError}
-        />
-        <Input
-          placeholder="Enter your password"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => setPassword(text)}
-          leftIcon={() => (
-            <Feather
-              name="lock"
-              size={24}
-              color={colors.FOOTER}
-              style={{ marginRight: 4 }}
+            <Input
+              placeholder="Enter your password"
+              secureTextEntry
+              value={values.password}
+              onChangeText={(text) => {
+                handleChange("password")(text);
+                clearPasswordErrorMessage();
+              }}
+              onBlur={handleBlur("password")}
+              leftIcon={() => (
+                <MaterialCommunityIcons
+                  name="lock"
+                  size={globalStyles.authIconSize}
+                  color={colors.FOOTER}
+                  style={{ marginRight: 4 }}
+                />
+              )}
+              errorStyle={[globalStyles.normalText, styles.errorMessage]}
+              errorMessage={state.passwordError}
+              contextMenuHidden={true}
             />
-          )}
-          errorStyle={[globalStyles.normalText, styles.errorMessage]}
-          errorMessage={state.passwordError}
-        />
-      </View>
 
-      <AuthButton authText="signin" email={email} password={password} />
+            <AuthButton
+              authText="signin"
+              email={values.email}
+              password={values.password}
+              style={styles.authButton}
+            />
+          </View>
+        )}
+      </Formik>
     </View>
   );
 };
@@ -74,13 +98,16 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1,
-    borderRadius: 60,
+    borderRadius: globalStyles.authBorderRadius,
     borderTopLeftRadius: 0,
     backgroundColor: colors.BG_COLOR,
     paddingHorizontal: globalStyles.marginHorizontal.marginHorizontal,
   },
   inputsContainer: {
-    flex: 2,
+    flex: 4,
+  },
+  authButton: {
+    marginTop: 30,
   },
 });
 
