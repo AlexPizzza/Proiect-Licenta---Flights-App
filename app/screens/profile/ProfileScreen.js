@@ -4,6 +4,10 @@ import { Avatar } from "react-native-elements";
 
 import ProfileCard from "../../components/Profile/ProfileCard";
 
+import settingsImage from "../../../assets/profile/settings.png";
+import supportImage from "../../../assets/profile/support.png";
+import yourDetailsImage from "../../../assets/profile/your_details.png";
+
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
@@ -36,10 +40,12 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.details_settings_Container}>
         <ProfileCard
           title="Your Details"
+          image={yourDetailsImage}
           useNavigation={() => navigation.navigate("YourDetailsStack")}
         />
         <ProfileCard
           title="Settings"
+          image={settingsImage}
           useNavigation={() => navigation.navigate("SettingsStack")}
         />
       </View>
@@ -47,6 +53,7 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.supportCard}>
         <ProfileCard
           title="Support"
+          image={supportImage}
           useNavigation={() => navigation.navigate("SupportStack")}
         />
       </View>

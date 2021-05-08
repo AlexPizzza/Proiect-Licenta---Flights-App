@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 
 import { Context as AuthContext } from "../context/AuthContext";
 import { Context as UserContext } from "../context/UserContext";
@@ -44,14 +45,20 @@ const SplashScreen = () => {
     );
   }
 
-  return userState.isFirstTime === null || userState.isFirstTime === true ? (
-    <WelcomeScreen />
-  ) : authState.token ? (
-    <SafeAreaView style={globalStyles.AndroidSafeArea}>
-      <MainTabs />
-    </SafeAreaView>
-  ) : (
-    <Authentication />
+  return (
+    <View style={{ flex: 1 }}>
+      <StatusBar style="dark" backgroundColor="white" />
+
+      {userState.isFirstTime === null || userState.isFirstTime === true ? (
+        <WelcomeScreen />
+      ) : authState.token ? (
+        <SafeAreaView style={globalStyles.AndroidSafeArea}>
+          <MainTabs />
+        </SafeAreaView>
+      ) : (
+        <Authentication />
+      )}
+    </View>
   );
 };
 

@@ -6,7 +6,7 @@ import Ripple from "react-native-material-ripple";
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-const ProfileCard = ({ title, useNavigation }) => {
+const ProfileCard = ({ title, image, useNavigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.cardView}>
@@ -19,7 +19,7 @@ const ProfileCard = ({ title, useNavigation }) => {
           onLongPress={useNavigation}
           delayLongPress={150}
         >
-          <Image />
+          <Image source={image} style={styles.image} />
           <Text style={styles.textStyle}>{title}</Text>
         </Ripple>
       </View>
@@ -42,14 +42,20 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     elevation: 10,
   },
+  image: {
+    width: 80,
+    height: 80,
+    marginBottom: 26,
+  },
   rippleStyle: {
     flex: 1,
-    flexDirection: "column-reverse",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingBottom: 10,
   },
   textStyle: {
     ...globalStyles.normalText,
-    justifyContent: "flex-start",
-    alignSelf: "center",
     marginBottom: 6,
   },
 });

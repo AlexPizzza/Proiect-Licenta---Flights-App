@@ -86,6 +86,7 @@ const SignUp = () => {
             <Input
               placeholder="Enter your email"
               autoCapitalize="none"
+              keyboardType="email-address"
               value={values.email}
               onChangeText={(text) => {
                 handleChange("email")(text);

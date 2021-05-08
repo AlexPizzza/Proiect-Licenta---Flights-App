@@ -4,35 +4,55 @@ import Ripple from "react-native-material-ripple";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import RecommendedCard from "../../components/Search/RecommendedCard";
-import SearchBar from "../../components/Search/SearchBar";
+import RecommendedCard from "../../components/search/RecommendedCard";
+import SearchBar from "../../components/common/SearchBar";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
 import { Context as UserContext } from "../../context/UserContext";
 import { auth } from "../../config/firebase";
+
 import useLocation from "../../hooks/useLocation";
+import useCountriesResults from "../../hooks/useCountriesResults";
 
 const data = [
   {
     id: "1",
-    title: "Greece",
-    description: "Explore this magical place in Greece",
+    country_name: "Greece",
+    description: "Explore the beauty and magic of Greece",
+    image: "https://cdn.statically.io/img/wallpaperaccess.com/full/42013.jpg",
   },
   {
     id: "2",
-    title: "Switzerland",
-    description: "Explore this magical place in Switzerland",
+    country_name: "Switzerland",
+    description: "Enjoy the mountains of Switzerland",
+    image: "https://wallpaperaccess.com/full/1094090.jpg",
   },
   {
     id: "3",
-    title: "Italy",
-    description: "Explore this magical place in Italy",
+    country_name: "France",
+    description: "Enjoy the unique diversity of France",
+    image:
+      "https://free4kwallpapers.com/uploads/originals/2016/09/30/romance-paris,-france-4k-wallpaper.jpg",
+  },
+  {
+    id: "4",
+    country_name: "Spain",
+    description: "Plan your next vacation in Spain",
+    image: "https://wallpapercave.com/wp/wp3766461.jpg",
+  },
+  {
+    id: "5",
+    country_name: "United Kingdom",
+    description: "Explore United Kingdom's architecture and history",
+    image:
+      "https://images.unsplash.com/photo-1454537468202-b7ff71d51c2e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dW5pdGVkJTIwa2luZ2RvbXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
   },
 ];
 
 const SearchScreen = () => {
+  // const [results, errorMessage] = useCountriesResults();
   const { state } = useContext(UserContext);
 
   let [locationText] = useLocation();
@@ -47,6 +67,7 @@ const SearchScreen = () => {
             {state.userLocation !== undefined
               ? state.userLocation.split(",")[0]
               : locationText.split(",")[0]}
+            ,
           </Text>
           <Text style={globalStyles.headerText}>
             {state.userLocation !== undefined
@@ -55,7 +76,6 @@ const SearchScreen = () => {
           </Text>
         </View>
       </View>
-      {/* )} */}
 
       <View style={styles.nameContainer}>
         <Text style={globalStyles.headerText}>Hi</Text>
@@ -69,7 +89,11 @@ const SearchScreen = () => {
         <Text style={styles.welcomeText}>Let's Discover a New Adventure!</Text>
       </View>
 
-      <SearchBar sbText="Search your next flight" bdRadius={20} />
+      <SearchBar
+        sbText="Search your next flight"
+        bdRadius={20}
+        onPress={() => navigation.navigate("SearchFlights")}
+      />
 
       <View style={styles.recommended_viewAll_Container}>
         <Text style={globalStyles.normalText}>Recommended</Text>
@@ -86,10 +110,29 @@ const SearchScreen = () => {
         </Ripple>
       </View>
 
+      {/* {errorMessage ? (
+        <Text>{errorMessage}</Text>
+      ) : (
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          // data={results}
+          // keyExtractor={(item) => item.country_iso_numeric}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return <RecommendedCard item={item} />;
+          }}
+        />
+      )} */}
+
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
+        decelerationRat={0.8}
         data={data}
+        // data={results}
+        // keyExtractor={(item) => item.country_iso_numeric}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return <RecommendedCard item={item} />;

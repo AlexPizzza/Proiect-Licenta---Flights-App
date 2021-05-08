@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <StatusBar style="dark" backgroundColor="white" />
+      {/* <StatusBar style="dark" backgroundColor="white" /> */}
       <SplashScreen />
     </NavigationContainer>
   );

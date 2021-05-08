@@ -76,7 +76,7 @@ const signup = (dispatch) => async ({
         email,
         password
       );
-      authUser.user.updateProfile({
+      await authUser.user.updateProfile({
         displayName: fullName,
       });
       const token = authUser.user.getIdToken().toString();

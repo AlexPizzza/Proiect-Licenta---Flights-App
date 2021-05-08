@@ -10,20 +10,22 @@ import globalStyles from "../../../global/globalStyles";
 
 const ExploreEverywhereCard = () => {
   return (
-    <Ripple
-      rippleColor={colors.EXPLORE_CARD_TAP}
-      rippleOpacity={0.8}
-      rippleContainerBorderRadius={12}
-      onLongPress={() => {}}
-      delayLongPress={150}
-      style={styles.container}
-    >
-      <Image source={exploreEverywhereImage} style={styles.imageStyle} />
-      <View style={styles.innerContainer}>
-        <View style={styles.opaqueContainer} />
-        <Text style={styles.text}>Explore Everywhere</Text>
-      </View>
-    </Ripple>
+    <View style={styles.container}>
+      <Ripple
+        rippleColor={colors.EXPLORE_CARD_TAP}
+        rippleOpacity={0.8}
+        rippleContainerBorderRadius={12}
+        onLongPress={() => {}}
+        delayLongPress={150}
+        style={styles.rippleContainer}
+      >
+        <Image source={exploreEverywhereImage} style={styles.imageStyle} />
+        <View style={styles.innerContainer}>
+          <View style={styles.opaqueContainer} />
+          <Text style={styles.text}>Explore Everywhere</Text>
+        </View>
+      </Ripple>
+    </View>
   );
 };
 
@@ -32,8 +34,19 @@ const styles = StyleSheet.create({
   container: {
     height: height / 3,
     ...globalStyles.marginHorizontal,
-    alignItems: "center",
     marginBottom: 8,
+    elevation: 30,
+    shadowColor: "#000",
+    // shadowOpacity: 0.8,
+    //  shadowOffset: {
+    //   width: 10,
+    //   height: 10,
+    // },
+  },
+  rippleContainer: {
+    height: height / 3,
+    ...globalStyles.marginHorizontal,
+    alignItems: "center",
   },
   imageStyle: {
     height: height / 3,
