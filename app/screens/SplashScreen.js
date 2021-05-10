@@ -49,7 +49,7 @@ const SplashScreen = () => {
     <View style={{ flex: 1 }}>
       <StatusBar style="dark" backgroundColor="white" />
 
-      {userState.isFirstTime === null || userState.isFirstTime === true ? (
+      {userState.isFirstTime === null || userState.isFirstTime ? (
         <WelcomeScreen />
       ) : authState.token ? (
         <SafeAreaView style={globalStyles.AndroidSafeArea}>

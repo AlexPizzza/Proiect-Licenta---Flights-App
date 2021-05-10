@@ -42,5 +42,19 @@
   "devDependencies": {
     "@babel/core": "~7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "Flights",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexPizzza/Proiect-Licenta---Flights-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexPizzza/Proiect-Licenta---Flights-App/issues"
+  },
+  "homepage": "https://github.com/AlexPizzza/Proiect-Licenta---Flights-App#readme",
+  "description": ""
 }

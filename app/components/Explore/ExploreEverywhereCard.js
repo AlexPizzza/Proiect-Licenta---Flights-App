@@ -37,11 +37,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     elevation: 30,
     shadowColor: "#000",
-    // shadowOpacity: 0.8,
-    //  shadowOffset: {
-    //   width: 10,
-    //   height: 10,
-    // },
   },
   rippleContainer: {
     height: height / 3,

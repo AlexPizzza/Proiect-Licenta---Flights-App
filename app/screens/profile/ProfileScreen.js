@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
 
-import ProfileCard from "../../components/Profile/ProfileCard";
+import ProfileCard from "../../components/profile/ProfileCard";
 
 import settingsImage from "../../../assets/profile/settings.png";
 import supportImage from "../../../assets/profile/support.png";

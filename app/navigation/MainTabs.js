@@ -58,6 +58,7 @@ const MainTabs = () => {
           tabBarIcon: ({ color }) => (
             <Ionicons name="ios-search" size={iconSize} color={color} />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -68,6 +69,7 @@ const MainTabs = () => {
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="explore" size={iconSize} color={color} />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -85,6 +87,7 @@ const MainTabs = () => {
               }}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
       <Tab.Screen
@@ -99,6 +102,7 @@ const MainTabs = () => {
               color={color}
             />
           ),
+          unmountOnBlur: true,
         }}
       />
     </Tab.Navigator>

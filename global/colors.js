@@ -15,6 +15,7 @@ const colors = {
   PURPLE: "#5F67EC",
   SEARCH_INPUT_TEXT: "#A7AFD7",
   SEARCH_CONTAINER: "#F4F6FD",
+  BG_WELCOME: "#FCFAFA",
   WHITE: "#FFFFFF",
 };
 

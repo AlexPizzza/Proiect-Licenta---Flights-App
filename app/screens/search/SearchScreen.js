@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Ripple from "react-native-material-ripple";
 
@@ -6,6 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import RecommendedCard from "../../components/search/RecommendedCard";
 import SearchBar from "../../components/common/SearchBar";
+import CustomModal from "../../components/common/CustomModal";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
@@ -51,14 +52,20 @@ const data = [
   },
 ];
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   // const [results, errorMessage] = useCountriesResults();
   const { state } = useContext(UserContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   let [locationText] = useLocation();
 
   return (
     <View style={styles.container}>
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        screen="Search Screen"
+      />
       <View style={styles.location}>
         <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />
 
@@ -92,7 +99,12 @@ const SearchScreen = () => {
       <SearchBar
         sbText="Search your next flight"
         bdRadius={20}
-        onPress={() => navigation.navigate("SearchFlights")}
+        onPress={() =>
+          // navigation.navigate("SearchFlights", {
+          //   screenName: "SearchScreen",
+          // })
+          setModalVisible(true)
+        }
       />
 
       <View style={styles.recommended_viewAll_Container}>

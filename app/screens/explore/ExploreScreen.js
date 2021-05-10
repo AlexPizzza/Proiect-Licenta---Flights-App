@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import SearchBar from "../../components/Search/SearchBar";
+import SearchBar from "../../components/common/SearchBar";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-import ExploreEverywhereCard from "../../components/Explore/ExploreEverywhereCard";
-import ExploreBasicCard from "../../components/Explore/ExploreBasicCard";
+import ExploreEverywhereCard from "../../components/explore/ExploreEverywhereCard";
+import ExploreBasicCard from "../../components/explore/ExploreBasicCard";
+import CustomModal from "../../components/common/CustomModal";
 
 const data = [
   {
@@ -32,9 +33,17 @@ const data = [
   },
 ];
 
-const ExploreScreen = () => {
+const ExploreScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        screen="Explore Screen"
+      />
+
       <View style={styles.headerContainer}>
         <Text style={styles.profileHeaderText}>Explore</Text>
       </View>
@@ -43,6 +52,12 @@ const ExploreScreen = () => {
         sbText="Find your next destination"
         bdRadius={8}
         marginBottom={22}
+        onPress={() =>
+          // navigation.navigate("SearchFlights", {
+          //   screenName: "ExploreScreen",
+          // })
+          setModalVisible(true)
+        }
       />
 
       <ExploreEverywhereCard />

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-import Slide from "../../components/Welcome/Slide";
-import Button from "../../components/Welcome/Button";
+import Slide from "../../components/welcome/Slide";
+import Button from "../../components/welcome/Button";
 
 import { Context as UserContext } from "../../context/UserContext";
 
@@ -12,25 +12,32 @@ import colors from "../../../global/colors";
 import firstImage from "../../../assets/welcome/1.png";
 import secondImage from "../../../assets/welcome/2.png";
 import thirdImage from "../../../assets/welcome/3.png";
+import fourthImage from "../../../assets/welcome/4.png";
 
 const slides = [
   {
     key: "1",
-    title: "Welcome One",
-    description: "Welcome Screen One Description",
+    title: "Welcome to Flights!",
+    description: "Enjoy",
     image: firstImage,
   },
   {
     key: "2",
-    title: "Welcome Two",
-    description: "Welcome Screen Two Description",
+    title: "Time to travel!",
+    description: "View the cheapest flights through our app.",
     image: secondImage,
   },
   {
     key: "3",
-    title: "Welcome Three",
-    description: "Welcome Screen Three Description",
+    title: "Book a flight!",
+    description: "Find the best flight for your next travel.",
     image: thirdImage,
+  },
+  {
+    key: "4",
+    title: "Getting started is easy!",
+    description: "Create an account and enjoy your next vacation!",
+    image: fourthImage,
   },
 ];
 
@@ -39,6 +46,8 @@ const WelcomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar translucent backgroundColor="transparent" />
+
       <AppIntroSlider
         data={slides}
         activeDotStyle={styles.activeDotStyle}

@@ -14,7 +14,6 @@ export default () => {
       try {
         let { status } = await Location.requestPermissionsAsync();
         if (status !== "granted") {
-          // addUserLocationError("Permission to access location was denied");
           return;
         }
 

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ListItem } from "react-native-elements";
 import Ripple from "react-native-material-ripple";
+
+import { Context as UserContext } from "../../../context/UserContext";
 
 import colors from "../../../../global/colors";
 import globalStyles from "../../../../global/globalStyles";
@@ -15,9 +17,14 @@ const list = [
   {
     title: "Clear async storage",
   },
+  {
+    title: "Set app first time",
+  },
 ];
 
 const AccountManagementScreen = () => {
+  const { setValueIsFirstTime } = useContext(UserContext);
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
@@ -36,7 +43,15 @@ const AccountManagementScreen = () => {
                 const clear = async () => {
                   await AsyncStorage.clear();
                 };
-                clear();
+                try {
+                  clear();
+                } catch (error) {
+                  console.log(error);
+                }
+              } else if (
+                item.title.toLowerCase().includes("first".toLowerCase())
+              ) {
+                setValueIsFirstTime(true);
               }
             }}
             onLongPress={() => {
@@ -47,7 +62,15 @@ const AccountManagementScreen = () => {
                 const clear = async () => {
                   await AsyncStorage.clear();
                 };
-                clear();
+                try {
+                  clear();
+                } catch (error) {
+                  console.log(error);
+                }
+              } else if (
+                item.title.toLowerCase().includes("first".toLowerCase())
+              ) {
+                setValueIsFirstTime(true);
               }
             }}
             delayLongPress={150}

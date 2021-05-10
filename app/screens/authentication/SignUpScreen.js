@@ -6,10 +6,10 @@ import {
   View,
 } from "react-native";
 
-import Footer from "../../components/Authentication/Footer";
-import Header from "../../components/Authentication/Header";
-import SignUp from "../../components/Authentication/SignUp";
-import CustomImage from "../../components/Authentication/CustomImage";
+import Footer from "../../components/authentication/Footer";
+import Header from "../../components/authentication/Header";
+import SignUp from "../../components/authentication/SignUp";
+import CustomImage from "../../components/authentication/CustomImage";
 
 import { Context as AuthContext } from "../../context/AuthContext";
 

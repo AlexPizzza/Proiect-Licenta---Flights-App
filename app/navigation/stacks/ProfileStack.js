@@ -3,9 +3,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../../screens/profile/ProfileScreen";
 import SettingsScreen from "../../screens/profile/SettingsScreen";
 import SupportScreen from "../../screens/profile/SupportScreen";
-import YourDetailsStack from "./Profile/YourDetailsStack";
-import SettingsStack from "./Profile/SettingsStack";
-import SupportStack from "./Profile/SupportStack";
+import YourDetailsStack from "./profile/YourDetailsStack";
+import SettingsStack from "./profile/SettingsStack";
+import SupportStack from "./profile/SupportStack";
 
 const Stack = createStackNavigator();
 

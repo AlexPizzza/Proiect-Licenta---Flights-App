@@ -8,14 +8,15 @@ import { Feather } from "@expo/vector-icons";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const SearchBar = ({ sbText, bdRadius, marginBottom }) => {
+const SearchBar = ({ sbText, bdRadius, marginBottom, onPress }) => {
   return (
     <Ripple
       rippleColor={colors.SILVER}
       rippleOpacity={0.8}
       rippleContainerBorderRadius={bdRadius}
       style={{ ...styles.ripple, borderRadius: bdRadius, marginBottom }}
-      onLongPress={() => {}}
+      onPress={onPress}
+      onLongPress={onPress}
       delayLongPress={150}
     >
       <View style={styles.innerView}>
