@@ -6,7 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import RecommendedCard from "../../components/search/RecommendedCard";
 import SearchBar from "../../components/common/SearchBar";
-import CustomModal from "../../components/common/CustomModal";
+import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
 
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
@@ -61,7 +61,7 @@ const SearchScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <CustomModal
+      <CustomSearchFlightsModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         screen="Search Screen"

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Avatar } from "react-native-elements";
+
+import { auth } from "../../config/firebase";
 
 import ProfileCard from "../../components/profile/ProfileCard";
 
@@ -20,7 +22,7 @@ const ProfileScreen = ({ navigation }) => {
         <Avatar
           rounded
           size="large"
-          title="A"
+          title={auth.currentUser.displayName[0]}
           containerStyle={{
             backgroundColor: colors.PURPLE,
             marginTop: 20,

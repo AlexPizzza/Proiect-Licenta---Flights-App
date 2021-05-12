@@ -8,7 +8,7 @@ import colors from "../../../global/colors";
 
 import ExploreEverywhereCard from "../../components/explore/ExploreEverywhereCard";
 import ExploreBasicCard from "../../components/explore/ExploreBasicCard";
-import CustomModal from "../../components/common/CustomModal";
+import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
 
 const data = [
   {
@@ -38,7 +38,7 @@ const ExploreScreen = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <CustomModal
+      <CustomSearchFlightsModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         screen="Explore Screen"

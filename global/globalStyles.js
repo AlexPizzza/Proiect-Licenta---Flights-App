@@ -30,6 +30,8 @@ const globalStyles = StyleSheet.create({
   imageHeightRatio: 0.14,
   authIconSize: 26,
   authBorderRadius: 80,
+  modalSearchBarBdRadius: 8,
+  modalSearchMarginBottom: 4,
 });
 
 export default globalStyles;

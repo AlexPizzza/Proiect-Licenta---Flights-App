@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   },
   innerView: {
     flexDirection: "row",
+    alignItems: "center",
   },
   text: {
     color: colors.SEARCH_INPUT_TEXT,

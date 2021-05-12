@@ -4,6 +4,7 @@ const colors = {
   BLACK: "#000000",
   FOOTER: "#100F2F",
   GRAY_SUBHEADER_TEXT: "#8087AB",
+  GRAY: "#DCDCDC",
   EXPLORE_CARD_TAP: "#E0E0E0",
   SILVER: "#C0C0C0",
   TAB_BAR_BG_COLOR: "#FFFFFF",
@@ -17,6 +18,7 @@ const colors = {
   SEARCH_CONTAINER: "#F4F6FD",
   BG_WELCOME: "#FCFAFA",
   WHITE: "#FFFFFF",
+  WHITE_SMOKE: "#F5F5F5",
 };
 
 export default colors;
