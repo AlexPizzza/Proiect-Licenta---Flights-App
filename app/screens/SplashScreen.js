@@ -17,9 +17,11 @@ import useLocation from "../hooks/useLocation";
 
 const SplashScreen = () => {
   const { state: authState, tryLocalSignIn } = useContext(AuthContext);
-  const { state: userState, checkIsFirstTime, addUserLocation } = useContext(
-    UserContext
-  );
+  const {
+    state: userState,
+    checkIsFirstTime,
+    addUserLocation,
+  } = useContext(UserContext);
 
   let [fontsLoaded] = useFonts();
   const [locationText] = useLocation();

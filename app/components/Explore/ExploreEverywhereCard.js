@@ -14,7 +14,7 @@ const ExploreEverywhereCard = () => {
       <Ripple
         rippleColor={colors.EXPLORE_CARD_TAP}
         rippleOpacity={0.8}
-        rippleContainerBorderRadius={12}
+        rippleContainerBorderRadius={8}
         onLongPress={() => {}}
         delayLongPress={150}
         style={styles.rippleContainer}
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   },
   rippleContainer: {
     height: height / 3,
-    ...globalStyles.marginHorizontal,
     alignItems: "center",
   },
   imageStyle: {

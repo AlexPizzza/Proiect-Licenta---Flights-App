@@ -6,10 +6,16 @@ import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const ModalCloseButton = ({ setModalVisible }) => {
+const ModalCloseButton = ({
+  isLocationModal,
+  setModalVisible,
+  setLocationModalVisible,
+}) => {
   const closeModal = () => {
     setTimeout(() => {
-      setModalVisible(false);
+      isLocationModal
+        ? (setLocationModalVisible(false), setModalVisible(true))
+        : setModalVisible(false);
     }, 150);
   };
 
