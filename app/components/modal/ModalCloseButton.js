@@ -23,6 +23,7 @@ const ModalCloseButton = ({
     <Ripple
       rippleColor={colors.WHITE_SMOKE}
       rippleOpacity={0.8}
+      rippleContainerBorderRadius={10}
       style={styles.closeButtonStyle}
       onPress={() => closeModal()}
       onLongPress={() => closeModal()}

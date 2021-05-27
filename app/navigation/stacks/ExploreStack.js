@@ -1,15 +1,36 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ExploreScreen from "../../screens/explore/ExploreScreen";
-import SearchFlightsScreen from "../../screens/common/SearchFlightsScreen";
+import RecommendedScreen from "../../screens/common/RecommendedScreen";
+
+import globalStyles from "../../../global/globalStyles";
 
 const Stack = createStackNavigator();
 
 const ExploreStack = () => {
   return (
-    <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Explore" component={ExploreScreen} />
-      <Stack.Screen name="SearchFlights" component={SearchFlightsScreen} />
+    <Stack.Navigator initialRouteName="Explore">
+      <Stack.Screen
+        name="Explore"
+        component={ExploreScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Recommended"
+        component={RecommendedScreen}
+        options={({ route }) => ({
+          headerStyle: {
+            elevation: 8,
+          },
+          headerTitleStyle: {
+            ...globalStyles.boldText,
+            fontSize: 20,
+            marginLeft: -14,
+            marginBottom: 4,
+          },
+          title: route.params.title,
+        })}
+      />
     </Stack.Navigator>
   );
 };

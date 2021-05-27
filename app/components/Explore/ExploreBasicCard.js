@@ -1,14 +1,31 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import Ripple from "react-native-material-ripple";
 
 import globalStyles from "../../../global/globalStyles";
+import colors from "../../../global/colors";
 
 const ExploreBasicCard = ({ item }) => {
+  const navigation = useNavigation();
+
+  const _goToSpecifiedScreen = (title) => {
+    navigation.navigate("Recommended", { title });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.cardView}>
-        <Image style={styles.image} source={{ uri: item.url }} />
-      </View>
+      <Ripple
+        rippleColor={colors.WHITE}
+        rippleOpacity={0.8}
+        rippleContainerBorderRadius={8}
+        onPress={() => _goToSpecifiedScreen(item.title)}
+        onLongPress={() => _goToSpecifiedScreen(item.title)}
+        delayLongPress={150}
+        style={styles.cardView}
+      >
+        <Image style={styles.image} source={item.image} />
+      </Ripple>
       <View style={styles.textView}>
         <Text style={styles.itemTitle}>{item.title}</Text>
       </View>
@@ -38,9 +55,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: width - 20,
-    height: height / 2,
-    borderRadius: 10,
+    width: 0.494 * width,
+    height: 0.26 * height,
+    borderRadius: 8,
   },
   itemTitle: {
     color: "black",

@@ -59,6 +59,10 @@ const SearchScreen = ({ navigation }) => {
 
   let [locationText] = useLocation();
 
+  const _goToRecommendedScreen = () => {
+    navigation.navigate("Recommended");
+  };
+
   return (
     <View style={styles.container}>
       <CustomSearchFlightsModal
@@ -102,12 +106,7 @@ const SearchScreen = ({ navigation }) => {
       <SearchBar
         sbText="Search your next flight"
         bdRadius={20}
-        onPress={() =>
-          // navigation.navigate("SearchFlights", {
-          //   screenName: "SearchScreen",
-          // })
-          setModalVisible(true)
-        }
+        onPress={() => setModalVisible(true)}
       />
 
       <View style={styles.recommended_viewAll_Container}>
@@ -118,7 +117,8 @@ const SearchScreen = ({ navigation }) => {
           rippleOpacity={0.8}
           rippleContainerBorderRadius={12}
           style={{ padding: 8 }}
-          onLongPress={() => {}}
+          onPress={_goToRecommendedScreen}
+          onLongPress={_goToRecommendedScreen}
           delayLongPress={150}
         >
           <Text style={styles.viewAll}>View All</Text>

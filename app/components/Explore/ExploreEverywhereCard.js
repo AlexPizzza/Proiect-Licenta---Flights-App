@@ -3,7 +3,7 @@ import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import Ripple from "react-native-material-ripple";
 
-import exploreEverywhereImage from "../../../assets/explore-everywhere.jpg";
+import exploreEverywhereImage from "../../../assets/explore/explore-everywhere.jpg";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";

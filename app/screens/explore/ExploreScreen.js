@@ -2,38 +2,48 @@ import React, { useState } from "react";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import SearchBar from "../../components/common/SearchBar";
-
-import globalStyles from "../../../global/globalStyles";
-import colors from "../../../global/colors";
-
 import ExploreEverywhereCard from "../../components/explore/ExploreEverywhereCard";
 import ExploreBasicCard from "../../components/explore/ExploreBasicCard";
 import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
+
+import popularDestinationsImage from "../../../assets/explore/popular-destinations.jpg";
+import quickGetawaysImage from "../../../assets/explore/quick-getaways.jpg";
+import longerTripsImage from "../../../assets/explore/longer-trips.jpg";
+import lastMinuteImage from "../../../assets/explore/last-minute.jpg";
+import planAheadImage from "../../../assets/explore/plan-ahead.jpg";
+
+import globalStyles from "../../../global/globalStyles";
+import colors from "../../../global/colors";
 
 const data = [
   {
     id: "1",
     title: "Popular Destinations",
+    image: popularDestinationsImage,
   },
   {
     id: "2",
     title: "Quick Getaways",
+    image: quickGetawaysImage,
   },
   {
     id: "3",
     title: "Longer Trips",
+    image: longerTripsImage,
   },
   {
     id: "4",
     title: "Last Minute",
+    image: lastMinuteImage,
   },
   {
     id: "5",
     title: "Plan Ahead",
+    image: planAheadImage,
   },
 ];
 
-const ExploreScreen = ({ navigation }) => {
+const ExploreScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -52,12 +62,7 @@ const ExploreScreen = ({ navigation }) => {
         sbText="Find your next destination"
         bdRadius={8}
         marginBottom={22}
-        onPress={() =>
-          // navigation.navigate("SearchFlights", {
-          //   screenName: "ExploreScreen",
-          // })
-          setModalVisible(true)
-        }
+        onPress={() => setModalVisible(true)}
       />
 
       <ExploreEverywhereCard />
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   recommendedText: {
-    ...globalStyles.normalText,
+    ...globalStyles.boldText,
     color: "black",
   },
 });

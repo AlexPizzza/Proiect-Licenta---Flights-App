@@ -64,7 +64,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
 
           <View style={styles.formStyle}>
             <SearchBar
-              sbText={whereFromText}
+              sbText="Where from?"
               bdRadius={globalStyles.modalSearchBarBdRadius}
               marginBottom={globalStyles.modalSearchMarginBottom}
               onPress={() => {
@@ -76,7 +76,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
             />
 
             <SearchBar
-              sbText={whereToText}
+              sbText="Where to?"
               bdRadius={globalStyles.modalSearchBarBdRadius}
               marginBottom={globalStyles.modalSearchMarginBottom}
               onPress={() => {
