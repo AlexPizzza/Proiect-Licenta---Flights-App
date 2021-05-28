@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 
 import { Context as AuthContext } from "../context/AuthContext";
 import { Context as UserContext } from "../context/UserContext";
+import { Context as FlightsContext } from "../context/FlightsContext";
 
 import MainTabs from "../navigation/MainTabs";
 import Authentication from "../navigation/stacks/AuthenticationStack";
@@ -23,6 +24,8 @@ const SplashScreen = () => {
     addUserLocation,
   } = useContext(UserContext);
 
+  const { getRecommendedCountries } = useContext(FlightsContext);
+
   let [fontsLoaded] = useFonts();
   const [locationText] = useLocation();
   const [isLocationTextEmpty, setIsLocationTextEmpty] = useState(true);
@@ -37,6 +40,7 @@ const SplashScreen = () => {
       <AppLoading
         startAsync={async () => {
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
+          await getRecommendedCountries();
         }}
         onFinish={() => {
           addUserLocation(locationText);

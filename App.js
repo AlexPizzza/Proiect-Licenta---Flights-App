@@ -2,10 +2,10 @@ import "react-native-gesture-handler";
 import React, { useContext, useEffect } from "react";
 import { LogBox } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 
 import { Provider as AuthProvider } from "./app/context/AuthContext";
 import { Provider as UserProvider } from "./app/context/UserContext";
+import { Provider as FlightsProvider } from "./app/context/FlightsContext";
 import { Context as AuthContext } from "./app/context/AuthContext";
 import { Context as UserContext } from "./app/context/UserContext";
 
@@ -24,7 +24,6 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {/* <StatusBar style="dark" backgroundColor="white" /> */}
       <SplashScreen />
     </NavigationContainer>
   );
@@ -33,9 +32,11 @@ const App = () => {
 export default () => {
   return (
     <AuthProvider>
-      <UserProvider>
-        <App />
-      </UserProvider>
+      <FlightsProvider>
+        <UserProvider>
+          <App />
+        </UserProvider>
+      </FlightsProvider>
     </AuthProvider>
   );
 };

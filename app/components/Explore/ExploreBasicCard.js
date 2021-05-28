@@ -9,7 +9,7 @@ import colors from "../../../global/colors";
 const ExploreBasicCard = ({ item }) => {
   const navigation = useNavigation();
 
-  const _goToSpecifiedScreen = (title) => {
+  const goToSpecifiedScreen = (title) => {
     navigation.navigate("Recommended", { title });
   };
 
@@ -19,8 +19,8 @@ const ExploreBasicCard = ({ item }) => {
         rippleColor={colors.WHITE}
         rippleOpacity={0.8}
         rippleContainerBorderRadius={8}
-        onPress={() => _goToSpecifiedScreen(item.title)}
-        onLongPress={() => _goToSpecifiedScreen(item.title)}
+        onPress={() => goToSpecifiedScreen(item.title)}
+        onLongPress={() => goToSpecifiedScreen(item.title)}
         delayLongPress={150}
         style={styles.cardView}
       >

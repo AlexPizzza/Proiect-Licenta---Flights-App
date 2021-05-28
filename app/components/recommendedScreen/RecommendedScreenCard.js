@@ -18,8 +18,11 @@ const RecommendedScreenCard = ({ item }) => {
         style={styles.cardView}
       >
         <Image style={styles.image} source={{ uri: item.image }} />
-        <View style={styles.textView}>
+        <View style={styles.textViewCountryName}>
           <Text style={styles.itemTitle}>{item.country_name}</Text>
+        </View>
+        <View style={styles.textViewPrice}>
+          <Text style={styles.itemPrice}>from 70 lei</Text>
         </View>
       </Ripple>
     </View>
@@ -43,11 +46,17 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     elevation: 10,
   },
-  textView: {
+  textViewCountryName: {
     position: "absolute",
     bottom: 10,
     margin: 10,
     left: 12,
+  },
+  textViewPrice: {
+    position: "absolute",
+    bottom: 10,
+    margin: 10,
+    right: 12,
   },
   image: {
     width: 300,
@@ -61,6 +70,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     ...globalStyles.headerBoldText,
     fontSize: 20,
+  },
+  itemPrice: {
+    color: colors.WHITE,
+    marginBottom: 5,
+    ...globalStyles.normalText,
+    fontSize: 18,
   },
 });
 

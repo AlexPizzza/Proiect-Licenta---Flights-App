@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Ripple from "react-native-material-ripple";
 
@@ -12,54 +12,43 @@ import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
 import { Context as UserContext } from "../../context/UserContext";
+import { Context as FlightsContext } from "../../context/FlightsContext";
 import { auth } from "../../config/firebase";
 
 import useLocation from "../../hooks/useLocation";
-import useCountriesResults from "../../hooks/useCountriesResults";
-
-const data = [
-  {
-    id: "1",
-    country_name: "Greece",
-    description: "Explore the beauty and magic of Greece",
-    image: "https://cdn.statically.io/img/wallpaperaccess.com/full/42013.jpg",
-  },
-  {
-    id: "2",
-    country_name: "Switzerland",
-    description: "Enjoy the mountains of Switzerland",
-    image: "https://wallpaperaccess.com/full/1094090.jpg",
-  },
-  {
-    id: "3",
-    country_name: "France",
-    description: "Enjoy the unique diversity of France",
-    image:
-      "https://free4kwallpapers.com/uploads/originals/2016/09/30/romance-paris,-france-4k-wallpaper.jpg",
-  },
-  {
-    id: "4",
-    country_name: "Spain",
-    description: "Plan your next vacation in Spain",
-    image: "https://wallpapercave.com/wp/wp3766461.jpg",
-  },
-  {
-    id: "5",
-    country_name: "United Kingdom",
-    description: "Explore United Kingdom's architecture and history",
-    image:
-      "https://images.unsplash.com/photo-1454537468202-b7ff71d51c2e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dW5pdGVkJTIwa2luZ2RvbXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-  },
-];
 
 const SearchScreen = ({ navigation }) => {
-  // const [results, errorMessage] = useCountriesResults();
   const { state } = useContext(UserContext);
+  const {
+    state: { recommendedCountries },
+  } = useContext(FlightsContext);
+  console.log(recommendedCountries);
   const [modalVisible, setModalVisible] = useState(false);
+  const [filteredResults, setFilteredResults] = useState([]);
 
   let [locationText] = useLocation();
 
-  const _goToRecommendedScreen = () => {
+  const getFilteredResults = () => {
+    const filteredList = recommendedCountries.filter((result) => {
+      const country_iso2 = result.data.country_iso2;
+      return (
+        country_iso2 === "GR" ||
+        country_iso2 === "GB" ||
+        country_iso2 === "FR" ||
+        country_iso2 === "ES" ||
+        country_iso2 === "CH"
+      );
+    });
+
+    return filteredList;
+  };
+
+  useEffect(() => {
+    const filteredResults = getFilteredResults();
+    setFilteredResults(filteredResults);
+  }, []);
+
+  const goToRecommendedScreen = () => {
     navigation.navigate("Recommended");
   };
 
@@ -117,40 +106,22 @@ const SearchScreen = ({ navigation }) => {
           rippleOpacity={0.8}
           rippleContainerBorderRadius={12}
           style={{ padding: 8 }}
-          onPress={_goToRecommendedScreen}
-          onLongPress={_goToRecommendedScreen}
+          onPress={goToRecommendedScreen}
+          onLongPress={goToRecommendedScreen}
           delayLongPress={150}
         >
           <Text style={styles.viewAll}>View All</Text>
         </Ripple>
       </View>
 
-      {/* {errorMessage ? (
-        <Text>{errorMessage}</Text>
-      ) : (
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          // data={results}
-          // keyExtractor={(item) => item.country_iso_numeric}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return <RecommendedCard item={item} />;
-          }}
-        />
-      )} */}
-
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
         decelerationRat={0.8}
-        data={data}
-        // data={results}
-        // keyExtractor={(item) => item.country_iso_numeric}
+        data={filteredResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
-          return <RecommendedCard item={item} />;
+          return <RecommendedCard item={item.data} />;
         }}
       />
     </View>
