@@ -22,7 +22,6 @@ const SearchScreen = ({ navigation }) => {
   const {
     state: { recommendedCountries },
   } = useContext(FlightsContext);
-  console.log(recommendedCountries);
   const [modalVisible, setModalVisible] = useState(false);
   const [filteredResults, setFilteredResults] = useState([]);
 

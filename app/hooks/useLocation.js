@@ -2,12 +2,15 @@ import { useContext, useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 import { Context as UserContext } from "../context/UserContext";
+import { Context as FlightsContext } from "../context/FlightsContext";
 
 export default () => {
   const [location, setLocation] = useState(null);
   const [locationText, setLocationText] = useState("");
 
   const { addUserLocationError } = useContext(UserContext);
+
+  const { addUserCoordinates } = useContext(FlightsContext);
 
   useEffect(() => {
     (async () => {
@@ -22,6 +25,7 @@ export default () => {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         };
+        addUserCoordinates(coords);
 
         let cityLocation = await Location.reverseGeocodeAsync(coords);
         setLocation(cityLocation);
@@ -40,6 +44,5 @@ export default () => {
       }
     })();
   }, []);
-
   return [locationText];
 };

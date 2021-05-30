@@ -22,7 +22,7 @@ const RecommendedScreenCard = ({ item }) => {
           <Text style={styles.itemTitle}>{item.country_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
-          <Text style={styles.itemPrice}>from 70 lei</Text>
+          <Text style={styles.itemPrice}>from {item.price} lei</Text>
         </View>
       </Ripple>
     </View>

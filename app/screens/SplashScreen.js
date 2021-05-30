@@ -24,7 +24,11 @@ const SplashScreen = () => {
     addUserLocation,
   } = useContext(UserContext);
 
-  const { getRecommendedCountries } = useContext(FlightsContext);
+  const {
+    state: { recommendedCountries, userCoords },
+    getRecommendedCountries,
+    addPriceToCountries,
+  } = useContext(FlightsContext);
 
   let [fontsLoaded] = useFonts();
   const [locationText] = useLocation();
@@ -39,12 +43,13 @@ const SplashScreen = () => {
     return (
       <AppLoading
         startAsync={async () => {
-          await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
           await getRecommendedCountries();
+          await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
         }}
         onFinish={() => {
           addUserLocation(locationText);
           setIsLocationTextEmpty(false);
+          addPriceToCountries(recommendedCountries, userCoords);
         }}
         onError={() => {}}
       />
