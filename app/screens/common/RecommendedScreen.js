@@ -7,17 +7,40 @@ import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
 
-const RecommendedScreen = () => {
+const RecommendedScreen = ({ route }) => {
   const {
-    state: { recommendedCountries },
+    state: {
+      recommendedCountries,
+      popularDestinations,
+      quickGetaways,
+      longerTrips,
+      lastMinute,
+      planAhead,
+    },
   } = useContext(FlightsContext);
+
+  const { searchType } = route.params;
 
   return (
     <View style={styles.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
         decelerationRat={0.8}
-        data={recommendedCountries}
+        data={
+          searchType === "recommended"
+            ? recommendedCountries
+            : searchType === "popular_destinations"
+            ? popularDestinations
+            : searchType === "quick_getaways"
+            ? quickGetaways
+            : searchType === "longer_trips"
+            ? longerTrips
+            : searchType === "last_minute"
+            ? lastMinute
+            : searchType === "plan_ahead"
+            ? planAhead
+            : null
+        }
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           return <RecommendedScreenCard item={item.data} />;

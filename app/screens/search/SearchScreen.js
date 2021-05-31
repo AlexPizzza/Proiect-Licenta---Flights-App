@@ -48,7 +48,7 @@ const SearchScreen = ({ navigation }) => {
   }, []);
 
   const goToRecommendedScreen = () => {
-    navigation.navigate("Recommended");
+    navigation.navigate("Recommended", { searchType: "recommended" });
   };
 
   return (

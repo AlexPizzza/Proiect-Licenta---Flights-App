@@ -10,7 +10,11 @@ const ExploreBasicCard = ({ item }) => {
   const navigation = useNavigation();
 
   const goToSpecifiedScreen = (title) => {
-    navigation.navigate("Recommended", { title });
+    let searchTypeString = title.toLowerCase();
+    searchTypeString = searchTypeString.split(" ");
+
+    const searchType = searchTypeString[0] + "_" + searchTypeString[1];
+    navigation.navigate("Recommended", { title, searchType });
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 
 import ModalCloseButton from "../modal/ModalCloseButton";
@@ -6,6 +6,8 @@ import RippleText from "../modal/RippleText";
 import SearchBar from "../modal/SearchBar";
 import ButtonSearchFlights from "../modal/ButtonSearchFlights";
 import CustomSearchLocationModal from "./CustomSearchLocationModal";
+
+import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -18,10 +20,11 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
   const [isWhereFrom, setIsWhereFrom] = useState(false);
   const [locationModalVisible, setLocationModalVisible] = useState(false);
 
-  useEffect(() => {
-    const date = new Date().toString();
-    console.log(date);
+  const {
+    state: { date },
+  } = useContext(FlightsContext);
 
+  useEffect(() => {
     const dateSplit = date.split(" ");
     setCurrentDate(dateSplit[0] + ", " + dateSplit[1] + " " + dateSplit[2]);
   }, []);

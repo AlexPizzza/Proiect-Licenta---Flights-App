@@ -40,6 +40,11 @@ const flightsReducer = (state, action) => {
         ...state,
         userCoords: action.payload,
       };
+    case "add_user_date":
+      return {
+        ...state,
+        date: action.payload,
+      };
     default:
       return state;
   }
@@ -139,11 +144,11 @@ const addPriceToCountries =
   (dispatch) =>
   (
     recommendedCountries,
-    // popularDestinations,
-    // quickGetaways,
-    // longerTrips,
-    // lastMinute,
-    // planAhead,
+    popularDestinations,
+    quickGetaways,
+    longerTrips,
+    lastMinute,
+    planAhead,
     userCoords
   ) => {
     recommendedCountries.forEach((element) => {
@@ -160,63 +165,63 @@ const addPriceToCountries =
       payload: recommendedCountries,
     });
 
-    // popularDestinations.forEach((element) => {
-    //   element.data.price = generatePrice(
-    //     30,
-    //     userCoords.latitude,
-    //     userCoords.longitude,
-    //     element.data.latitude,
-    //     element.data.longitude
-    //   );
-    // });
-    // dispatch({
-    //   type: "add_popular_destinations_countries",
-    //   payload: popularDestinations,
-    // });
+    popularDestinations.forEach((element) => {
+      element.data.price = generatePrice(
+        30,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    dispatch({
+      type: "add_popular_destinations_countries",
+      payload: popularDestinations,
+    });
 
-    // quickGetaways.forEach((element) => {
-    //   element.data.price = generatePrice(
-    //     30,
-    //     userCoords.latitude,
-    //     userCoords.longitude,
-    //     element.data.latitude,
-    //     element.data.longitude
-    //   );
-    // });
-    // dispatch({ type: "add_quick_getaways_countries", payload: quickGetaways });
+    quickGetaways.forEach((element) => {
+      element.data.price = generatePrice(
+        30,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    dispatch({ type: "add_quick_getaways_countries", payload: quickGetaways });
 
-    // longerTrips.forEach((element) => {
-    //   element.data.price = generatePrice(
-    //     30,
-    //     userCoords.latitude,
-    //     userCoords.longitude,
-    //     element.data.latitude,
-    //     element.data.longitude
-    //   );
-    // });
-    // dispatch({ type: "add_longer_trips_countries", payload: longerTrips });
+    longerTrips.forEach((element) => {
+      element.data.price = generatePrice(
+        30,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    dispatch({ type: "add_longer_trips_countries", payload: longerTrips });
 
-    // lastMinute.forEach((element) => {
-    //   element.data.price = generatePrice(
-    //     30,
-    //     userCoords.latitude,
-    //     userCoords.longitude,
-    //     element.data.latitude,
-    //     element.data.longitude
-    //   );
-    // });
-    // dispatch({ type: "add_last_minute_countries", payload: lastMinute });
+    lastMinute.forEach((element) => {
+      element.data.price = generatePrice(
+        30,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    dispatch({ type: "add_last_minute_countries", payload: lastMinute });
 
-    // planAhead.forEach((element) => {
-    //   element.data.price = generatePrice(
-    //     30,
-    //     userCoords.latitude,
-    //     userCoords.longitude,
-    //     element.data.latitude,
-    //     element.data.longitude
-    //   );
-    // });
-    // dispatch({ type: "add_plan_ahead_countries", payload: planAhead });
+    planAhead.forEach((element) => {
+      element.data.price = generatePrice(
+        30,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    dispatch({ type: "add_plan_ahead_countries", payload: planAhead });
   };
 
 const addPriceToRecommendedCountries =
@@ -237,6 +242,11 @@ const addUserCoordinates = (dispatch) => (coords) => {
   dispatch({ type: "add_user_coords", payload: coords });
 };
 
+const getDate = (dispatch) => () => {
+  const date = new Date().toString();
+  dispatch({ type: "add_user_date", payload: date });
+};
+
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
@@ -249,6 +259,7 @@ export const { Context, Provider } = createDataContext(
     addPriceToCountries,
     addPriceToRecommendedCountries,
     addUserCoordinates,
+    getDate,
   },
   {
     date: null,

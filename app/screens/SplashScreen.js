@@ -25,9 +25,23 @@ const SplashScreen = () => {
   } = useContext(UserContext);
 
   const {
-    state: { recommendedCountries, userCoords },
+    state: {
+      recommendedCountries,
+      popularDestinations,
+      quickGetaways,
+      longerTrips,
+      lastMinute,
+      planAhead,
+      userCoords,
+    },
     getRecommendedCountries,
+    getPopularDestinationsCountries,
+    getQuickGetawaysCountries,
+    getLongerTripsCountries,
+    getLastMinuteCountries,
+    getPlanAheadCountries,
     addPriceToCountries,
+    getDate,
   } = useContext(FlightsContext);
 
   let [fontsLoaded] = useFonts();
@@ -37,6 +51,7 @@ const SplashScreen = () => {
   useEffect(() => {
     checkIsFirstTime();
     tryLocalSignIn();
+    getDate();
   }, []);
 
   if (!fontsLoaded || isLocationTextEmpty) {
@@ -44,12 +59,25 @@ const SplashScreen = () => {
       <AppLoading
         startAsync={async () => {
           await getRecommendedCountries();
+          getPopularDestinationsCountries();
+          getQuickGetawaysCountries();
+          getLongerTripsCountries();
+          getLastMinuteCountries();
+          getPlanAheadCountries();
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
         }}
         onFinish={() => {
           addUserLocation(locationText);
           setIsLocationTextEmpty(false);
-          addPriceToCountries(recommendedCountries, userCoords);
+          addPriceToCountries(
+            recommendedCountries,
+            popularDestinations,
+            quickGetaways,
+            longerTrips,
+            lastMinute,
+            planAhead,
+            userCoords
+          );
         }}
         onError={() => {}}
       />
