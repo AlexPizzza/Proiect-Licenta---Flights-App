@@ -16,6 +16,8 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [isRoundtripSelected, setIsRoundtripSelected] = useState(true);
   const [isOnewaySelected, setIsOnewaySelected] = useState(false);
+  const [whereFromText, setWhereFromText] = useState("Where from?");
+  const [whereToText, setWhereToText] = useState("Where to?");
   const [currentDate, setCurrentDate] = useState("");
   const [isWhereFrom, setIsWhereFrom] = useState(false);
   const [locationModalVisible, setLocationModalVisible] = useState(false);
@@ -67,7 +69,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
 
           <View style={styles.formStyle}>
             <SearchBar
-              sbText="Where from?"
+              sbText={whereFromText}
               bdRadius={globalStyles.modalSearchBarBdRadius}
               marginBottom={globalStyles.modalSearchMarginBottom}
               onPress={() => {
@@ -79,7 +81,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
             />
 
             <SearchBar
-              sbText="Where to?"
+              sbText={whereToText}
               bdRadius={globalStyles.modalSearchBarBdRadius}
               marginBottom={globalStyles.modalSearchMarginBottom}
               onPress={() => {
@@ -134,6 +136,10 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
           setLocationModalVisible={setLocationModalVisible}
           setModalVisible={setModalVisible}
           isWhereFrom={isWhereFrom}
+          whereFromText={whereFromText}
+          whereToText={whereToText}
+          setWhereFromText={setWhereFromText}
+          setWhereToText={setWhereToText}
         />
       ) : null}
     </View>

@@ -35,6 +35,16 @@ const flightsReducer = (state, action) => {
         ...state,
         planAhead: action.payload,
       };
+    case "add_locations":
+      return {
+        ...state,
+        locations: action.payload,
+      };
+    case "clear_locations":
+      return {
+        ...state,
+        locations: action.payload,
+      };
     case "add_user_coords":
       return {
         ...state,
@@ -65,75 +75,41 @@ const getRecommendedCountries = (dispatch) => async () => {
   }
 };
 
-const getPopularDestinationsCountries = (dispatch) => async () => {
+const getCountriesBySearchType = (dispatch) => async () => {
   try {
     let list = [];
-    const snapshot = await db.collection("flights_popular_destinations").get();
-
+    let snapshot = await db.collection("flights_popular_destinations").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
-
     dispatch({ type: "add_popular_destinations_countries", payload: list });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-const getQuickGetawaysCountries = (dispatch) => async () => {
-  try {
-    let list = [];
-    const snapshot = await db.collection("flights_quick_getaways").get();
-
+    list = [];
+    snapshot = await db.collection("flights_quick_getaways").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
-
     dispatch({ type: "add_quick_getaways_countries", payload: list });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-const getLongerTripsCountries = (dispatch) => async () => {
-  try {
-    let list = [];
-    const snapshot = await db.collection("flights_longer_trips").get();
-
+    list = [];
+    snapshot = await db.collection("flights_longer_trips").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
-
     dispatch({ type: "add_longer_trips_countries", payload: list });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-const getLastMinuteCountries = (dispatch) => async () => {
-  try {
-    let list = [];
-    const snapshot = await db.collection("flights_last_minute").get();
-
+    list = [];
+    snapshot = await db.collection("flights_last_minute").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
-
     dispatch({ type: "add_last_minute_countries", payload: list });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-const getPlanAheadCountries = (dispatch) => async () => {
-  try {
-    let list = [];
-    const snapshot = await db.collection("flights_plan_ahead").get();
-
+    list = [];
+    snapshot = await db.collection("flights_plan_ahead").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
-
     dispatch({ type: "add_plan_ahead_countries", payload: list });
   } catch (error) {
     console.log(error);
@@ -224,6 +200,70 @@ const addPriceToCountries =
     dispatch({ type: "add_plan_ahead_countries", payload: planAhead });
   };
 
+const getLocations = (dispatch) => async (text) => {
+  const toTitleCase = (phrase) => {
+    return phrase
+      .toLowerCase()
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const newText = toTitleCase(text);
+
+  console.log(newText);
+
+  const airportsRef = db.collection("flights_airports");
+  const countriesRef = db.collection("flights_all_countries");
+
+  const countries = await countriesRef
+    .where("country_name", ">=", newText)
+    .where("country_name", "<=", newText + "\uf8ff")
+    .get();
+
+  const airports = await airportsRef
+    .where("airport_name", ">=", newText)
+    .where("airport_name", "<=", newText + "\uf8ff")
+    .get();
+  const cities = await airportsRef
+    .where("city_name", ">=", newText)
+    .where("city_name", "<=", newText + "\uf8ff")
+    .get();
+
+  let list = [];
+  airports.forEach((doc) => {
+    list.push({
+      id: doc.id,
+      data: doc.data(),
+    });
+  });
+  cities.forEach((doc) => {
+    list.push({
+      id: doc.id,
+      data: doc.data(),
+    });
+  });
+  countries.forEach((doc) => {
+    list.push({ id: doc.id, data: doc.data() });
+  });
+
+  const seen = new Set();
+
+  const locationsList = list.filter((el) => {
+    const duplicate = seen.has(el.id);
+    seen.add(el.id);
+    return !duplicate;
+  });
+
+  console.log(locationsList);
+
+  dispatch({ type: "add_locations", payload: locationsList });
+};
+
+const clearLocations = (dispatch) => () => {
+  dispatch({ type: "clear_locations", payload: [] });
+};
+
 const addPriceToRecommendedCountries =
   (dispatch) => (countries, userLat, userLong) => {
     countries.forEach((element) => {
@@ -250,16 +290,14 @@ const getDate = (dispatch) => () => {
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
-    getRecommendedCountries,
-    getPopularDestinationsCountries,
-    getQuickGetawaysCountries,
-    getLongerTripsCountries,
-    getLastMinuteCountries,
-    getPlanAheadCountries,
     addPriceToCountries,
     addPriceToRecommendedCountries,
     addUserCoordinates,
+    clearLocations,
     getDate,
+    getCountriesBySearchType,
+    getLocations,
+    getRecommendedCountries,
   },
   {
     date: null,
@@ -272,5 +310,6 @@ export const { Context, Provider } = createDataContext(
     planAhead: [],
     exploreEverywhere: [],
     lastViewed: [],
+    locations: [],
   }
 );

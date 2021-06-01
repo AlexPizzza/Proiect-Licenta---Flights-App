@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   dateRipple: {
     paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingHorizontal: 14,
     backgroundColor: colors.SEARCH_CONTAINER,
   },
   innerView: {

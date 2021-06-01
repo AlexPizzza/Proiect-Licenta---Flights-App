@@ -35,11 +35,7 @@ const SplashScreen = () => {
       userCoords,
     },
     getRecommendedCountries,
-    getPopularDestinationsCountries,
-    getQuickGetawaysCountries,
-    getLongerTripsCountries,
-    getLastMinuteCountries,
-    getPlanAheadCountries,
+    getCountriesBySearchType,
     addPriceToCountries,
     getDate,
   } = useContext(FlightsContext);
@@ -59,11 +55,7 @@ const SplashScreen = () => {
       <AppLoading
         startAsync={async () => {
           await getRecommendedCountries();
-          getPopularDestinationsCountries();
-          getQuickGetawaysCountries();
-          getLongerTripsCountries();
-          getLastMinuteCountries();
-          getPlanAheadCountries();
+          getCountriesBySearchType();
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
         }}
         onFinish={() => {

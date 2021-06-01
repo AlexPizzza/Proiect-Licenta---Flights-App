@@ -10,6 +10,7 @@ const ModalCloseButton = ({
   isLocationModal,
   setModalVisible,
   setLocationModalVisible,
+  clearLocations,
 }) => {
   const closeModal = () => {
     setTimeout(() => {
@@ -17,6 +18,9 @@ const ModalCloseButton = ({
         ? (setLocationModalVisible(false), setModalVisible(true))
         : setModalVisible(false);
     }, 150);
+    if (clearLocations) {
+      clearLocations();
+    }
   };
 
   return (
@@ -29,7 +33,6 @@ const ModalCloseButton = ({
       onLongPress={() => closeModal()}
       delayLongPress={200}
     >
-      {/* <AntDesign name="close" size={40} color={colors.PURPLE}/> */}
       <AntDesign name="close" size={40} color="black" />
     </Ripple>
   );
