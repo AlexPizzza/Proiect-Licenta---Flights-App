@@ -3,7 +3,6 @@ import {
   ActivityIndicator,
   FlatList,
   Modal,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -108,8 +107,7 @@ const CustomSearchLocation = ({
             setLocationText(text);
             if (text.length > 2) {
               getLocations(text);
-            }
-            if (text.length === 0) {
+            } else {
               clearLocations();
             }
           }}
