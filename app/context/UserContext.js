@@ -5,6 +5,8 @@ const userReducer = (state, action) => {
   switch (action.type) {
     case "add_error":
       return { ...state, errorMessage: action.payload };
+    case "add_user_rating":
+      return { ...state, userRating: action.payload };
     case "add_user_location":
       return { ...state, userLocation: action.payload };
     case "add_user_location_error":
@@ -48,6 +50,35 @@ const setValueIsFirstTime = (dispatch) => async (value) => {
   }
 };
 
+const addUserRating = (dispatch) => async (rating) => {
+  await AsyncStorage.setItem("rating", JSON.stringify(rating));
+
+  dispatch({
+    type: "add_user_rating",
+    payload: rating,
+  });
+};
+
+const getUserRating = (dispatch) => async () => {
+  const rating = await AsyncStorage.getItem("rating");
+  let numberRating = 3;
+  if (rating) {
+    numberRating = parseInt(rating);
+  }
+
+  if (numberRating !== 3) {
+    dispatch({
+      type: "add_user_rating",
+      payload: numberRating,
+    });
+  } else {
+    dispatch({
+      type: "add_user_rating",
+      payload: 3,
+    });
+  }
+};
+
 const addUserLocation = (dispatch) => (locationText) => {
   if (locationText === "") {
     dispatch({
@@ -66,6 +97,8 @@ const addUserLocationError = (dispatch) => (errorMsg) => {
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
+    addUserRating,
+    getUserRating,
     addUserLocation,
     addUserLocationError,
     checkIsFirstTime,
@@ -76,5 +109,6 @@ export const { Context, Provider } = createDataContext(
     errorUserLocation: "",
     isFirstTime: true,
     errorMessage: "",
+    userRating: 0,
   }
 );

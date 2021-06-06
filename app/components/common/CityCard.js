@@ -1,49 +1,26 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import Ripple from "react-native-material-ripple";
 
-import { Context as FlightsContext } from "../../context/FlightsContext";
-
-import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
+import globalStyles from "../../../global/globalStyles";
 
-const RecommendedScreenCard = ({ item, onPress }) => {
-  const {
-    state: { cities, userCoords },
-    addCities,
-    clearCities,
-  } = useContext(FlightsContext);
-
-  const addCitiesBackToList = () => {
-    if (cities.length !== 0) {
-      clearCities();
-    }
-    addCities(item.country_iso2, userCoords);
-  };
-
+const CityCard = ({ item }) => {
   return (
     <View style={styles.container}>
       <Ripple
         rippleColor={colors.WHITE}
         rippleOpacity={0.8}
         rippleContainerBorderRadius={20}
-        onPress={() => {
-          addCitiesBackToList();
-
-          onPress(item.country_name, item.country_iso2);
-        }}
-        onLongPress={() => {
-          addCitiesBackToList();
-
-          onPress(item.country_name, item.country_iso2);
-        }}
+        onPress={() => {}}
+        onLongPress={() => {}}
         delayLongPress={150}
         style={styles.cardView}
       >
         <Image style={styles.image} source={{ uri: item.image }} />
         <View style={styles.textViewCountryName}>
-          <Text style={styles.itemTitle}>{item.country_name}</Text>
+          <Text style={styles.itemTitle}>{item.city_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
           <Text style={styles.itemPrice}>from {item.price} lei</Text>
@@ -103,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecommendedScreenCard;
+export default CityCard;

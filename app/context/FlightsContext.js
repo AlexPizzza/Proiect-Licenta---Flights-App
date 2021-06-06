@@ -2,6 +2,7 @@ import createDataContext from "./createDataContext";
 import { db } from "../config/firebase";
 
 import generatePrice from "../functions/generatePrice";
+import sorter from "../functions/sorter";
 
 const flightsReducer = (state, action) => {
   switch (action.type) {
@@ -34,6 +35,16 @@ const flightsReducer = (state, action) => {
       return {
         ...state,
         planAhead: action.payload,
+      };
+    case "add_cities":
+      return {
+        ...state,
+        cities: action.payload,
+      };
+    case "clear_cities":
+      return {
+        ...state,
+        cities: action.payload,
       };
     case "add_locations":
       return {
@@ -136,6 +147,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    recommendedCountries.sort(sorter);
     dispatch({
       type: "add_recommended_countries",
       payload: recommendedCountries,
@@ -150,6 +162,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    popularDestinations.sort(sorter);
     dispatch({
       type: "add_popular_destinations_countries",
       payload: popularDestinations,
@@ -164,6 +177,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    quickGetaways.sort(sorter);
     dispatch({ type: "add_quick_getaways_countries", payload: quickGetaways });
 
     longerTrips.forEach((element) => {
@@ -175,6 +189,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    longerTrips.sort(sorter);
     dispatch({ type: "add_longer_trips_countries", payload: longerTrips });
 
     lastMinute.forEach((element) => {
@@ -186,6 +201,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    lastMinute.sort(sorter);
     dispatch({ type: "add_last_minute_countries", payload: lastMinute });
 
     planAhead.forEach((element) => {
@@ -197,6 +213,7 @@ const addPriceToCountries =
         element.data.longitude
       );
     });
+    planAhead.sort(sorter);
     dispatch({ type: "add_plan_ahead_countries", payload: planAhead });
   };
 
@@ -210,8 +227,6 @@ const getLocations = (dispatch) => async (text) => {
   };
 
   const newText = toTitleCase(text);
-
-  console.log(newText);
 
   const airportsRef = db.collection("flights_airports");
   const countriesRef = db.collection("flights_all_countries");
@@ -275,8 +290,39 @@ const addPriceToRecommendedCountries =
         element.data.longitude
       );
     });
+
     dispatch({ type: "add_recommended_countries", payload: countries });
   };
+
+const addCities = (dispatch) => async (country_iso2, userCoords) => {
+  let citiesList = [];
+
+  const citiesRef = db.collection("flights_cities_" + country_iso2);
+  const cities = await citiesRef.orderBy("image", "asc").get();
+  cities.forEach((doc) => {
+    citiesList.push({ id: doc.id, data: doc.data() });
+  });
+
+  citiesList.forEach((element) => {
+    element.data.price = generatePrice(
+      30,
+      userCoords.latitude,
+      userCoords.longitude,
+      element.data.latitude,
+      element.data.longitude
+    );
+  });
+
+  citiesList.sort(sorter);
+  dispatch({
+    type: "add_cities",
+    payload: citiesList,
+  });
+};
+
+const clearCities = (dispatch) => () => {
+  dispatch({ type: "clear_cities", payload: [] });
+};
 
 const addUserCoordinates = (dispatch) => (coords) => {
   dispatch({ type: "add_user_coords", payload: coords });
@@ -284,12 +330,15 @@ const addUserCoordinates = (dispatch) => (coords) => {
 
 const getDate = (dispatch) => () => {
   const date = new Date().toString();
+  console.log(date);
   dispatch({ type: "add_user_date", payload: date });
 };
 
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
+    addCities,
+    clearCities,
     addPriceToCountries,
     addPriceToRecommendedCountries,
     addUserCoordinates,
@@ -300,6 +349,7 @@ export const { Context, Provider } = createDataContext(
     getRecommendedCountries,
   },
   {
+    cities: {},
     date: null,
     userCoords: null,
     recommendedCountries: [],

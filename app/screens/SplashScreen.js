@@ -22,6 +22,7 @@ const SplashScreen = () => {
     state: userState,
     checkIsFirstTime,
     addUserLocation,
+    getUserRating,
   } = useContext(UserContext);
 
   const {
@@ -55,6 +56,7 @@ const SplashScreen = () => {
       <AppLoading
         startAsync={async () => {
           await getRecommendedCountries();
+          await getUserRating();
           getCountriesBySearchType();
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
         }}

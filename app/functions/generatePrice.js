@@ -25,7 +25,14 @@ function generateAdditionalPriceBasedOnDaysLeftTillFlight(noOfDaysTillFlight) {
 }
 
 function generatePriceBasedOnDistance(distance) {
-  return Math.floor(50 + distance * 0.11);
+  switch (true) {
+    case distance < 3000:
+      return Math.floor(50 + distance * 0.1);
+    case distance < 6000:
+      return Math.floor(100 + distance * 0.25);
+    default:
+      return Math.floor(200 + distance * 0.35);
+  }
 }
 
 export default generatePrice;
