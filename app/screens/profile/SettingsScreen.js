@@ -13,10 +13,6 @@ const list = [
     title: "Currency",
     subTitle: "Romanian Leu",
   },
-  {
-    title: "Country or region",
-    subTitle: "Romania",
-  },
 ];
 
 const SettingsScreen = () => {

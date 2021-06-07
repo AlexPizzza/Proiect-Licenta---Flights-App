@@ -13,14 +13,14 @@ const ModalCloseButton = ({
   clearLocations,
 }) => {
   const closeModal = () => {
+    if (clearLocations) {
+      clearLocations();
+    }
     setTimeout(() => {
       isLocationModal
         ? (setLocationModalVisible(false), setModalVisible(true))
         : setModalVisible(false);
     }, 150);
-    if (clearLocations) {
-      clearLocations();
-    }
   };
 
   return (

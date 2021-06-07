@@ -5,7 +5,6 @@ function computeDistance([prevLat, prevLong], [lat, long]) {
   const longInRad = toRad(long);
 
   return (
-    // In kilometers
     6377.830272 *
     Math.acos(
       Math.sin(prevLatInRad) * Math.sin(latInRad) +

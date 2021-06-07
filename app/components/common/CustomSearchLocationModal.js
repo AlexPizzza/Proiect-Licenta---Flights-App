@@ -28,6 +28,8 @@ const CustomSearchLocation = ({
   whereToText,
   setWhereFromText,
   setWhereToText,
+  setDepartureCity,
+  setArrivalCity,
 }) => {
   const [locationText, setLocationText] = useState("");
   const [userIsTyping, setUserIsTyping] = useState(false);
@@ -99,6 +101,13 @@ const CustomSearchLocation = ({
             setUserIsTyping(false);
           }}
           onClear={() => {
+            if (isWhereFrom) {
+              setWhereFromText("Where from?");
+              setDepartureCity(null);
+            } else {
+              setWhereToText("Where to?");
+              setArrivalCity(null);
+            }
             setUserIsTyping(false);
           }}
           inputStyle={styles.inputStyle}
@@ -140,6 +149,7 @@ const CustomSearchLocation = ({
                   onPress={isWhereFrom ? setWhereFromText : setWhereToText}
                   setLocationModalVisible={setLocationModalVisible}
                   setModalVisible={setModalVisible}
+                  setCity={isWhereFrom ? setDepartureCity : setArrivalCity}
                 />
               );
             }}

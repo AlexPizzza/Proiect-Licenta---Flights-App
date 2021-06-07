@@ -1,19 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import Ripple from "react-native-material-ripple";
 
+import { Context as FlightsContext } from "../../context/FlightsContext";
+
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-const RecommendedCard = ({ item }) => {
+const RecommendedCard = ({ item, onPress }) => {
+  const {
+    state: { cities, userCoords },
+    addCities,
+    clearCities,
+  } = useContext(FlightsContext);
+
+  const addCitiesBackToList = () => {
+    if (cities.length !== 0) {
+      clearCities();
+    }
+    addCities(item.country_iso2, userCoords);
+  };
+
   return (
     <View style={styles.container}>
       <Ripple
         rippleColor={colors.WHITE}
         rippleOpacity={0.8}
         rippleContainerBorderRadius={20}
-        onLongPress={() => {}}
+        onPress={() => {
+          addCitiesBackToList();
+          onPress(item.country_name, item.country_iso2);
+        }}
+        onLongPress={() => {
+          addCitiesBackToList();
+          onPress(item.country_name, item.country_iso2);
+        }}
         delayLongPress={150}
         style={styles.cardView}
       >
@@ -65,6 +87,7 @@ const styles = StyleSheet.create({
   itemDescription: {
     color: "black",
     ...globalStyles.normalText,
+    marginRight: 4,
   },
 });
 

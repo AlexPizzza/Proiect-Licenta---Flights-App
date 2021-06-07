@@ -13,7 +13,7 @@ const ExploreEverywhereCard = () => {
     <View style={styles.container}>
       <Ripple
         rippleColor={colors.EXPLORE_CARD_TAP}
-        rippleOpacity={0.8}
+        rippleOpacity={0.4}
         rippleContainerBorderRadius={8}
         onLongPress={() => {}}
         delayLongPress={150}

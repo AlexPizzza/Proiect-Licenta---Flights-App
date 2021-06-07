@@ -11,6 +11,7 @@ const LocationsListItem = ({
   onPress,
   setModalVisible,
   setLocationModalVisible,
+  setCity,
 }) => {
   return (
     <Ripple
@@ -19,11 +20,13 @@ const LocationsListItem = ({
       rippleOpacity={0.8}
       onPress={() => {
         onPress(item.city_name ? item.city_name : item.capital);
+        setCity(item);
         setLocationModalVisible(false);
         setModalVisible(true);
       }}
       onLongPress={() => {
         onPress(item.city_name ? item.city_name : item.capital);
+        setCity(item);
         setLocationModalVisible(false);
         setModalVisible(true);
       }}

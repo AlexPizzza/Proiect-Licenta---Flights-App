@@ -51,6 +51,10 @@ const SearchScreen = ({ navigation }) => {
     navigation.navigate("Recommended", { searchType: "recommended" });
   };
 
+  const goToCitiesScreen = (title, country_iso2) => {
+    navigation.navigate("CitiesScreen", { title, country_iso2 });
+  };
+
   return (
     <View style={styles.container}>
       <CustomSearchFlightsModal
@@ -120,7 +124,9 @@ const SearchScreen = ({ navigation }) => {
         data={filteredResults}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
-          return <RecommendedCard item={item.data} />;
+          return (
+            <RecommendedCard item={item.data} onPress={goToCitiesScreen} />
+          );
         }}
       />
     </View>

@@ -7,8 +7,6 @@ import colors from "../../../global/colors";
 import CityCard from "../../components/common/CityCard";
 
 const CitiesScreen = ({ route }) => {
-  const { country_iso2 } = route.params;
-
   const {
     state: { cities },
   } = useContext(FlightsContext);

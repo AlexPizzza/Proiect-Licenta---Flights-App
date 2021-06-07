@@ -39,10 +39,6 @@ const SavedScreen = () => {
             <ListItem.Content>
               <ListItem.Title style={styles.title}>{item.title}</ListItem.Title>
             </ListItem.Content>
-            {/* <ListItem.Chevron
-              size={20}
-              iconStyle={{ color: colors.PURPLE_LIGHT }}
-            /> */}
           </ListItem>
         </Ripple>
       ))}
