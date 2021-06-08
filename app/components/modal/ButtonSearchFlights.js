@@ -4,7 +4,11 @@ import { StyleSheet, Text } from "react-native";
 import Ripple from "react-native-material-ripple";
 import Toast from "react-native-simple-toast";
 
-import generatePricesForFlights from "../../functions/generatePricesForFlights";
+import {
+  generatePriceForRoundTripFlights,
+  generatePriceForOneWayFlights,
+} from "../../functions/generatePricesForFlights";
+import generateTrueOrFalseFlight from "../../functions/generateTrueOrFalseFlight";
 import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
@@ -19,9 +23,14 @@ const ButtonSearchFlights = ({
   selectedThirdDate,
   departureCity,
   arrivalCity,
+  setFlightsModalVisible,
+  setModalVisible,
+  setFlightsToShow,
 }) => {
   const {
-    state: { date },
+    state: { flightsRoundTrip, flightsOneWay },
+    addFlightsOneWay,
+    addFlightsRoundTrip,
   } = useContext(FlightsContext);
 
   const treatAsUTC = (date) => {
@@ -47,24 +56,135 @@ const ButtonSearchFlights = ({
         Toast.LONG
       );
     } else {
-      let daysBetweenDates;
+      let flightInList = null;
+
       if (isRoundTrip) {
-        daysBetweenDates = daysBetween(selectedFirstDate, selectedSecondDate);
+        if (flightsRoundTrip.length !== 0) {
+          flightsRoundTrip.forEach((flight) => {
+            const splitDepartureDate = flight.departure_date
+              .toString()
+              .split(" ");
+            const splitArrivalDate = flight.arrival_date.toString().split(" ");
+
+            const monthDepartureDate = splitDepartureDate[1];
+            const dayDepartureDate = splitDepartureDate[2];
+
+            const monthArrivalDate = splitArrivalDate[1];
+            const dayArrivalDate = splitArrivalDate[2];
+
+            const splitSelectedFirstDate = selectedFirstDate
+              .toString()
+              .split(" ");
+            const splitSelectedSecondDate = selectedSecondDate
+              .toString()
+              .split(" ");
+
+            const monthSelectedFirstDate = splitSelectedFirstDate[1];
+            const daySelectedFirstDate = splitSelectedFirstDate[2];
+
+            const monthSelectedSecondDate = splitSelectedSecondDate[1];
+            const daySelectedSecondDate = splitSelectedSecondDate[2];
+
+            if (
+              departureCity === flight.departure_city &&
+              arrivalCity === flight.arrival_city &&
+              monthDepartureDate === monthSelectedFirstDate &&
+              dayDepartureDate === daySelectedFirstDate &&
+              monthArrivalDate === monthSelectedSecondDate &&
+              dayArrivalDate === daySelectedSecondDate
+            ) {
+              flightInList = flight;
+            }
+          });
+        }
       } else {
-        daysBetweenDates = daysBetween(new Date(), selectedThirdDate);
+        if (flightsOneWay.length !== 0) {
+          flightsOneWay.forEach((flight) => {
+            console.log(flight);
+            const splitDepartureDate = flight.departure_date
+              .toString()
+              .split(" ");
+
+            const monthDepartureDate = splitDepartureDate[1];
+            const dayDepartureDate = splitDepartureDate[2];
+
+            const splitSelectedThirdDate = selectedThirdDate
+              .toString()
+              .split(" ");
+
+            const monthSelectedThirdDate = splitSelectedThirdDate[1];
+            const daySelectedThirdDate = splitSelectedThirdDate[2];
+
+            if (
+              departureCity === flight.departure_city &&
+              arrivalCity === flight.arrival_city &&
+              monthDepartureDate === monthSelectedThirdDate &&
+              dayDepartureDate === daySelectedThirdDate
+            ) {
+              flightInList = flight;
+            }
+          });
+        }
       }
 
-      const flights = generatePricesForFlights(
-        departureCity,
-        arrivalCity,
-        daysBetweenDates
-      );
-      if (flights.length === 0) {
-        Toast.show("No flights found for these cities!");
+      if (flightInList) {
+        setFlightsToShow(flightInList.flights_list);
       } else {
-        Toast.show("Let's goooo!");
-        console.log(flights);
+        let daysBetweenDates;
+
+        if (isRoundTrip) {
+          daysBetweenDates = daysBetween(new Date(), selectedFirstDate);
+        } else {
+          daysBetweenDates = daysBetween(new Date(), selectedThirdDate);
+        }
+
+        let isTrue = generateTrueOrFalseFlight(
+          departureCity,
+          arrivalCity,
+          daysBetweenDates
+        );
+
+        let flights = [];
+
+        if (isTrue) {
+          if (isRoundTrip) {
+            flights = generatePriceForRoundTripFlights(
+              departureCity,
+              arrivalCity,
+              daysBetweenDates,
+              selectedFirstDate,
+              selectedSecondDate
+            );
+          } else {
+            flights = generatePriceForOneWayFlights(
+              departureCity,
+              arrivalCity,
+              daysBetweenDates,
+              selectedThirdDate
+            );
+          }
+        }
+        if (isRoundTrip) {
+          addFlightsRoundTrip(
+            departureCity,
+            arrivalCity,
+            selectedFirstDate,
+            selectedSecondDate,
+            flights
+          );
+        } else {
+          addFlightsOneWay(
+            departureCity,
+            arrivalCity,
+            selectedThirdDate,
+            flights
+          );
+        }
+        setFlightsToShow(flights);
       }
+
+      setFlightsModalVisible(true);
+      setModalVisible(false);
     }
   };
 

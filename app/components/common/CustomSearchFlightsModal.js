@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -7,6 +7,7 @@ import RippleText from "../modal/RippleText";
 import SearchBar from "../modal/SearchBar";
 import ButtonSearchFlights from "../modal/ButtonSearchFlights";
 import CustomSearchLocationModal from "./CustomSearchLocationModal";
+import CustomShowFlightsModal from "./CustomShowFlightsModal";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -24,6 +25,9 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
   const [arrivalCity, setArrivalCity] = useState(null);
 
   const [locationModalVisible, setLocationModalVisible] = useState(false);
+  const [flightsModalVisible, setFlightsModalVisible] = useState(false);
+
+  const [flightsToShow, setFlightsToShow] = useState([]);
 
   const [showFirstDatetimePicker, setShowFirstDatimePicker] = useState(false);
   const [showSecondDatetimePicker, setShowSecondDatetimePicker] =
@@ -49,6 +53,9 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
     if (event.type == "set") {
       setShowFirstDatimePicker(false);
       setSelectedFirstDate(currentDate);
+      setSelectedSecondDate(
+        new Date(currentDate.getTime() + 2 * 24 * 60 * 60 * 1000)
+      );
     } else {
       setShowFirstDatimePicker(false);
     }
@@ -196,61 +203,65 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
                 isDate={true}
               />
             )}
-            {showFirstDatetimePicker && (
-              <DateTimePicker
-                value={selectedFirstDate}
-                mode="date"
-                display="calendar"
-                onChange={onChangeFirst}
-                minimumDate={
-                  new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
-                }
-                maximumDate={new Date(2021, 9, 31)}
-                onTouchCancel={() => setShowFirstDatimePicker(false)}
-              />
-            )}
-
-            {showSecondDatetimePicker && (
-              <DateTimePicker
-                value={selectedSecondDate}
-                mode="date"
-                display="calendar"
-                onChange={onChangeSecond}
-                minimumDate={
-                  new Date(
-                    selectedFirstDate.getTime() + 1 * 24 * 60 * 60 * 1000
-                  )
-                }
-                maximumDate={new Date(2021, 9, 31)}
-                onTouchCancel={() => setShowSecondDatetimePicker(false)}
-              />
-            )}
-
-            {showThirdDatetimePicker && (
-              <DateTimePicker
-                value={selectedThirdDate}
-                mode="date"
-                display="calendar"
-                onChange={onChangeThird}
-                minimumDate={
-                  new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
-                }
-                maximumDate={new Date(2021, 9, 31)}
-                onTouchCancel={() => setShowThirdDatetimePicker(false)}
-              />
-            )}
-
-            <ButtonSearchFlights
-              whereFromText={whereFromText}
-              whereToText={whereToText}
-              isRoundTrip={isRoundTrip}
-              selectedFirstDate={selectedFirstDate}
-              selectedSecondDate={selectedSecondDate}
-              selectedThirdDate={selectedThirdDate}
-              departureCity={departureCity}
-              arrivalCity={arrivalCity}
-            />
           </View>
+
+          <ButtonSearchFlights
+            whereFromText={whereFromText}
+            whereToText={whereToText}
+            isRoundTrip={isRoundTrip}
+            selectedFirstDate={selectedFirstDate}
+            selectedSecondDate={selectedSecondDate}
+            selectedThirdDate={selectedThirdDate}
+            departureCity={departureCity}
+            arrivalCity={arrivalCity}
+            setFlightsModalVisible={setFlightsModalVisible}
+            setModalVisible={setModalVisible}
+            setFlightsToShow={setFlightsToShow}
+          />
+
+          {showFirstDatetimePicker && (
+            <DateTimePicker
+              value={selectedFirstDate}
+              mode="date"
+              display="calendar"
+              onChange={onChangeFirst}
+              minimumDate={
+                new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+              }
+              maximumDate={new Date(2021, 9, 31)}
+              onTouchCancel={() => setShowFirstDatimePicker(false)}
+            />
+          )}
+
+          {showSecondDatetimePicker && (
+            <DateTimePicker
+              value={
+                new Date(selectedFirstDate.getTime() + 2 * 24 * 60 * 60 * 1000)
+              }
+              mode="date"
+              display="calendar"
+              onChange={onChangeSecond}
+              minimumDate={
+                new Date(selectedFirstDate.getTime() + 2 * 24 * 60 * 60 * 1000)
+              }
+              maximumDate={new Date(2021, 9, 31)}
+              onTouchCancel={() => setShowSecondDatetimePicker(false)}
+            />
+          )}
+
+          {showThirdDatetimePicker && (
+            <DateTimePicker
+              value={selectedThirdDate}
+              mode="date"
+              display="calendar"
+              onChange={onChangeThird}
+              minimumDate={
+                new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
+              }
+              maximumDate={new Date(2021, 9, 31)}
+              onTouchCancel={() => setShowThirdDatetimePicker(false)}
+            />
+          )}
         </Modal>
       ) : locationModalVisible ? (
         <CustomSearchLocationModal
@@ -264,6 +275,19 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
           setWhereToText={setWhereToText}
           setDepartureCity={setDepartureCity}
           setArrivalCity={setArrivalCity}
+        />
+      ) : flightsModalVisible ? (
+        <CustomShowFlightsModal
+          flightsModalVisible={flightsModalVisible}
+          setFlightsModalVisible={setFlightsModalVisible}
+          setModalVisible={setModalVisible}
+          departureCity={departureCity}
+          arrivalCity={arrivalCity}
+          isRoundTrip={isRoundTrip}
+          selectedFirstDate={selectedFirstDate}
+          selectedSecondDate={selectedSecondDate}
+          selectedThirdDate={selectedThirdDate}
+          flightsToShow={flightsToShow}
         />
       ) : null}
     </View>

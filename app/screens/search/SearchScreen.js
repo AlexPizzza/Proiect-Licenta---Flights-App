@@ -86,7 +86,7 @@ const SearchScreen = ({ navigation }) => {
           {" "}
           {auth.currentUser.displayName
             ? auth.currentUser.displayName.split(" ")[0]
-            : null}
+            : "Name"}
           ,
         </Text>
       </View>

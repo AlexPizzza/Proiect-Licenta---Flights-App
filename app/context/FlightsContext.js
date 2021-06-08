@@ -66,6 +66,16 @@ const flightsReducer = (state, action) => {
         ...state,
         date: action.payload,
       };
+    case "add_flights_round_trip":
+      return {
+        ...state,
+        flightsRoundTrip: [...state.flightsRoundTrip, action.payload],
+      };
+    case "add_flights_one_way":
+      return {
+        ...state,
+        flightsOneWay: [...state.flightsOneWay, action.payload],
+      };
     default:
       return state;
   }
@@ -270,7 +280,7 @@ const getLocations = (dispatch) => async (text) => {
     return !duplicate;
   });
 
-  console.log(locationsList);
+  // console.log(locationsList);
 
   dispatch({ type: "add_locations", payload: locationsList });
 };
@@ -334,10 +344,34 @@ const getDate = (dispatch) => () => {
   dispatch({ type: "add_user_date", payload: date });
 };
 
+const addFlightsRoundTrip =
+  (dispatch) =>
+  (departureCity, arrivalCity, departureDate, arrivalDate, flightsList) => {
+    const flights = {};
+    flights.departure_city = departureCity;
+    flights.arrival_city = arrivalCity;
+    flights.departure_date = departureDate;
+    flights.arrival_date = arrivalDate;
+    flights.flights_list = flightsList;
+    dispatch({ type: "add_flights_round_trip", payload: flights });
+  };
+
+const addFlightsOneWay =
+  (dispatch) => (departureCity, arrivalCity, departureDate, flightsList) => {
+    const flights = {};
+    flights.departure_city = departureCity;
+    flights.arrival_city = arrivalCity;
+    flights.departure_date = departureDate;
+    flights.flights_list = flightsList;
+    dispatch({ type: "add_flights_one_way", payload: flights });
+  };
+
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
     addCities,
+    addFlightsRoundTrip,
+    addFlightsOneWay,
     clearCities,
     addPriceToCountries,
     addPriceToRecommendedCountries,
@@ -351,7 +385,8 @@ export const { Context, Provider } = createDataContext(
   {
     cities: {},
     date: null,
-    userCoords: null,
+    flightsRoundTrip: [],
+    flightsOneWay: [],
     recommendedCountries: [],
     popularDestinations: [],
     quickGetaways: [],
@@ -361,5 +396,6 @@ export const { Context, Provider } = createDataContext(
     exploreEverywhere: [],
     lastViewed: [],
     locations: [],
+    userCoords: null,
   }
 );

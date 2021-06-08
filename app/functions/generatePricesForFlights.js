@@ -1,81 +1,92 @@
 import randomIntFromInterval from "./generateNumberFromInterval";
 import computeDistance from "./computeDistance";
 
-function generatePriceForFlights(
+function generatePriceForRoundTripFlights(
   departureCity,
   arrivalCity,
-  noOfDaysTillFlight
+  noOfDaysTillFlight,
+  departureDate,
+  arrivalDate
 ) {
   const flightsList = [];
 
-  let oneOrZero;
-  if (
-    noOfDaysTillFlight < 8 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) < 3000
-  ) {
-    oneOrZero = Math.random() + 0.15 >= 0.5 ? 1 : 0;
-  } else if (
-    noOfDaysTillFlight < 8 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) > 3000
-  ) {
-    oneOrZero = Math.random() >= 0.6 ? 1 : 0;
-  } else if (
-    noOfDaysTillFlight > 7 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) < 3000
-  ) {
-    oneOrZero = Math.random() + 0.25 >= 0.5 ? 1 : 0;
-  } else if (
-    ifnoOfDaysTillFlight > 7 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) > 3000
-  ) {
-    oneOrZero = Math.random() + 0.15 >= 0.5 ? 1 : 0;
-  } else {
-    oneOrZero = Math.random() >= 0.25 ? 1 : 0;
-  }
+  const numberOfFlights = randomIntFromInterval(1, 5) + 1;
 
-  if (oneOrZero) {
-    const numberOfFlights = randomIntFromInterval(0, 4) + 1;
-
-    for (let i = 0; i < numberOfFlights; i++) {
-      const additionalPrice =
-        generateAdditionalPriceBasedOnDaysLeftTillFlight(noOfDaysTillFlight);
-      const priceBasedOnDistance = generatePriceBasedOnDistance(
-        computeDistance(
-          [departureCity.latitude, departureCity.longitude],
-          [arrivalCity.latitude, arrivalCity.longitude]
-        )
-      );
-      if (i % 2 !== 0) {
-        flightsList.push({
-          departure: departureCity,
-          arrival: arrivalCity,
-          ticket_price: priceBasedOnDistance + additionalPrice,
-          airline: departureCity.country_name + " Airline",
-        });
-      } else {
-        flightsList.push({
-          departure: departureCity,
-          arrival: arrivalCity,
-          ticket_price: priceBasedOnDistance + additionalPrice,
-          airline: arrivalCity.country_name + " Airline",
-        });
-      }
-
-      flightsList.sort((a, b) => a.ticket_price - b.ticket_price);
+  for (let i = 0; i < numberOfFlights; i++) {
+    const additionalPrice =
+      generateAdditionalPriceBasedOnDaysLeftTillFlight(noOfDaysTillFlight);
+    const priceBasedOnDistance = generatePriceBasedOnDistance(
+      computeDistance(
+        [departureCity.latitude, departureCity.longitude],
+        [arrivalCity.latitude, arrivalCity.longitude]
+      )
+    );
+    if (i % 2 !== 0) {
+      flightsList.push({
+        departure_city: departureCity,
+        arrival_city: arrivalCity,
+        departure_date: departureDate,
+        arrival_date: arrivalDate,
+        ticket_price: priceBasedOnDistance + additionalPrice,
+        airline: departureCity.country_name + " Airline",
+      });
+    } else {
+      flightsList.push({
+        departure_city: departureCity,
+        arrival_city: arrivalCity,
+        departure_date: departureDate,
+        arrival_date: arrivalDate,
+        ticket_price: priceBasedOnDistance + additionalPrice,
+        airline: arrivalCity.country_name + " Airline",
+      });
     }
+
+    flightsList.sort((a, b) => a.ticket_price - b.ticket_price);
   }
+
+  return flightsList;
+}
+
+function generatePriceForOneWayFlights(
+  departureCity,
+  arrivalCity,
+  noOfDaysTillFlight,
+  departureDate
+) {
+  const flightsList = [];
+
+  const numberOfFlights = randomIntFromInterval(1, 5) + 1;
+
+  for (let i = 0; i < numberOfFlights; i++) {
+    const additionalPrice =
+      generateAdditionalPriceBasedOnDaysLeftTillFlight(noOfDaysTillFlight);
+    const priceBasedOnDistance = generatePriceBasedOnDistance(
+      computeDistance(
+        [departureCity.latitude, departureCity.longitude],
+        [arrivalCity.latitude, arrivalCity.longitude]
+      )
+    );
+    if (i % 2 !== 0) {
+      flightsList.push({
+        departure_city: departureCity,
+        arrival_city: arrivalCity,
+        departure_date: departureDate,
+        ticket_price: priceBasedOnDistance + additionalPrice,
+        airline: departureCity.country_name + " Airline",
+      });
+    } else {
+      flightsList.push({
+        departure_city: departureCity,
+        arrival_city: arrivalCity,
+        departure_date: departureDate,
+        ticket_price: priceBasedOnDistance + additionalPrice,
+        airline: arrivalCity.country_name + " Airline",
+      });
+    }
+
+    flightsList.sort((a, b) => a.ticket_price - b.ticket_price);
+  }
+
   return flightsList;
 }
 
@@ -107,4 +118,4 @@ function generatePriceBasedOnDistance(distance) {
   }
 }
 
-export default generatePriceForFlights;
+export { generatePriceForRoundTripFlights, generatePriceForOneWayFlights };

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { ListItem } from "react-native-elements";
 import Ripple from "react-native-material-ripple";
+
+import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -13,6 +15,8 @@ const LocationsListItem = ({
   setLocationModalVisible,
   setCity,
 }) => {
+  const { clearLocations } = useContext(FlightsContext);
+
   return (
     <Ripple
       key={item.id}
@@ -21,12 +25,14 @@ const LocationsListItem = ({
       onPress={() => {
         onPress(item.city_name ? item.city_name : item.capital);
         setCity(item);
+        clearLocations();
         setLocationModalVisible(false);
         setModalVisible(true);
       }}
       onLongPress={() => {
         onPress(item.city_name ? item.city_name : item.capital);
         setCity(item);
+        clearLocations();
         setLocationModalVisible(false);
         setModalVisible(true);
       }}
