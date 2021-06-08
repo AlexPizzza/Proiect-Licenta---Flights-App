@@ -6,38 +6,18 @@ const generateTrueOrFalseFlight = (
   noOfDaysTillFlight
 ) => {
   let isTrue;
-  if (
-    noOfDaysTillFlight < 8 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) < 3000
-  ) {
-    isTrue = Math.random() >= 0.35 ? true : false;
-  } else if (
-    noOfDaysTillFlight < 8 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) > 3000
-  ) {
-    isTrue = Math.random() >= 0.7 ? true : false;
-  } else if (
-    noOfDaysTillFlight > 7 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) < 3000
-  ) {
+  const distance = computeDistance(
+    [departureCity.latitude, departureCity.longitude],
+    [arrivalCity.latitude, arrivalCity.longitude]
+  );
+  if (noOfDaysTillFlight < 8 && distance < 3000) {
     isTrue = Math.random() >= 0.1 ? true : false;
-  } else if (
-    ifnoOfDaysTillFlight > 7 &&
-    computeDistance(
-      [departureCity.latitude, departureCity.longitude],
-      [arrivalCity.latitude, arrivalCity.longitude]
-    ) > 3000
-  ) {
-    isTrue = Math.random() >= 0.25 ? true : false;
+  } else if (noOfDaysTillFlight < 8 && distance > 3000) {
+    isTrue = Math.random() >= 0.3 ? true : false;
+  } else if (noOfDaysTillFlight > 7 && distance < 3000) {
+    isTrue = Math.random() >= 0.1 ? true : false;
+  } else if (noOfDaysTillFlight > 7 && distance > 3000) {
+    isTrue = Math.random() >= 0.2 ? true : false;
   }
 
   return isTrue;

@@ -46,7 +46,7 @@ const RecommendedScreenCard = ({ item, onPress }) => {
           <Text style={styles.itemTitle}>{item.country_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
-          <Text style={styles.itemPrice}>from {item.price} lei</Text>
+          <Text style={styles.itemPrice}>from {item.price} RON</Text>
         </View>
       </Ripple>
     </View>

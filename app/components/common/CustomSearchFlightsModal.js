@@ -29,7 +29,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
 
   const [flightsToShow, setFlightsToShow] = useState([]);
 
-  const [showFirstDatetimePicker, setShowFirstDatimePicker] = useState(false);
+  const [showFirstDatetimePicker, setShowFirstDatetimePicker] = useState(false);
   const [showSecondDatetimePicker, setShowSecondDatetimePicker] =
     useState(false);
   const [showThirdDatetimePicker, setShowThirdDatetimePicker] = useState(false);
@@ -38,7 +38,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
     new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
   );
   const [selectedSecondDate, setSelectedSecondDate] = useState(
-    new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000)
+    new Date(new Date().getTime() + 3 * 24 * 60 * 60 * 1000)
   );
   const [selectedThirdDate, setSelectedThirdDate] = useState(
     new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
@@ -51,13 +51,14 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
   const onChangeFirst = (event, selectedFirstDate) => {
     const currentDate = selectedFirstDate;
     if (event.type == "set") {
-      setShowFirstDatimePicker(false);
+      setShowFirstDatetimePicker(false);
+      console.log(currentDate.toString());
       setSelectedFirstDate(currentDate);
       setSelectedSecondDate(
         new Date(currentDate.getTime() + 2 * 24 * 60 * 60 * 1000)
       );
     } else {
-      setShowFirstDatimePicker(false);
+      setShowFirstDatetimePicker(false);
     }
   };
 
@@ -175,7 +176,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
                   bdRadius={globalStyles.modalSearchBarBdRadius}
                   marginBottom={globalStyles.modalSearchMarginBottom}
                   onPress={() => {
-                    setShowFirstDatimePicker(true);
+                    setShowFirstDatetimePicker(true);
                   }}
                   isDate={true}
                   isRoundTrip={isRoundTrip}
@@ -229,7 +230,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
                 new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000)
               }
               maximumDate={new Date(2021, 9, 31)}
-              onTouchCancel={() => setShowFirstDatimePicker(false)}
+              onTouchCancel={() => setShowFirstDatetimePicker(false)}
             />
           )}
 

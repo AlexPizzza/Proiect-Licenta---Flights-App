@@ -1,4 +1,4 @@
-function computeDistance([prevLat, prevLong], [lat, long]) {
+const computeDistance = ([prevLat, prevLong], [lat, long]) => {
   const prevLatInRad = toRad(prevLat);
   const prevLongInRad = toRad(prevLong);
   const latInRad = toRad(lat);
@@ -13,10 +13,10 @@ function computeDistance([prevLat, prevLong], [lat, long]) {
           Math.cos(longInRad - prevLongInRad)
     )
   );
-}
+};
 
-function toRad(angle) {
+const toRad = (angle) => {
   return (angle * Math.PI) / 180;
-}
+};
 
 export default computeDistance;

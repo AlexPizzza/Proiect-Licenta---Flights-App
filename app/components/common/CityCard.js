@@ -23,7 +23,7 @@ const CityCard = ({ item }) => {
           <Text style={styles.itemTitle}>{item.city_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
-          <Text style={styles.itemPrice}>from {item.price} lei</Text>
+          <Text style={styles.itemPrice}>from {item.price} RON</Text>
         </View>
       </Ripple>
     </View>
