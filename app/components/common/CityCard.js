@@ -1,20 +1,41 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import Ripple from "react-native-material-ripple";
+
+import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
+
+import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
 const CityCard = ({ item }) => {
+  const { addWhereToCity } = useContext(FlightsContext);
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={styles.container}>
+      <CustomSearchFlightsModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       <Ripple
         rippleColor={colors.WHITE}
         rippleOpacity={0.8}
         rippleContainerBorderRadius={20}
-        onPress={() => {}}
-        onLongPress={() => {}}
+        onPress={() => {
+          addWhereToCity(item);
+          setTimeout(() => {
+            setModalVisible(true);
+          }, 200);
+        }}
+        onLongPress={() => {
+          addWhereToCity(item);
+          setTimeout(() => {
+            setModalVisible(true);
+          }, 200);
+        }}
         delayLongPress={150}
         style={styles.cardView}
       >
@@ -49,22 +70,22 @@ const styles = StyleSheet.create({
   },
   textViewCountryName: {
     position: "absolute",
-    bottom: 10,
+    bottom: 5,
     margin: 10,
     left: 12,
     width: 160,
   },
   textViewPrice: {
     position: "absolute",
-    bottom: 10,
+    bottom: 5,
     margin: 10,
     right: 12,
   },
   image: {
     width: 300,
     height: 200,
-    borderRadius: 10,
-    marginTop: 10,
+    borderRadius: 20,
+    marginTop: 8,
     alignSelf: "center",
   },
   itemTitle: {

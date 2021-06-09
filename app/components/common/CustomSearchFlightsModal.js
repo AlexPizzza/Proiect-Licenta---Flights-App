@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -9,16 +9,40 @@ import ButtonSearchFlights from "../modal/ButtonSearchFlights";
 import CustomSearchLocationModal from "./CustomSearchLocationModal";
 import CustomShowFlightsModal from "./CustomShowFlightsModal";
 
+import { Context as FlightsContext } from "../../context/FlightsContext";
+
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
+import CustomSeeFlightModal from "./CustomSeeFlightModal";
+
+const bucharest = {
+  airport_name: "Henri Coanda International",
+  city_iata_code: "BUH",
+  city_name: "Bucharest",
+  country_iso2: "RO",
+  country_name: "Romania",
+  geoname_id: "6301793",
+  gmt: "2",
+  iata_code: "OTP",
+  icao_code: "LROP",
+  latitude: "44.571156",
+  longitude: "26.077063",
+  phone_number: "+4 021-204-10",
+  timezone: "Europe/Bucharest",
+};
 
 const CustomModal = ({ modalVisible, setModalVisible }) => {
+  const {
+    state: { whereToCity },
+  } = useContext(FlightsContext);
+
   const [isRoundTrip, setIsRoundTrip] = useState(true);
   const [isRoundtripSelected, setIsRoundtripSelected] = useState(true);
   const [isOnewaySelected, setIsOnewaySelected] = useState(false);
 
   const [whereFromText, setWhereFromText] = useState("Where from?");
   const [whereToText, setWhereToText] = useState("Where to?");
+
   const [isWhereFrom, setIsWhereFrom] = useState(false);
 
   const [departureCity, setDepartureCity] = useState(null);
@@ -26,7 +50,9 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
 
   const [locationModalVisible, setLocationModalVisible] = useState(false);
   const [flightsModalVisible, setFlightsModalVisible] = useState(false);
+  const [seeFlightModalVisible, setSeeFlightModalVisible] = useState(false);
 
+  const [flightToShow, setFlightToShow] = useState(null);
   const [flightsToShow, setFlightsToShow] = useState([]);
 
   const [showFirstDatetimePicker, setShowFirstDatetimePicker] = useState(false);
@@ -52,7 +78,6 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
     const currentDate = selectedFirstDate;
     if (event.type == "set") {
       setShowFirstDatetimePicker(false);
-      console.log(currentDate.toString());
       setSelectedFirstDate(currentDate);
       setSelectedSecondDate(
         new Date(currentDate.getTime() + 2 * 24 * 60 * 60 * 1000)
@@ -102,6 +127,15 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
       thirdDateSplit[0] + ", " + thirdDateSplit[1] + " " + thirdDateSplit[2]
     );
   }, [selectedThirdDate]);
+
+  useEffect(() => {
+    if (whereToCity !== null) {
+      setWhereFromText("Bucharest");
+      setWhereToText(whereToCity.city_name);
+      setDepartureCity(bucharest);
+      setArrivalCity(whereToCity);
+    }
+  }, [whereToCity]);
 
   return (
     <View style={styles.container}>
@@ -289,6 +323,15 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
           selectedSecondDate={selectedSecondDate}
           selectedThirdDate={selectedThirdDate}
           flightsToShow={flightsToShow}
+          setSeeFlightModalVisible={setSeeFlightModalVisible}
+          setFlightToShow={setFlightToShow}
+        />
+      ) : seeFlightModalVisible ? (
+        <CustomSeeFlightModal
+          flightToShow={flightToShow}
+          seeFlightModalVisible={seeFlightModalVisible}
+          setFlightsModalVisible={setFlightsModalVisible}
+          setSeeFlightModalVisible={setSeeFlightModalVisible}
         />
       ) : null}
     </View>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Dimensions,
-  FlatList,
   Modal,
   ScrollView,
   StyleSheet,
@@ -10,7 +9,8 @@ import {
 } from "react-native";
 
 import ModalCloseButton from "../modal/ModalCloseButton";
-import FlightCard from "../modal/FlightCard";
+import FlightCardRoundTrip from "../modal/FlightCardRoundTrip";
+import FlightCardOneWay from "../modal/FlightCardOneWay";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -27,12 +27,12 @@ const CustomShowFlightsModal = ({
   selectedSecondDate,
   selectedThirdDate,
   flightsToShow,
+  setSeeFlightModalVisible,
+  setFlightToShow,
 }) => {
   const [modalFirstDate, setModalFirstDate] = useState("");
   const [modalSecondDate, setModalSecondDate] = useState("");
   const [modalThirdDate, setModalThirdDate] = useState("");
-
-  console.log(flightsToShow);
 
   useEffect(() => {
     const modalFirstDateSplit = selectedFirstDate.toString().split(" ");
@@ -65,15 +65,32 @@ const CustomShowFlightsModal = ({
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.headerTextStyle}>
-                {departureCity.city_name
+                {departureCity.city_name &&
+                departureCity.city_name.includes("(")
+                  ? departureCity.city_name.substr(
+                      0,
+                      departureCity.city_name.indexOf("(")
+                    )
+                  : departureCity.city_name &&
+                    !departureCity.city_name.includes("(")
                   ? departureCity.city_name
-                  : departureCity.capital}
+                  : departureCity.capital
+                  ? departureCity.capital
+                  : null}
               </Text>
               <Text style={styles.headerTextStyle}>
                 {"  -  "}
-                {arrivalCity.city_name
+                {arrivalCity.city_name && arrivalCity.city_name.includes("(")
+                  ? arrivalCity.city_name.substr(
+                      0,
+                      arrivalCity.city_name.indexOf("(")
+                    )
+                  : arrivalCity.city_name &&
+                    !arrivalCity.city_name.includes("(")
                   ? arrivalCity.city_name
-                  : arrivalCity.capital}
+                  : arrivalCity.capital
+                  ? arrivalCity.capital
+                  : null}
               </Text>
             </View>
 
@@ -89,15 +106,32 @@ const CustomShowFlightsModal = ({
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.headerTextStyle}>
-                {departureCity.city_name
+                {departureCity.city_name &&
+                departureCity.city_name.includes("(")
+                  ? departureCity.city_name.substr(
+                      0,
+                      departureCity.city_name.indexOf("(")
+                    )
+                  : departureCity.city_name &&
+                    !departureCity.city_name.includes("(")
                   ? departureCity.city_name
-                  : departureCity.capital}
+                  : departureCity.capital
+                  ? departureCity.capital
+                  : null}
               </Text>
               <Text style={styles.headerTextStyle}>
                 {"  -  "}
-                {arrivalCity.city_name
+                {arrivalCity.city_name && arrivalCity.city_name.includes("(")
+                  ? arrivalCity.city_name.substr(
+                      0,
+                      arrivalCity.city_name.indexOf("(")
+                    )
+                  : arrivalCity.city_name &&
+                    !arrivalCity.city_name.includes("(")
                   ? arrivalCity.city_name
-                  : arrivalCity.capital}
+                  : arrivalCity.capital
+                  ? arrivalCity.capital
+                  : null}
               </Text>
             </View>
 
@@ -110,16 +144,10 @@ const CustomShowFlightsModal = ({
       </View>
 
       {flightsToShow && flightsToShow.length !== 0 ? (
-        // <FlatList
-        //   showsVerticalScrollIndicator={false}
-        //   decelerationRat={0.8}
-        //   data={flightsToShow}
-        //   keyExtractor={(item, index) => "key" + index}
-        //   renderItem={({ item }) => {
-        //     return <FlightCard item={item} />;
-        //   }}
-        // />
-        <ScrollView>
+        <ScrollView
+          style={styles.scrollViewStyle}
+          showsVerticalScrollIndicator={false}
+        >
           <Text
             style={[
               styles.headerTextStyle,
@@ -129,11 +157,29 @@ const CustomShowFlightsModal = ({
               },
             ]}
           >
-            Flights to {arrivalCity.airport_name}, {arrivalCity.city_name}
+            Flights to{" "}
+            {arrivalCity.airport_name ? arrivalCity.airport_name + ", " : null}
+            {arrivalCity.city_name}
           </Text>
-          {flightsToShow.map((item, index) => (
-            <FlightCard key={"key" + index} item={item} />
-          ))}
+          {isRoundTrip
+            ? flightsToShow.map((item, index) => (
+                <FlightCardRoundTrip
+                  key={"key" + index}
+                  item={item}
+                  setFlightsModalVisible={setFlightsModalVisible}
+                  setSeeFlightModalVisible={setSeeFlightModalVisible}
+                  setFlightToShow={setFlightToShow}
+                />
+              ))
+            : flightsToShow.map((item, index) => (
+                <FlightCardOneWay
+                  key={"key" + index}
+                  item={item}
+                  setFlightsModalVisible={setFlightsModalVisible}
+                  setSeeFlightModalVisible={setSeeFlightModalVisible}
+                  setFlightToShow={setFlightToShow}
+                />
+              ))}
         </ScrollView>
       ) : (
         <Text>No flights to show :(</Text>
@@ -163,9 +209,12 @@ const styles = StyleSheet.create({
   },
   headerTextStyle: {
     ...globalStyles.boldText,
-    fontSize: 24,
+    fontSize: 22,
     color: colors.WHITE,
     marginTop: 8,
+  },
+  scrollViewStyle: {
+    backgroundColor: colors.SHOW_FLIGHTS_BACKGROUND,
   },
 });
 

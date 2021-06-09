@@ -5,7 +5,6 @@ import { Divider } from "react-native-elements";
 import RecommendedScreenCard from "../../components/recommendedScreen/RecommendedScreenCard";
 import EstimatedPrices from "../../components/common/EstimatedPrices";
 import CityBar from "../../components/common/CityBar";
-import DateBar from "../../components/common/DateBar";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
 
@@ -64,9 +63,8 @@ const RecommendedScreen = ({ navigation, route }) => {
                   }}
                 >
                   <CityBar bdRadius={10} text="Bucharest" />
-                  <CityBar bdRadius={10} text="Everywhere" />
+                  {/* <CityBar bdRadius={10} text="Everywhere" /> */}
                 </View>
-                <DateBar bdRadius={10} text="Anytime" />
                 <Divider
                   style={{
                     backgroundColor: colors.BLACK,

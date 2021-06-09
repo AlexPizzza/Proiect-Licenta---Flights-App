@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 import Ripple from "react-native-material-ripple";
 import colors from "../../../global/colors";
@@ -24,12 +24,13 @@ const CityBar = ({ text, bdRadius, onPress }) => {
   );
 };
 
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   ripple: {
     padding: 12,
     ...globalStyles.marginHorizontal,
     backgroundColor: colors.ORANGE,
-    width: 156,
+    width: width * 0.92,
   },
   innerView: {
     alignItems: "center",

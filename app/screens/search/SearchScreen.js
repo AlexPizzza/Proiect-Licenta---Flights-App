@@ -8,14 +8,14 @@ import RecommendedCard from "../../components/search/RecommendedCard";
 import SearchBar from "../../components/common/SearchBar";
 import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
 
-import globalStyles from "../../../global/globalStyles";
-import colors from "../../../global/colors";
-
 import { Context as UserContext } from "../../context/UserContext";
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { auth } from "../../config/firebase";
 
 import useLocation from "../../hooks/useLocation";
+
+import globalStyles from "../../../global/globalStyles";
+import colors from "../../../global/colors";
 
 const SearchScreen = ({ navigation }) => {
   const { state } = useContext(UserContext);
@@ -60,7 +60,6 @@ const SearchScreen = ({ navigation }) => {
       <CustomSearchFlightsModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        screen="Search Screen"
       />
       <View style={styles.location}>
         <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />

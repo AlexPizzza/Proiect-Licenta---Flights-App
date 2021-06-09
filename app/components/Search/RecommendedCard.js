@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
     marginVertical: 10,
     borderRadius: 20,
-    shadowColor: "#000",
     elevation: 10,
   },
   textView: {

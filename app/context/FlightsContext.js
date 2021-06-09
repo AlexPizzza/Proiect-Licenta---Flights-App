@@ -76,6 +76,11 @@ const flightsReducer = (state, action) => {
         ...state,
         flightsOneWay: [...state.flightsOneWay, action.payload],
       };
+    case "add_where_to_city":
+      return {
+        ...state,
+        whereToCity: action.payload,
+      };
     default:
       return state;
   }
@@ -340,7 +345,6 @@ const addUserCoordinates = (dispatch) => (coords) => {
 
 const getDate = (dispatch) => () => {
   const date = new Date().toString();
-  console.log(date);
   dispatch({ type: "add_user_date", payload: date });
 };
 
@@ -366,12 +370,18 @@ const addFlightsOneWay =
     dispatch({ type: "add_flights_one_way", payload: flights });
   };
 
+const addWhereToCity = (dispatch) => (whereToCity) => {
+  console.log(whereToCity);
+  dispatch({ type: "add_where_to_city", payload: whereToCity });
+};
+
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
     addCities,
     addFlightsRoundTrip,
     addFlightsOneWay,
+    addWhereToCity,
     clearCities,
     addPriceToCountries,
     addPriceToRecommendedCountries,
@@ -397,5 +407,6 @@ export const { Context, Provider } = createDataContext(
     lastViewed: [],
     locations: [],
     userCoords: null,
+    whereToCity: null,
   }
 );

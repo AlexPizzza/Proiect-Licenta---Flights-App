@@ -6,6 +6,7 @@ import { ListItem } from "react-native-elements";
 import Ripple from "react-native-material-ripple";
 
 import { Context as UserContext } from "../../../context/UserContext";
+import { Context as AuthContext } from "../../../context/AuthContext";
 
 import colors from "../../../../global/colors";
 import globalStyles from "../../../../global/globalStyles";
@@ -24,6 +25,7 @@ const list = [
 
 const AccountManagementScreen = () => {
   const { setValueIsFirstTime } = useContext(UserContext);
+  const { signout } = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
@@ -52,6 +54,7 @@ const AccountManagementScreen = () => {
                 item.title.toLowerCase().includes("first".toLowerCase())
               ) {
                 setValueIsFirstTime(true);
+                signout();
               }
             }}
             onLongPress={() => {
@@ -71,6 +74,7 @@ const AccountManagementScreen = () => {
                 item.title.toLowerCase().includes("first".toLowerCase())
               ) {
                 setValueIsFirstTime(true);
+                signout();
               }
             }}
             delayLongPress={150}

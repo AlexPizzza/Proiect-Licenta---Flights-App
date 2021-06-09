@@ -39,7 +39,7 @@ const generatePriceForRoundTripFlights = (
       Math.floor(randomFlightTimeInHrsWithDecimals);
     const randomFlightTimeInMins = Math.round(decimal * 60);
 
-    const { departureHours, departureMinutes, departureTotalMinutes } =
+    const [departureHours, departureMinutes, departureTotalMinutes] =
       randomTime();
 
     let arrivalHours;
@@ -74,57 +74,127 @@ const generatePriceForRoundTripFlights = (
       arrivalMinutes = Math.round(arrivalDecimal * 60);
     }
 
+    const [
+      departureFromArrivalCityHours,
+      departureFromArrivalCityMinutes,
+      departureFromArrivalCityTotalMinutes,
+    ] = randomTime();
+
+    let arrivalToDepartureCityHours;
+    let arrivalToDepartureCityHoursWithDecimals;
+    let arrivalToDepartureCityDecimal;
+    let arrivalToDepartureCityMinutes;
+    if (
+      departureFromArrivalCityTotalMinutes + randomFlightTime ===
+      numberOfMinutesInADay
+    ) {
+      arrivalToDepartureCityHours = 0;
+      arrivalToDepartureCityMinutes = 0;
+    } else if (
+      departureFromArrivalCityTotalMinutes + randomFlightTime >
+      numberOfMinutesInADay
+    ) {
+      const minutesOver =
+        departureFromArrivalCityTotalMinutes +
+        randomFlightTime -
+        numberOfMinutesInADay;
+      if (minutesOver < 60) {
+        arrivalToDepartureCityHours = 0;
+        arrivalToDepartureCityMinutes = minutesOver;
+      } else {
+        arrivalToDepartureCityHours = Math.floor(minutesOver / 60);
+        arrivalToDepartureCityHoursWithDecimals = (minutesOver / 60).toFixed(2);
+        arrivalToDepartureCityDecimal =
+          arrivalToDepartureCityHoursWithDecimals -
+          Math.floor(arrivalToDepartureCityHoursWithDecimals);
+        arrivalToDepartureCityMinutes = Math.round(
+          arrivalToDepartureCityDecimal * 60
+        );
+      }
+    } else {
+      const totalMinutes =
+        departureFromArrivalCityTotalMinutes + randomFlightTime;
+      arrivalToDepartureCityHours = Math.floor(totalMinutes / 60);
+      arrivalToDepartureCityHoursWithDecimals = (totalMinutes / 60).toFixed(2);
+      arrivalToDepartureCityDecimal =
+        arrivalToDepartureCityHoursWithDecimals -
+        Math.floor(arrivalToDepartureCityHoursWithDecimals);
+      arrivalToDepartureCityMinutes = Math.round(
+        arrivalToDepartureCityDecimal * 60
+      );
+    }
+
+    const ticket_price =
+      Math.ceil((priceBasedOnDistance + additionalPrice) / 10) * 10;
+
     const flight = {
       departure_city: departureCity,
       arrival_city: arrivalCity,
       departure_date: departureDate,
       arrival_date: arrivalDate,
-      ticket_price: priceBasedOnDistance + additionalPrice,
-      flight_duration: {
-        hours:
-          randomFlightTimeInHrs < 10
-            ? "0" + randomFlightTimeInHrs
-            : randomFlightTimeInHrs + "",
-        minutes:
-          randomFlightTimeInMins < 10
-            ? "0" + randomFlightTimeInMins
-            : randomFlightTimeInMins + "",
+      ticket_price: ticket_price,
+      outbound: {
+        flight_duration: {
+          hours:
+            randomFlightTimeInHrs < 10
+              ? "0" + randomFlightTimeInHrs
+              : randomFlightTimeInHrs + "",
+          minutes:
+            randomFlightTimeInMins < 10
+              ? "0" + randomFlightTimeInMins
+              : randomFlightTimeInMins + "",
+        },
+        departure_time: {
+          hours:
+            departureHours < 10 ? "0" + departureHours : departureHours + "",
+          minutes:
+            departureMinutes < 10
+              ? "0" + departureMinutes
+              : departureMinutes + "",
+        },
+        arrival_time: {
+          hours: arrivalHours < 10 ? "0" + arrivalHours : arrivalHours + "",
+          minutes:
+            arrivalMinutes < 10 ? "0" + arrivalMinutes : arrivalMinutes + "",
+        },
       },
-      departure_time: {
-        hours: departureHours < 10 ? "0" + departureHours : departureHours + "",
-        minutes:
-          departureMinutes < 10
-            ? "0" + departureMinutes
-            : departureMinutes + "",
-      },
-      arrival_time: {
-        hours: arrivalHours < 10 ? "0" + arrivalHours : arrivalHours + "",
-        minutes:
-          arrivalMinutes < 10 ? "0" + arrivalMinutes : arrivalMinutes + "",
+      return: {
+        flight_duration: {
+          hours:
+            randomFlightTimeInHrs < 10
+              ? "0" + randomFlightTimeInHrs
+              : randomFlightTimeInHrs + "",
+          minutes:
+            randomFlightTimeInMins < 10
+              ? "0" + randomFlightTimeInMins
+              : randomFlightTimeInMins + "",
+        },
+        departure_time: {
+          hours:
+            departureFromArrivalCityHours < 10
+              ? "0" + departureFromArrivalCityHours
+              : departureFromArrivalCityHours + "",
+          minutes:
+            departureFromArrivalCityMinutes < 10
+              ? "0" + departureFromArrivalCityMinutes
+              : departureFromArrivalCityMinutes + "",
+        },
+        arrival_time: {
+          hours:
+            arrivalToDepartureCityHours < 10
+              ? "0" + arrivalToDepartureCityHours
+              : arrivalToDepartureCityHours + "",
+          minutes:
+            arrivalToDepartureCityMinutes < 10
+              ? "0" + arrivalToDepartureCityMinutes
+              : arrivalToDepartureCityMinutes + "",
+        },
       },
     };
 
     if (i % 2 !== 0) {
       flight.airline = departureCity.country_name + " Airline";
-      // flightsList.push({
-      //   departure_city: departureCity,
-      //   arrival_city: arrivalCity,
-      //   departure_date: departureDate,
-      //   arrival_date: arrivalDate,
-      //   ticket_price: priceBasedOnDistance + additionalPrice,
-      //   airline: departureCity.country_name + " Airline",
-      //   flight_duration: randomFlightTime,
-      // });
     } else {
-      // flightsList.push({
-      //   departure_city: departureCity,
-      //   arrival_city: arrivalCity,
-      //   departure_date: departureDate,
-      //   arrival_date: arrivalDate,
-      //   ticket_price: priceBasedOnDistance + additionalPrice,
-      //   airline: arrivalCity.country_name + " Airline",
-      //   flight_duration: randomFlightTime,
-      // });
       flight.airline = arrivalCity.country_name + " Airline";
     }
 
@@ -168,7 +238,7 @@ const generatePriceForOneWayFlights = (
       Math.floor(randomFlightTimeInHrsWithDecimals);
     const randomFlightTimeInMins = Math.round(decimal * 60);
 
-    const { departureHours, departureMinutes, departureTotalMinutes } =
+    const [departureHours, departureMinutes, departureTotalMinutes] =
       randomTime();
 
     let arrivalHours;
@@ -203,11 +273,14 @@ const generatePriceForOneWayFlights = (
       arrivalMinutes = Math.round(arrivalDecimal * 60);
     }
 
+    const ticket_price =
+      Math.ceil((priceBasedOnDistance + additionalPrice) / 20) * 10;
+
     const flight = {
       departure_city: departureCity,
       arrival_city: arrivalCity,
       departure_date: departureDate,
-      ticket_price: priceBasedOnDistance + additionalPrice,
+      ticket_price: ticket_price,
       flight_duration: {
         hours:
           randomFlightTimeInHrs < 10
@@ -232,25 +305,9 @@ const generatePriceForOneWayFlights = (
       },
     };
 
-    if (i % 2 !== 0) {
-      // flightsList.push({
-      //   departure_city: departureCity,
-      //   arrival_city: arrivalCity,
-      //   departure_date: departureDate,
-      //   ticket_price: priceBasedOnDistance + additionalPrice,
-      //   airline: departureCity.country_name + " Airline",
-      //   flight_duration: randomFlightTime,
-      // });
+    if (i % 2 === 0) {
       flight.airline = departureCity.country_name + " Airline";
     } else {
-      // flightsList.push({
-      //   departure_city: departureCity,
-      //   arrival_city: arrivalCity,
-      //   departure_date: departureDate,
-      //   ticket_price: priceBasedOnDistance + additionalPrice,
-      //   airline: arrivalCity.country_name + " Airline",
-      //   flight_duration: randomFlightTime,
-      // });
       flight.airline = arrivalCity.country_name + " Airline";
     }
 
@@ -262,16 +319,27 @@ const generatePriceForOneWayFlights = (
   return flightsList;
 };
 
-// Nr total de minute intr-o zi - 1440
 const randomTime = () => {
   hrs = Math.round(Math.random() * 24);
-  mins = Math.round(Math.random() * 60);
+  mins = Math.round(Math.round(Math.random() * 60) / 10) * 10;
+
+  if (hrs === 24) {
+    hrs = 0;
+  }
+
+  if (mins === 60) {
+    hrs++;
+    if (hrs === 24) {
+      hrs = 0;
+    }
+    mins = 0;
+  }
 
   hrsToMins = hrs * 60;
 
   totalMins = hrsToMins + mins;
 
-  return { hrs, mins, totalMins };
+  return [hrs, mins, totalMins];
 };
 
 export { generatePriceForRoundTripFlights, generatePriceForOneWayFlights };

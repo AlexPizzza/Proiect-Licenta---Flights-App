@@ -51,7 +51,6 @@ const ExploreScreen = () => {
       <CustomSearchFlightsModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
-        screen="Explore Screen"
       />
 
       <View style={styles.headerContainer}>

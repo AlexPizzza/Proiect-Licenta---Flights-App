@@ -25,7 +25,10 @@ const SignupSchema = Yup.object().shape({
     .required("Required"),
   email: Yup.string().email("Email badly formatted!").required("Required"),
   password: Yup.string()
-    .matches(/[a-zA-Z]/, "Password can not contain special characters.")
+    .matches(
+      "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]",
+      "Password must have at least one letter and one number."
+    )
     .min(6, "The password must be 6 characters long or more.")
     .required("No password provided."),
   confirmPassword: Yup.string()
