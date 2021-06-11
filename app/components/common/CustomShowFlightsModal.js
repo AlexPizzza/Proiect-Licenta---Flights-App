@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   scrollViewStyle: {
-    backgroundColor: colors.SHOW_FLIGHTS_BACKGROUND,
+    backgroundColor: colors.WHITE,
   },
 });
 

@@ -42,87 +42,89 @@ const authReducer = (state, action) => {
   }
 };
 
-const signup = (dispatch) => async ({
-  fullName,
-  email,
-  password,
-  confirmPassword,
-}) => {
-  let errors = [];
+const signup =
+  (dispatch) =>
+  async ({ fullName, email, password, confirmPassword }) => {
+    let errors = [];
 
-  if (!fullName) {
-    errors.push("Name must be provided.");
-  } else if (fullName.length < 2) {
-    errors.push("Name is too short.");
-  }
+    if (!fullName) {
+      errors.push("Name must be provided.");
+    } else if (fullName.length < 2) {
+      errors.push("Name is too short.");
+    }
 
-  if (!email) {
-    errors.push("Email must be provided.");
-  }
+    if (!email) {
+      errors.push("Email must be provided.");
+    }
 
-  if (!password) {
-    errors.push("Password must be provided.");
-  }
+    if (!password) {
+      errors.push("Password must be provided.");
+    }
 
-  if (!confirmPassword) {
-    errors.push("Confirm password must be provided.");
-  } else if (confirmPassword !== password) {
-    errors.push("Passwords do not match.");
-  }
+    if (!confirmPassword) {
+      errors.push("Confirm password must be provided.");
+    } else if (confirmPassword !== password) {
+      errors.push("Passwords do not match.");
+    }
 
-  if (errors.length === 0) {
-    try {
-      const authUser = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await authUser.user.updateProfile({
-        displayName: fullName,
+    if (errors.length === 0) {
+      try {
+        const authUser = await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
+        await authUser.user.updateProfile({
+          displayName: fullName,
+        });
+
+        const token = authUser.user.uid;
+        await AsyncStorage.setItem("token", token);
+        dispatch({ type: "signin", payload: token });
+        navigation.navigate("SignIn");
+      } catch (error) {
+        if (error.message.toLowerCase().includes("email"))
+          dispatch({ type: "add_email_error", payload: error.message });
+        if (error.message.toLowerCase().includes("password"))
+          dispatch({ type: "add_password_error", payload: error.message });
+      }
+    } else {
+      errors.forEach((el) => {
+        if (el.toLowerCase().includes("name"))
+          dispatch({ type: "add_fullName_error", payload: el });
+        if (el.toLowerCase().includes("email"))
+          dispatch({ type: "add_email_error", payload: el });
+        if (el.toLowerCase() === "password must be provided.")
+          dispatch({ type: "add_password_error", payload: el });
+        if (el.toLowerCase().includes("confirm"))
+          dispatch({ type: "add_confirmPassword_error", payload: el });
+        if (el.toLowerCase().includes("passwords"))
+          dispatch({ type: "add_confirmPassword_error", payload: el });
       });
-      const token = authUser.user.getIdToken().toString();
+    }
+  };
+
+const signin =
+  (dispatch) =>
+  async ({ email, password }) => {
+    try {
+      const authUser = await auth.signInWithEmailAndPassword(email, password);
+
+      const token = authUser.user.uid;
       await AsyncStorage.setItem("token", token);
       dispatch({ type: "signin", payload: token });
-      navigation.navigate("SignIn");
     } catch (error) {
+      console.log(error);
       if (error.message.toLowerCase().includes("email"))
         dispatch({ type: "add_email_error", payload: error.message });
-      if (error.message.toLowerCase().includes("password"))
+      else if (error.message.toLowerCase().includes("user"))
+        dispatch({
+          type: "add_email_error",
+          payload: "No user found with this email.",
+        });
+      else if (error.message.toLowerCase().includes("password"))
         dispatch({ type: "add_password_error", payload: error.message });
     }
-  } else {
-    errors.forEach((el) => {
-      if (el.toLowerCase().includes("name"))
-        dispatch({ type: "add_fullName_error", payload: el });
-      if (el.toLowerCase().includes("email"))
-        dispatch({ type: "add_email_error", payload: el });
-      if (el.toLowerCase() === "password must be provided.")
-        dispatch({ type: "add_password_error", payload: el });
-      if (el.toLowerCase().includes("confirm"))
-        dispatch({ type: "add_confirmPassword_error", payload: el });
-      if (el.toLowerCase().includes("passwords"))
-        dispatch({ type: "add_confirmPassword_error", payload: el });
-    });
-  }
-};
-
-const signin = (dispatch) => async ({ email, password }) => {
-  try {
-    const authUser = await auth.signInWithEmailAndPassword(email, password);
-    const token = authUser.user.getIdToken().toString();
-    await AsyncStorage.setItem("token", token);
-    dispatch({ type: "signin", payload: token });
-  } catch (error) {
-    if (error.message.toLowerCase().includes("email"))
-      dispatch({ type: "add_email_error", payload: error.message });
-    else if (error.message.toLowerCase().includes("user"))
-      dispatch({
-        type: "add_email_error",
-        payload: "No user found with this email.",
-      });
-    else if (error.message.toLowerCase().includes("password"))
-      dispatch({ type: "add_password_error", payload: error.message });
-  }
-};
+  };
 
 const signout = (dispatch) => async () => {
   try {

@@ -28,9 +28,11 @@ const AuthButton = ({
         }
         onPress={
           authText === "signin"
-            ? () => signin({ email, password })
+            ? async () => {
+                signin({ email, password });
+              }
             : authText === "signup"
-            ? () => signup({ fullName, email, password, confirmPassword })
+            ? async () => signup({ fullName, email, password, confirmPassword })
             : null
         }
       />

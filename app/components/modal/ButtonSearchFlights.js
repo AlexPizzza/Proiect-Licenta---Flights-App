@@ -100,7 +100,6 @@ const ButtonSearchFlights = ({
       } else {
         if (flightsOneWay.length !== 0) {
           flightsOneWay.forEach((flight) => {
-            console.log(flight);
             const splitDepartureDate = flight.departure_date
               .toString()
               .split(" ");

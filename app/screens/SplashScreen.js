@@ -38,6 +38,7 @@ const SplashScreen = () => {
     getRecommendedCountries,
     getCountriesBySearchType,
     addPriceToCountries,
+    getSavedFlights,
     getDate,
   } = useContext(FlightsContext);
 
@@ -58,6 +59,8 @@ const SplashScreen = () => {
           await getRecommendedCountries();
           await getUserRating();
           getCountriesBySearchType();
+
+          getSavedFlights();
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);
         }}
         onFinish={() => {

@@ -1,5 +1,5 @@
 import createDataContext from "./createDataContext";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 
 import generatePrice from "../functions/generatePrice";
 import sorter from "../functions/sorter";
@@ -80,6 +80,21 @@ const flightsReducer = (state, action) => {
       return {
         ...state,
         whereToCity: action.payload,
+      };
+    case "add_flight_to_saved_flights":
+      return {
+        ...state,
+        savedFlights: [...state.savedFlights, action.payload],
+      };
+    case "get_saved_flights":
+      return {
+        ...state,
+        savedFlights: action.payload,
+      };
+    case "delete_flight_from_saved_flights":
+      return {
+        ...state,
+        savedFlights: action.payload,
       };
     default:
       return state;
@@ -244,12 +259,6 @@ const getLocations = (dispatch) => async (text) => {
   const newText = toTitleCase(text);
 
   const airportsRef = db.collection("flights_airports");
-  const countriesRef = db.collection("flights_all_countries");
-
-  const countries = await countriesRef
-    .where("country_name", ">=", newText)
-    .where("country_name", "<=", newText + "\uf8ff")
-    .get();
 
   const airports = await airportsRef
     .where("airport_name", ">=", newText)
@@ -258,6 +267,10 @@ const getLocations = (dispatch) => async (text) => {
   const cities = await airportsRef
     .where("city_name", ">=", newText)
     .where("city_name", "<=", newText + "\uf8ff")
+    .get();
+  const countries = await airportsRef
+    .where("country_name", ">=", newText)
+    .where("country_name", "<=", newText + "\uf8ff")
     .get();
 
   let list = [];
@@ -274,7 +287,10 @@ const getLocations = (dispatch) => async (text) => {
     });
   });
   countries.forEach((doc) => {
-    list.push({ id: doc.id, data: doc.data() });
+    list.push({
+      id: doc.id,
+      data: doc.data(),
+    });
   });
 
   const seen = new Set();
@@ -284,8 +300,6 @@ const getLocations = (dispatch) => async (text) => {
     seen.add(el.id);
     return !duplicate;
   });
-
-  // console.log(locationsList);
 
   dispatch({ type: "add_locations", payload: locationsList });
 };
@@ -371,8 +385,81 @@ const addFlightsOneWay =
   };
 
 const addWhereToCity = (dispatch) => (whereToCity) => {
-  console.log(whereToCity);
   dispatch({ type: "add_where_to_city", payload: whereToCity });
+};
+
+const addFlightToSavedFlights = (dispatch) => async (flight, token) => {
+  if (!flight.hasOwnProperty("data")) {
+    flight.user_token = token;
+  }
+  const documentRef = db.collection("flights_saved_flights").doc();
+  const id = documentRef.id;
+  if (flight.hasOwnProperty("data")) {
+    await documentRef.set(flight.data);
+  } else {
+    await documentRef.set(flight);
+  }
+
+  if (flight.hasOwnProperty("data")) {
+    flight.id = id;
+    dispatch({ type: "add_flight_to_saved_flights", payload: flight });
+    return flight;
+  } else {
+    const savedFlight = {
+      id: id,
+      data: flight,
+    };
+
+    dispatch({ type: "add_flight_to_saved_flights", payload: savedFlight });
+
+    return savedFlight;
+  }
+};
+
+const deleteFlightFromSavedFlights =
+  (dispatch) => async (flight, savedFlights) => {
+    console.log(flight);
+    await db.collection("flights_saved_flights").doc(flight.id).delete();
+
+    const newSavedFlights = savedFlights.filter(
+      (savedFlight) => savedFlight.id !== flight.id
+    );
+    dispatch({
+      type: "delete_flight_from_saved_flights",
+      payload: newSavedFlights,
+    });
+  };
+
+const getSavedFlights = (dispatch) => async () => {
+  let list = [];
+  let flightsToDelete = [];
+
+  const date = new Date();
+
+  const token = auth.currentUser.uid;
+
+  let snapshot = await db.collection("flights_saved_flights").get();
+  if (!snapshot.empty) {
+    snapshot.forEach((doc) => {
+      if (doc.data().user_token === token) {
+        const docDate = new Date(doc.data().departure_date);
+
+        if (date.getTime() >= docDate.getTime()) {
+          flightsToDelete.push({ id: doc.id, data: doc.data() });
+        } else {
+          list.push({ id: doc.id, data: doc.data() });
+        }
+      }
+    });
+
+    if (flightsToDelete.length !== 0) {
+      flightsToDelete.forEach((flight) =>
+        db.collection("flights_saved_flights").doc(flight.id).delete()
+      );
+    }
+  }
+
+  dispatch({ type: "get_saved_flights", payload: list });
 };
 
 export const { Context, Provider } = createDataContext(
@@ -382,6 +469,9 @@ export const { Context, Provider } = createDataContext(
     addFlightsRoundTrip,
     addFlightsOneWay,
     addWhereToCity,
+    addFlightToSavedFlights,
+    getSavedFlights,
+    deleteFlightFromSavedFlights,
     clearCities,
     addPriceToCountries,
     addPriceToRecommendedCountries,
@@ -408,5 +498,6 @@ export const { Context, Provider } = createDataContext(
     locations: [],
     userCoords: null,
     whereToCity: null,
+    savedFlights: [],
   }
 );
