@@ -36,7 +36,6 @@ const ButtonGoToProvider = () => {
 
 const styles = StyleSheet.create({
   buttonStyle: {
-    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 20,
@@ -44,6 +43,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40,
     backgroundColor: colors.ORANGE,
+    marginBottom: 20,
   },
   titleStyle: {
     ...globalStyles.boldText,

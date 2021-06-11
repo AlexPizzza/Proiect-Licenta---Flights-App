@@ -14,6 +14,7 @@ const FlightCardOneWay = ({
   item,
   setSeeFlightModalVisible,
   setFlightsModalVisible,
+  setFlightToShow,
 }) => {
   return (
     <View style={styles.container}>
@@ -22,10 +23,12 @@ const FlightCardOneWay = ({
         rippleOpacity={0.8}
         rippleContainerBorderRadius={20}
         onPress={() => {
+          setFlightToShow(item);
           setSeeFlightModalVisible(true);
           setFlightsModalVisible(false);
         }}
         onLongPress={() => {
+          setFlightToShow(item);
           setSeeFlightModalVisible(true);
           setFlightsModalVisible(false);
         }}
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     ...globalStyles.marginHorizontal,
     width: 0.92 * width,
-    height: 0.426 * height,
+    height: 0.446 * height,
     marginVertical: 6,
     borderRadius: 22,
     borderWidth: 2,
@@ -135,7 +138,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     backgroundColor: colors.BLACK,
-    bottom: 66,
+    bottom: 78,
     left: 0,
     elevation: 4,
   },
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     backgroundColor: colors.BLACK,
-    bottom: 66,
+    bottom: 78,
     right: 0,
     elevation: 4,
   },
@@ -198,6 +201,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     margin: 4,
     left: 8,
+    width: 160,
   },
   outboundStyle: {
     flexDirection: "row",
@@ -206,15 +210,15 @@ const styles = StyleSheet.create({
   },
   informationStyle: {
     height: 0.3 * height,
-    borderRadius: 20,
+    borderRadius: 18,
     padding: 8,
     paddingHorizontal: 20,
     backgroundColor: colors.WHITE,
   },
   priceAndAirlineStyle: {
     backgroundColor: colors.WHITE,
-    borderRadius: 20,
-    height: 0.12 * height,
+    borderRadius: 18,
+    height: 0.14 * height,
   },
 });
 

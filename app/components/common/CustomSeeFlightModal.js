@@ -14,6 +14,9 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import ButtonGoToProvider from "../modal/ButtonGoToProvider";
 import ModalCloseButton from "../modal/ModalCloseButton";
 
+import SeeFlightRoundTrip from "../modal/SeeFlightRoundTrip";
+import SeeFlightOneWay from "../modal/SeeFlightOneWay";
+
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { Context as AuthContext } from "../../context/AuthContext";
 
@@ -143,10 +146,6 @@ const CustomSeeFlightModal = ({
           return: flightToShow.return,
           ticket_price: flightToShow.ticket_price,
         };
-        console.log("\n\nFlight to compare:");
-        console.log(JSON.stringify(flightToCompare));
-        console.log("\n\nFlight to show:");
-        console.log(JSON.stringify(flightToShowWithoutUserToken));
         if (
           JSON.stringify(flightToCompare) ===
           JSON.stringify(flightToShowWithoutUserToken)
@@ -219,18 +218,27 @@ const CustomSeeFlightModal = ({
         </View>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text>
-          {flight.data !== undefined
-            ? flight.data.departure_city.city_name
-            : flight.departure_city.city_name}
-        </Text>
-        <Text>
-          {flight.data !== undefined
-            ? flight.data.arrival_city.city_name
-            : flight.arrival_city.city_name}
-        </Text>
-        <ButtonGoToProvider />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
+        <View style={{ flex: 10 }}>
+          {flight.hasOwnProperty("outbound") ? (
+            <SeeFlightRoundTrip item={flight} />
+          ) : flight.data ? (
+            flight.data.hasOwnProperty("outbound") ? (
+              <SeeFlightRoundTrip item={flight} />
+            ) : (
+              <SeeFlightOneWay item={flight} />
+            )
+          ) : (
+            <SeeFlightOneWay item={flight} />
+          )}
+        </View>
+
+        <View style={styles.buttonView}>
+          <ButtonGoToProvider />
+        </View>
       </ScrollView>
     </Modal>
   );
@@ -251,15 +259,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: colors.PURPLE,
     paddingBottom: 10,
+    elevation: 4,
   },
   ripple: {
-    // flexDirection: "row",
-    // justifyContent: "center",
-    // alignItems: "center",
-    // ...globalStyles.marginHorizontal,
-    // height: 50,
-    // width: 100,
-    // borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
     height: 30,
@@ -272,7 +274,16 @@ const styles = StyleSheet.create({
     ...globalStyles.boldText,
     fontSize: 22,
     color: colors.WHITE,
-    marginTop: 6,
+    marginTop: 10,
+  },
+  buttonView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: width,
+    height: 60,
+    marginTop: 20,
+    backgroundColor: colors.GRAY_SUBHEADER_TEXT,
   },
 });
 
