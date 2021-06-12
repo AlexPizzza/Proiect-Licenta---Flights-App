@@ -6,6 +6,7 @@ import SupportScreen from "../../screens/profile/SupportScreen";
 import YourDetailsStack from "./profile/YourDetailsStack";
 import SettingsStack from "./profile/SettingsStack";
 import SupportStack from "./profile/SupportStack";
+import StatisticsStack from "./profile/StatisticsStack";
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,16 @@ const ProfileStack = () => {
       <Stack.Screen
         name="SupportStack"
         component={SupportStack}
+        options={{
+          headerStyle: {
+            elevation: 0,
+          },
+          title: "",
+        }}
+      />
+      <Stack.Screen
+        name="StatisticsStack"
+        component={StatisticsStack}
         options={{
           headerStyle: {
             elevation: 0,

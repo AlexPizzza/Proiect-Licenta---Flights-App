@@ -33,7 +33,7 @@ const SupportScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
-        <Text style={styles.headerText}>Support Screen</Text>
+        <Text style={styles.headerText}>Support</Text>
 
         <Text style={styles.subHeaderText}>Feedback</Text>
 

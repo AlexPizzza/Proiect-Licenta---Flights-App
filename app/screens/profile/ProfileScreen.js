@@ -9,6 +9,7 @@ import ProfileCard from "../../components/profile/ProfileCard";
 import settingsImage from "../../../assets/profile/settings.png";
 import supportImage from "../../../assets/profile/support.png";
 import yourDetailsImage from "../../../assets/profile/your_details.png";
+import statisticsImage from "../../../assets/profile/statistics.png";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -39,7 +40,7 @@ const ProfileScreen = ({ navigation }) => {
 
       <Text style={styles.manageAccountText}>Manage your account</Text>
 
-      <View style={styles.details_settings_Container}>
+      <View style={styles.cardsView}>
         <ProfileCard
           title="Your Details"
           image={yourDetailsImage}
@@ -52,11 +53,16 @@ const ProfileScreen = ({ navigation }) => {
         />
       </View>
 
-      <View style={styles.supportCard}>
+      <View style={styles.cardsView}>
         <ProfileCard
           title="Support"
           image={supportImage}
           useNavigation={() => navigation.navigate("SupportStack")}
+        />
+        <ProfileCard
+          title="Statistics"
+          image={statisticsImage}
+          useNavigation={() => navigation.navigate("StatisticsStack")}
         />
       </View>
     </View>
@@ -67,11 +73,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.BG_COLOR,
-  },
-  details_settings_Container: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    ...globalStyles.marginHorizontal,
   },
   headerContainer: {
     flexDirection: "row",
@@ -88,10 +89,10 @@ const styles = StyleSheet.create({
     ...globalStyles.headerBoldText,
     fontSize: 40,
   },
-  supportCard: {
+  cardsView: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     ...globalStyles.marginHorizontal,
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
