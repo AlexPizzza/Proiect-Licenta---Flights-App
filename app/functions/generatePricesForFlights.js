@@ -6,6 +6,43 @@ import generateAdditionalPriceBasedOnDaysLeftTillFlight from "./generateAddition
 const speed = 900;
 const numberOfMinutesInADay = 1440;
 
+const Europe = [
+  "Wizz Air",
+  "Ryanair",
+  "EasyJet",
+  "International Airlines Group",
+];
+
+const America = [
+  "Jet Blue",
+  "American Airlines",
+  "United Airlines",
+  "Delta Air Lines",
+];
+
+const Africa = [
+  "Royal Air Maroc",
+  "RwandAir",
+  "South African Airways",
+  "Kenya Airways",
+];
+
+const Asia = [
+  "Cathay Pacific Airways",
+  "Singapore Airlines",
+  "Asiana Airlines",
+  "EVA Air",
+];
+
+const Australia = [
+  "Qantas",
+  "Virgin Australia",
+  "JetStar Airways",
+  "Fiji Airways",
+];
+
+const otherAirlines = ["Core Airways", "Jet Air", "Blue Sky", "Peak Airways"];
+
 const generatePriceForRoundTripFlights = (
   departureCity,
   arrivalCity,
@@ -192,11 +229,40 @@ const generatePriceForRoundTripFlights = (
       },
     };
 
-    if (i % 2 !== 0) {
-      flight.airline = departureCity.country_name + " Airline";
+    let airline;
+    const randomAirport = randomIntFromInterval(0, 3);
+    if (i % 2 === 0) {
+      const timezone = flight.departure_city.timezone;
+      if (timezone.toLowerCase().includes("europe")) {
+        airline = Europe[randomAirport];
+      } else if (timezone.toLowerCase().includes("america")) {
+        airline = America[randomAirport];
+      } else if (timezone.toLowerCase().includes("asia")) {
+        airline = Asia[randomAirport];
+      } else if (timezone.toLowerCase().includes("africa")) {
+        airline = Africa[randomAirport];
+      } else if (timezone.toLowerCase().includes("australia")) {
+        airline = Australia[randomAirport];
+      } else {
+        airline = otherAirlines[randomAirport];
+      }
     } else {
-      flight.airline = arrivalCity.country_name + " Airline";
+      const timezone = flight.arrival_city.timezone;
+      if (timezone.toLowerCase().includes("europe")) {
+        airline = Europe[randomAirport];
+      } else if (timezone.toLowerCase().includes("america")) {
+        airline = America[randomAirport];
+      } else if (timezone.toLowerCase().includes("asia")) {
+        airline = Asia[randomAirport];
+      } else if (timezone.toLowerCase().includes("africa")) {
+        airline = Africa[randomAirport];
+      } else if (timezone.toLowerCase().includes("australia")) {
+        airline = Australia[randomAirport];
+      } else {
+        airline = otherAirlines[randomAirport];
+      }
     }
+    flight.airline = airline;
 
     flightsList.push(flight);
   }
@@ -305,11 +371,40 @@ const generatePriceForOneWayFlights = (
       },
     };
 
+    let airline;
+    const randomAirport = randomIntFromInterval(0, 3);
     if (i % 2 === 0) {
-      flight.airline = departureCity.country_name + " Airline";
+      const timezone = flight.departure_city.timezone;
+      if (timezone.toLowerCase().includes("europe")) {
+        airline = Europe[randomAirport];
+      } else if (timezone.toLowerCase().includes("america")) {
+        airline = America[randomAirport];
+      } else if (timezone.toLowerCase().includes("asia")) {
+        airline = Asia[randomAirport];
+      } else if (timezone.toLowerCase().includes("africa")) {
+        airline = Africa[randomAirport];
+      } else if (timezone.toLowerCase().includes("australia")) {
+        airline = Australia[randomAirport];
+      } else {
+        airline = otherAirlines[randomAirport];
+      }
     } else {
-      flight.airline = arrivalCity.country_name + " Airline";
+      const timezone = flight.arrival_city.timezone;
+      if (timezone.toLowerCase().includes("europe")) {
+        airline = Europe[randomAirport];
+      } else if (timezone.toLowerCase().includes("america")) {
+        airline = America[randomAirport];
+      } else if (timezone.toLowerCase().includes("asia")) {
+        airline = Asia[randomAirport];
+      } else if (timezone.toLowerCase().includes("africa")) {
+        airline = Africa[randomAirport];
+      } else if (timezone.toLowerCase().includes("australia")) {
+        airline = Australia[randomAirport];
+      } else {
+        airline = otherAirlines[randomAirport];
+      }
     }
+    flight.airline = airline;
 
     flightsList.push(flight);
   }
@@ -320,8 +415,8 @@ const generatePriceForOneWayFlights = (
 };
 
 const randomTime = () => {
-  hrs = Math.round(Math.random() * 24);
-  mins = Math.round(Math.round(Math.random() * 60) / 10) * 10;
+  let hrs = Math.round(Math.random() * 24);
+  let mins = Math.round(Math.round(Math.random() * 60) / 10) * 10;
 
   if (hrs === 24) {
     hrs = 0;
@@ -335,9 +430,9 @@ const randomTime = () => {
     mins = 0;
   }
 
-  hrsToMins = hrs * 60;
+  const hrsToMins = hrs * 60;
 
-  totalMins = hrsToMins + mins;
+  const totalMins = hrsToMins + mins;
 
   return [hrs, mins, totalMins];
 };

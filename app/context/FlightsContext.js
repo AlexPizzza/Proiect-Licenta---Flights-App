@@ -392,6 +392,7 @@ const addFlightToSavedFlights = (dispatch) => async (flight, token) => {
   if (!flight.hasOwnProperty("data")) {
     flight.user_token = token;
   }
+
   const documentRef = db.collection("flights_saved_flights").doc();
   const id = documentRef.id;
   if (flight.hasOwnProperty("data")) {

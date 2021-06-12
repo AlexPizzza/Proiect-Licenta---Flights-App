@@ -9,7 +9,7 @@ const generatePrice = (noOfDaysTillFlight, prevLat, prevLong, lat, long) => {
     computeDistance([prevLat, prevLong], [lat, long])
   );
 
-  return priceBasedOnDistance + additionalPrice;
+  return Math.ceil((priceBasedOnDistance + additionalPrice) / 10) * 10;
 };
 
 export default generatePrice;
