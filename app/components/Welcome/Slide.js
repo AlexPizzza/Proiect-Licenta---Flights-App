@@ -1,7 +1,7 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
-import colors from "../../../global/colors";
 
+import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
 const Slide = ({ item }) => {

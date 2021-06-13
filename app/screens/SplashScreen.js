@@ -40,6 +40,7 @@ const SplashScreen = () => {
     addPriceToCountries,
     getSavedFlights,
     getDate,
+    getStatisticsFlights,
   } = useContext(FlightsContext);
 
   let [fontsLoaded] = useFonts();
@@ -58,6 +59,7 @@ const SplashScreen = () => {
         startAsync={async () => {
           await getRecommendedCountries();
           await getUserRating();
+          await getStatisticsFlights();
           getCountriesBySearchType();
 
           getSavedFlights();

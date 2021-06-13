@@ -31,6 +31,7 @@ const ButtonSearchFlights = ({
     state: { flightsRoundTrip, flightsOneWay },
     addFlightsOneWay,
     addFlightsRoundTrip,
+    addToStatistics,
   } = useContext(FlightsContext);
 
   const treatAsUTC = (date) => {
@@ -44,7 +45,7 @@ const ButtonSearchFlights = ({
     return (treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay;
   };
 
-  const onButtonPress = () => {
+  const onButtonPress = async () => {
     if (whereFromText === "Where from?") {
       Toast.show(
         "'Where from?' field must contain a Country, City or Airport.",
@@ -57,6 +58,7 @@ const ButtonSearchFlights = ({
       );
     } else {
       let flightInList = null;
+      await addToStatistics(departureCity, arrivalCity);
 
       if (isRoundTrip) {
         if (flightsRoundTrip.length !== 0) {

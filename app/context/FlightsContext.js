@@ -96,6 +96,11 @@ const flightsReducer = (state, action) => {
         ...state,
         savedFlights: action.payload,
       };
+    case "get_statistics_flights":
+      return {
+        ...state,
+        statisticsFlights: action.payload,
+      };
     default:
       return state;
   }
@@ -463,6 +468,76 @@ const getSavedFlights = (dispatch) => async () => {
   dispatch({ type: "get_saved_flights", payload: list });
 };
 
+const getStatisticsFlights = (dispatch) => async () => {
+  let list = [];
+  let snapshot = await db.collection("flights_statistics").get();
+  snapshot.forEach((doc) => {
+    list.push({ id: doc.id, data: doc.data() });
+  });
+
+  dispatch({ type: "get_statistics_flights", payload: list });
+};
+
+const addToStatistics = (dispatch) => async (departureCity, arrivalCity) => {
+  let list = [];
+  let isInDatabase = false;
+  let documentId;
+  let searches;
+  let flightIndex = -1;
+  let i = 0;
+  let snapshot = await db.collection("flights_statistics").get();
+  snapshot.forEach((doc) => {
+    list.push({ id: doc.id, data: doc.data() });
+    if (
+      (doc.data().first_city.city_iata_code === departureCity.city_iata_code &&
+        doc.data().second_city.city_iata_code === arrivalCity.city_iata_code) ||
+      (doc.data().first_city.city_iata_code === arrivalCity.city_iata_code &&
+        doc.data().second_city.city_iata_code === departureCity.city_iata_code)
+    ) {
+      flightIndex = i;
+
+      isInDatabase = true;
+      documentId = doc.id;
+      searches = doc.data().searches;
+    }
+    i++;
+  });
+
+  if (!isInDatabase) {
+    const documentRef = db.collection("flights_statistics").doc();
+    const id = documentRef.id;
+    const flight = {
+      first_city: {
+        city_name: departureCity.city_name,
+        city_iata_code: departureCity.city_iata_code,
+        country_iso2: departureCity.country_iso2,
+        country_name: departureCity.country_name,
+      },
+      searches: 1,
+      second_city: {
+        city_name: arrivalCity.city_name,
+        city_iata_code: arrivalCity.city_iata_code,
+        country_iso2: arrivalCity.country_iso2,
+        country_name: arrivalCity.country_name,
+      },
+    };
+    await documentRef.set(flight);
+    list.push({ id: id, data: flight });
+  } else {
+    searches += 1;
+    // console.log(flightIndex);
+    console.log(list[flightIndex]);
+    list[flightIndex].data.searches = searches;
+    console.log(list[flightIndex]);
+    await db
+      .collection("flights_statistics")
+      .doc(documentId)
+      .update({ searches: searches });
+  }
+
+  dispatch({ type: "get_statistics_flights", payload: list });
+};
+
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
@@ -471,6 +546,7 @@ export const { Context, Provider } = createDataContext(
     addFlightsOneWay,
     addWhereToCity,
     addFlightToSavedFlights,
+    addToStatistics,
     getSavedFlights,
     deleteFlightFromSavedFlights,
     clearCities,
@@ -482,6 +558,7 @@ export const { Context, Provider } = createDataContext(
     getCountriesBySearchType,
     getLocations,
     getRecommendedCountries,
+    getStatisticsFlights,
   },
   {
     cities: {},
@@ -500,5 +577,6 @@ export const { Context, Provider } = createDataContext(
     userCoords: null,
     whereToCity: null,
     savedFlights: [],
+    statisticsFlights: [],
   }
 );

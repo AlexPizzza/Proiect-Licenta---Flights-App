@@ -12,7 +12,7 @@ const StatisticsStack = () => {
         component={StatisticsScreen}
         options={{
           headerStyle: {
-            elevation: 0,
+            elevation: 4,
           },
           title: "",
         }}
