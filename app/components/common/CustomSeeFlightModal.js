@@ -23,79 +23,6 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-/**
- * 
- * Object {
-  "data": Object {
-    "airline": "Italy Airline",
-    "arrival_city": Object {
-      "airport_name": "Leonardo Da Vinci (Fiumicino)",
-      "city_iata_code": "ROM",
-      "city_name": "Rome",
-      "country_iso2": "IT",
-      "country_name": "Italy",
-      "geoname_id": "6299619",
-      "gmt": "1",
-      "iata_code": "FCO",
-      "icao_code": "LIRF",
-      "latitude": "41.794594",
-      "longitude": "12.250346",
-      "phone_number": "+39 06-65951",
-      "timezone": "Europe/Rome",
-    },
-    "arrival_date": 2021-06-13T22:55:06.576Z,
-    "departure_city": Object {
-      "airport_name": "Henri Coanda International",
-      "city_iata_code": "BUH",
-      "city_name": "Bucharest",
-      "country_iso2": "RO",
-      "country_name": "Romania",
-      "geoname_id": "6301793",
-      "gmt": "2",
-      "iata_code": "OTP",
-      "icao_code": "LROP",
-      "latitude": "44.571156",
-      "longitude": "26.077063",
-      "phone_number": "+4 021-204-10",
-      "timezone": "Europe/Bucharest",
-    },
-    "departure_date": 2021-06-11T22:55:06.576Z,
-    "outbound": Object {
-      "arrival_time": Object {
-        "hours": "03",
-        "minutes": "25",
-      },
-      "departure_time": Object {
-        "hours": "02",
-        "minutes": "10",
-      },
-      "flight_duration": Object {
-        "hours": "01",
-        "minutes": "15",
-      },
-    },
-    "return": Object {
-      "arrival_time": Object {
-        "hours": "19",
-        "minutes": "25",
-      },
-      "departure_time": Object {
-        "hours": "18",
-        "minutes": "10",
-      },
-      "flight_duration": Object {
-        "hours": "01",
-        "minutes": "15",
-      },
-    },
-    "ticket_price": 410,
-    "user_token": "[object Object]",
-  },
-  "id": "lSMgQcWQNtIV8nsMnHl9",
-}
- * 
- */
-
 const CustomSeeFlightModal = ({
   flightToShow,
   setFlightsModalVisible,
@@ -114,43 +41,45 @@ const CustomSeeFlightModal = ({
   useEffect(() => {
     if (savedFlights.length !== 0) {
       savedFlights.forEach((savedFlight) => {
-        const flightToCompare = {
-          airline: savedFlight.data.airline,
-          arrival_city: {
-            airport_name: savedFlight.data.arrival_city.airport_name,
-            city_name: savedFlight.data.arrival_city.city_name,
-          },
-          arrival_date: savedFlight.data.arrival_date,
-          departure_city: {
-            airport_name: savedFlight.data.departure_city.airport_name,
-            city_name: savedFlight.data.departure_city.city_name,
-          },
-          departure_date: savedFlight.data.departure_date,
-          outbound: savedFlight.data.outbound,
-          return: savedFlight.data.return,
-          ticket_price: savedFlight.data.ticket_price,
-        };
-        const flightToShowWithoutUserToken = {
-          airline: flightToShow.airline,
-          arrival_city: {
-            airport_name: flightToShow.arrival_city.airport_name,
-            city_name: flightToShow.arrival_city.city_name,
-          },
-          arrival_date: flightToShow.arrival_date,
-          departure_city: {
-            airport_name: flightToShow.departure_city.airport_name,
-            city_name: flightToShow.departure_city.city_name,
-          },
-          departure_date: flightToShow.departure_date,
-          outbound: flightToShow.outbound,
-          return: flightToShow.return,
-          ticket_price: flightToShow.ticket_price,
-        };
-        if (
-          JSON.stringify(flightToCompare) ===
-          JSON.stringify(flightToShowWithoutUserToken)
-        ) {
-          setIsSaveButtonPressed(true);
+        if (flightToShow) {
+          const flightToCompare = {
+            airline: savedFlight.data.airline,
+            arrival_city: {
+              airport_name: savedFlight.data.arrival_city.airport_name,
+              city_name: savedFlight.data.arrival_city.city_name,
+            },
+            arrival_date: savedFlight.data.arrival_date,
+            departure_city: {
+              airport_name: savedFlight.data.departure_city.airport_name,
+              city_name: savedFlight.data.departure_city.city_name,
+            },
+            departure_date: savedFlight.data.departure_date,
+            outbound: savedFlight.data.outbound,
+            return: savedFlight.data.return,
+            ticket_price: savedFlight.data.ticket_price,
+          };
+          const flightToShowWithoutUserToken = {
+            airline: flightToShow.airline,
+            arrival_city: {
+              airport_name: flightToShow.arrival_city.airport_name,
+              city_name: flightToShow.arrival_city.city_name,
+            },
+            arrival_date: flightToShow.arrival_date,
+            departure_city: {
+              airport_name: flightToShow.departure_city.airport_name,
+              city_name: flightToShow.departure_city.city_name,
+            },
+            departure_date: flightToShow.departure_date,
+            outbound: flightToShow.outbound,
+            return: flightToShow.return,
+            ticket_price: flightToShow.ticket_price,
+          };
+          if (
+            JSON.stringify(flightToCompare) ===
+            JSON.stringify(flightToShowWithoutUserToken)
+          ) {
+            setIsSaveButtonPressed(true);
+          }
         }
       });
     }
@@ -178,14 +107,18 @@ const CustomSeeFlightModal = ({
       visible={seeFlightModalVisible}
       onRequestClose={() => {
         setSeeFlightModalVisible(false);
-        setFlightsModalVisible(true);
+        if (setFlightsModalVisible) {
+          setFlightsModalVisible(true);
+        }
       }}
     >
       <View style={styles.headerStyle}>
         <ModalCloseButton
           setModalVisible={() => {
             setSeeFlightModalVisible(false);
-            setFlightsModalVisible(true);
+            if (setFlightsModalVisible) {
+              setFlightsModalVisible(true);
+            }
           }}
         />
         <View
@@ -223,17 +156,19 @@ const CustomSeeFlightModal = ({
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View style={{ flex: 10 }}>
-          {flight.hasOwnProperty("outbound") ? (
-            <SeeFlightRoundTrip item={flight} />
-          ) : flight.data ? (
-            flight.data.hasOwnProperty("outbound") ? (
+          {flight ? (
+            flight.hasOwnProperty("outbound") ? (
               <SeeFlightRoundTrip item={flight} />
+            ) : flight.data ? (
+              flight.data.hasOwnProperty("outbound") ? (
+                <SeeFlightRoundTrip item={flight} />
+              ) : (
+                <SeeFlightOneWay item={flight} />
+              )
             ) : (
               <SeeFlightOneWay item={flight} />
             )
-          ) : (
-            <SeeFlightOneWay item={flight} />
-          )}
+          ) : null}
         </View>
 
         <View style={styles.buttonView}>

@@ -44,7 +44,7 @@ const barChartConfig = {
   },
   propsForHorizontalLabels: {
     translateY: -2,
-    translateX: -4,
+    translateX: 10,
   },
   propsForBackgroundLines: {
     strokeWidth: 0.3,
@@ -281,10 +281,13 @@ const StatisticsScreen = () => {
         <View style={styles.barChartView}>
           {routesData ? (
             <View>
+              <Text style={styles.numberOfSearchesTextStyle}>
+                Number of searches
+              </Text>
               <BarChart
                 data={routesData}
                 width={width * 0.98}
-                height={280}
+                height={400}
                 chartConfig={barChartConfig}
                 showValuesOnTopOfBars={true}
                 verticalLabelRotation={-30}
@@ -292,6 +295,7 @@ const StatisticsScreen = () => {
                   borderRadius: 16,
                 }}
               />
+              <Text style={styles.flightRoutesTextStyle}>Flight routes</Text>
 
               <View style={styles.routesOuterView}>
                 {routesData.labels.map((route, index) => (
@@ -377,6 +381,25 @@ const styles = StyleSheet.create({
   descritionText: {
     ...globalStyles.normalText,
     fontSize: 16,
+  },
+  numberOfSearchesTextStyle: {
+    position: "absolute",
+    left: -56,
+    top: 170,
+    transform: [{ rotate: "270deg" }],
+    elevation: 4,
+    color: colors.WHITE,
+    fontSize: 16,
+    opacity: 0.9,
+  },
+  flightRoutesTextStyle: {
+    position: "absolute",
+    elevation: 4,
+    color: colors.WHITE,
+    fontSize: 16,
+    left: 140,
+    top: 370,
+    opacity: 0.9,
   },
 });
 

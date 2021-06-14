@@ -424,7 +424,6 @@ const addFlightToSavedFlights = (dispatch) => async (flight, token) => {
 
 const deleteFlightFromSavedFlights =
   (dispatch) => async (flight, savedFlights) => {
-    console.log(flight);
     await db.collection("flights_saved_flights").doc(flight.id).delete();
 
     const newSavedFlights = savedFlights.filter(
@@ -525,10 +524,7 @@ const addToStatistics = (dispatch) => async (departureCity, arrivalCity) => {
     list.push({ id: id, data: flight });
   } else {
     searches += 1;
-    // console.log(flightIndex);
-    console.log(list[flightIndex]);
     list[flightIndex].data.searches = searches;
-    console.log(list[flightIndex]);
     await db
       .collection("flights_statistics")
       .doc(documentId)

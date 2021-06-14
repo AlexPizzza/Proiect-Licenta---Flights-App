@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
+import Ripple from "react-native-material-ripple";
 import { ListItem } from "react-native-elements";
 
-import Ripple from "react-native-material-ripple";
+import CustomSeeFlightModal from "../../components/common/CustomSeeFlightModal";
+import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -21,13 +23,26 @@ const list = [
 ];
 
 const SavedScreen = () => {
+  const {
+    state: { savedFlights },
+  } = useContext(FlightsContext);
+  const [seeFlightModalVisible, setSeeFlightModalVisible] = useState(false);
+  const [flightToShow, setFlightToShow] = useState(null);
+
+  console.log(savedFlights);
+
   return (
     <View style={styles.container}>
+      <CustomSeeFlightModal
+        seeFlightModalVisible={seeFlightModalVisible}
+        setSeeFlightModalVisible={seeFlightModalVisible}
+        flightToShow={flightToShow}
+      />
       <View style={styles.headerContainer}>
         <Text style={styles.savedFlightsHeaderText}>Saved Flights</Text>
       </View>
 
-      {list.map((item, index) => (
+      {savedFlights.map((item, index) => (
         <Ripple
           key={index}
           rippleColor={colors.PURPLE}
@@ -37,7 +52,9 @@ const SavedScreen = () => {
         >
           <ListItem>
             <ListItem.Content>
-              <ListItem.Title style={styles.title}>{item.title}</ListItem.Title>
+              <ListItem.Title style={styles.title}>
+                {item.data.airline}
+              </ListItem.Title>
             </ListItem.Content>
           </ListItem>
         </Ripple>

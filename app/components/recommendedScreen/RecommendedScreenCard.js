@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     margin: 10,
     left: 12,
+    width: 150,
   },
   textViewPrice: {
     position: "absolute",
