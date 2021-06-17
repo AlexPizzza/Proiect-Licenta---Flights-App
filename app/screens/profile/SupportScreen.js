@@ -17,12 +17,6 @@ const feedback = [
 
 const termsAndPolicies = [
   {
-    title: "Privacy policy",
-  },
-  {
-    title: "Terms of Service",
-  },
-  {
     title: "Third-party licenses",
   },
 ];
@@ -74,27 +68,19 @@ const SupportScreen = () => {
           ))}
         </View>
 
-        <Text style={styles.subHeaderText}>Terms and Policies</Text>
+        <Text style={styles.subHeaderText}>Third-party licenses</Text>
         {termsAndPolicies.map((item, index) => (
           <Ripple
             key={index}
             rippleColor={colors.PURPLE}
             rippleOpacity={0.8}
             onPress={() => {
-              if (item.title === "Privacy policy") {
-                navigation.navigate("PrivacyPolicy");
-              } else if (item.title === "Terms of Service") {
-                navigation.navigate("TermsOfService");
-              } else if (item.title === "Third-party licenses") {
+              if (item.title === "Third-party licenses") {
                 navigation.navigate("ThirdPartyLicenses");
               }
             }}
             onLongPress={() => {
-              if (item.title === "Privacy policy") {
-                navigation.navigate("PrivacyPolicy");
-              } else if (item.title === "Terms of Service") {
-                navigation.navigate("TermsOfService");
-              } else if (item.title === "Third-party licenses") {
+              if (item.title === "Third-party licenses") {
                 navigation.navigate("ThirdPartyLicenses");
               }
             }}

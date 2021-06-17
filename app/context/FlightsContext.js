@@ -101,6 +101,11 @@ const flightsReducer = (state, action) => {
         ...state,
         statisticsFlights: action.payload,
       };
+    case "add_flight_to_show":
+      return {
+        ...state,
+        flightToShow: action.payload,
+      };
     default:
       return state;
   }
@@ -534,9 +539,14 @@ const addToStatistics = (dispatch) => async (departureCity, arrivalCity) => {
   dispatch({ type: "get_statistics_flights", payload: list });
 };
 
+const addFlightToShow = (dispatch) => (flight) => {
+  dispatch({ type: "add_flight_to_show", payload: flight });
+};
+
 export const { Context, Provider } = createDataContext(
   flightsReducer,
   {
+    addFlightToShow,
     addCities,
     addFlightsRoundTrip,
     addFlightsOneWay,
@@ -574,5 +584,6 @@ export const { Context, Provider } = createDataContext(
     whereToCity: null,
     savedFlights: [],
     statisticsFlights: [],
+    flightToShow: null,
   }
 );

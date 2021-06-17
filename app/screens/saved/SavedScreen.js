@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-
-import Ripple from "react-native-material-ripple";
-import { ListItem } from "react-native-elements";
+import React, { useEffect, useContext, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import CustomSeeFlightModal from "../../components/common/CustomSeeFlightModal";
+import RoundTripCard from "../../components/saved/RoundTripCard";
+import OneWayCard from "../../components/saved/OneWayCard";
+
 import { Context as FlightsContext } from "../../context/FlightsContext";
 
 import colors from "../../../global/colors";
@@ -24,41 +24,82 @@ const list = [
 
 const SavedScreen = () => {
   const {
-    state: { savedFlights },
+    state: { savedFlights, flightToShow },
+    addFlightToShow,
   } = useContext(FlightsContext);
   const [seeFlightModalVisible, setSeeFlightModalVisible] = useState(false);
-  const [flightToShow, setFlightToShow] = useState(null);
+  const [modalFlight, setModalFlight] = useState(flightToShow);
 
-  console.log(savedFlights);
+  const [roundTripFlights, setRoundTripFlights] = useState([]);
+  const [oneWayFlights, setOneWayFlights] = useState([]);
+
+  useEffect(() => {
+    const getFlights = () => {
+      let roundTrip = [];
+      let oneWay = [];
+      savedFlights.forEach((flight) => {
+        if (flight.data.hasOwnProperty("return")) {
+          roundTrip.push(flight);
+        } else {
+          oneWay.push(flight);
+        }
+      });
+      setRoundTripFlights(roundTrip);
+      setOneWayFlights(oneWay);
+    };
+    getFlights();
+  }, [savedFlights]);
+
+  useEffect(() => {
+    setModalFlight(flightToShow);
+  }, [flightToShow]);
 
   return (
     <View style={styles.container}>
       <CustomSeeFlightModal
-        seeFlightModalVisible={seeFlightModalVisible}
-        setSeeFlightModalVisible={seeFlightModalVisible}
         flightToShow={flightToShow}
+        seeFlightModalVisible={seeFlightModalVisible}
+        setSeeFlightModalVisible={setSeeFlightModalVisible}
       />
       <View style={styles.headerContainer}>
-        <Text style={styles.savedFlightsHeaderText}>Saved Flights</Text>
+        <View style={styles.subHeaderContainer}>
+          <Text style={styles.savedFlightsHeaderText}>Saved Flights</Text>
+        </View>
       </View>
 
-      {savedFlights.map((item, index) => (
-        <Ripple
-          key={index}
-          rippleColor={colors.PURPLE}
-          rippleOpacity={0.8}
-          onLongPress={() => {}}
-          delayLongPress={150}
-        >
-          <ListItem>
-            <ListItem.Content>
-              <ListItem.Title style={styles.title}>
-                {item.data.airline}
-              </ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        </Ripple>
-      ))}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {roundTripFlights.length !== 0 ? (
+          <View style={styles.savedFlightsContainer}>
+            <Text style={styles.subHeaderTextStyle}>Round trip flights</Text>
+            {roundTripFlights.map((item, index) => (
+              <RoundTripCard
+                key={"key" + index}
+                item={item.data}
+                onPress={() => {
+                  addFlightToShow(item.data);
+                  setSeeFlightModalVisible(true);
+                }}
+              />
+            ))}
+          </View>
+        ) : null}
+
+        {oneWayFlights.length !== 0 ? (
+          <View style={styles.savedFlightsContainer}>
+            <Text style={styles.subHeaderTextStyle}>One way flights</Text>
+            {oneWayFlights.map((item, index) => (
+              <OneWayCard
+                key={"key" + index}
+                item={item.data}
+                onPress={() => {
+                  addFlightToShow(item.data);
+                  setSeeFlightModalVisible(true);
+                }}
+              />
+            ))}
+          </View>
+        ) : null}
+      </ScrollView>
     </View>
   );
 };
@@ -72,12 +113,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    marginBottom: 10,
+    borderBottomWidth: 1,
+  },
+  subHeaderContainer: {
     ...globalStyles.marginHorizontal,
+    marginBottom: 4,
   },
   savedFlightsHeaderText: {
     ...globalStyles.headerBoldText,
     fontSize: 40,
+  },
+  savedFlightsContainer: {
+    marginVertical: 10,
+    ...globalStyles.marginHorizontal,
+  },
+  subHeaderTextStyle: {
+    ...globalStyles.headerBoldText,
+    fontSize: 32,
   },
 });
 

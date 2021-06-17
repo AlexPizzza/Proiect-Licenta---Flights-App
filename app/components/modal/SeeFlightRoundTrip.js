@@ -15,11 +15,27 @@ const SeeFlightRoundTrip = ({ item }) => {
     let splitDepartureDate;
     let splitArrivalDate;
     if (item.data) {
-      splitDepartureDate = item.data.departure_date.toString().split(" ");
-      splitArrivalDate = item.data.arrival_date.toString().split(" ");
+      if (item.data.departure_date instanceof Date) {
+        splitDepartureDate = item.data.departure_date.toString().split(" ");
+        splitArrivalDate = item.data.arrival_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.data.departure_date
+          .toDate()
+          .toString()
+          .split(" ");
+        splitArrivalDate = item.data.arrival_date
+          .toDate()
+          .toString()
+          .split(" ");
+      }
     } else {
-      splitDepartureDate = item.departure_date.toString().split(" ");
-      splitArrivalDate = item.arrival_date.toString().split(" ");
+      if (item.departure_date instanceof Date) {
+        splitDepartureDate = item.departure_date.toString().split(" ");
+        splitArrivalDate = item.arrival_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.departure_date.toDate().toString().split(" ");
+        splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
+      }
     }
 
     const departureDateToShow =

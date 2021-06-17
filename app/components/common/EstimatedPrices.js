@@ -16,10 +16,14 @@ const EstimatedPrices = () => {
       rippleContainerBorderRadius={12}
       style={styles.container}
       onPress={() => {
-        Toast.show("Estimated lowest prices per person for Economy class");
+        Toast.show(
+          "Estimated lowest prices per person for Economy class for a Round Trip flight"
+        );
       }}
       onLongPress={() => {
-        Toast.show("Estimated lowest prices per person for Economy class");
+        Toast.show(
+          "Estimated lowest prices per person for Economy class for a Round Trip flight"
+        );
       }}
       delayLongPress={150}
     >

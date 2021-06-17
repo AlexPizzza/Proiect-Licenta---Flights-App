@@ -13,9 +13,6 @@ import globalStyles from "../../../../global/globalStyles";
 
 const list = [
   {
-    title: "Clear app search history",
-  },
-  {
     title: "Clear async storage",
   },
   {
@@ -37,11 +34,7 @@ const AccountManagementScreen = () => {
             rippleColor={colors.PURPLE}
             rippleOpacity={0.8}
             onPress={() => {
-              if (item.title.toLowerCase().includes("search".toLowerCase())) {
-                // signout();
-              } else if (
-                item.title.toLowerCase().includes("async".toLowerCase())
-              ) {
+              if (item.title.toLowerCase().includes("async".toLowerCase())) {
                 const clear = async () => {
                   await AsyncStorage.clear();
                 };
@@ -58,11 +51,9 @@ const AccountManagementScreen = () => {
               }
             }}
             onLongPress={() => {
-              if (item.title.toLowerCase().includes("search".toLowerCase())) {
-              } else if (
-                item.title.toLowerCase().includes("async".toLowerCase())
-              ) {
+              if (item.title.toLowerCase().includes("async".toLowerCase())) {
                 const clear = async () => {
+                  // await AsyncStorage.removeItem("");
                   await AsyncStorage.clear();
                 };
                 try {

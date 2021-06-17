@@ -257,7 +257,7 @@ const StatisticsScreen = () => {
       <Text style={styles.headerText}>Statistics</Text>
 
       <View style={styles.pichartOuterView}>
-        <Text style={styles.titlePieChart}>Most Visited Countries</Text>
+        <Text style={styles.titlePieChart}>Most Sought Countries</Text>
 
         <View style={styles.piechartView}>
           {countriesData ? (
