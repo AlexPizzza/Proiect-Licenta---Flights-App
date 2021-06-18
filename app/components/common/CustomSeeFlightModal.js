@@ -194,7 +194,7 @@ const CustomSeeFlightModal = ({
         </View>
 
         <View style={styles.buttonView}>
-          <ButtonGoToProvider />
+          <ButtonGoToProvider item={flightToShow} />
         </View>
       </ScrollView>
     </Modal>

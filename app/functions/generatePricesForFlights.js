@@ -6,12 +6,7 @@ import generateAdditionalPriceBasedOnDaysLeftTillFlight from "./generateAddition
 const speed = 900;
 const numberOfMinutesInADay = 1440;
 
-const Europe = [
-  "Wizz Air",
-  "Ryanair",
-  "EasyJet",
-  "International Airlines Group",
-];
+const Europe = ["Wizz Air", "Ryanair", "EasyJet", "Virgin Atlantic"];
 
 const America = [
   "Jet Blue",
