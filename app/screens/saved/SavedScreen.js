@@ -57,7 +57,8 @@ const SavedScreen = () => {
   return (
     <View style={styles.container}>
       <CustomSeeFlightModal
-        flightToShow={flightToShow}
+        flightToShow={modalFlight}
+        setFlightToShow={setModalFlight}
         seeFlightModalVisible={seeFlightModalVisible}
         setSeeFlightModalVisible={setSeeFlightModalVisible}
       />
@@ -76,7 +77,7 @@ const SavedScreen = () => {
                 key={"key" + index}
                 item={item.data}
                 onPress={() => {
-                  addFlightToShow(item.data);
+                  addFlightToShow(item);
                   setSeeFlightModalVisible(true);
                 }}
               />
@@ -92,7 +93,7 @@ const SavedScreen = () => {
                 key={"key" + index}
                 item={item.data}
                 onPress={() => {
-                  addFlightToShow(item.data);
+                  addFlightToShow(item);
                   setSeeFlightModalVisible(true);
                 }}
               />

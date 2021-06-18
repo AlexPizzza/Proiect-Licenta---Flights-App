@@ -58,7 +58,7 @@ const SeeFlightRoundTrip = ({ item }) => {
 
     setDepartureDate(departureDateToShow);
     setArrivalDate(arrivalDateToShow);
-  }, []);
+  }, [item]);
 
   return (
     <View style={styles.container}>
@@ -121,12 +121,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -20,
     left: 10,
-    width: 190,
+    width: 200,
     height: 36,
     borderRadius: 10,
     backgroundColor: colors.PURPLE,
     borderWidth: 1,
     padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
   dateTextStyle: {
     ...globalStyles.boldText,

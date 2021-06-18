@@ -329,6 +329,7 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
       ) : seeFlightModalVisible ? (
         <CustomSeeFlightModal
           flightToShow={flightToShow}
+          setFlightToShow={setFlightToShow}
           seeFlightModalVisible={seeFlightModalVisible}
           setFlightsModalVisible={setFlightsModalVisible}
           setSeeFlightModalVisible={setSeeFlightModalVisible}

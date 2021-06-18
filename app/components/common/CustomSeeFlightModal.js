@@ -25,6 +25,7 @@ import globalStyles from "../../../global/globalStyles";
 
 const CustomSeeFlightModal = ({
   flightToShow,
+  setFlightToShow,
   setFlightsModalVisible,
   seeFlightModalVisible,
   setSeeFlightModalVisible,
@@ -39,9 +40,9 @@ const CustomSeeFlightModal = ({
   } = useContext(AuthContext);
 
   useEffect(() => {
-    if (savedFlights.length !== 0) {
-      savedFlights.forEach((savedFlight) => {
-        if (flightToShow) {
+    const checkFlights = () => {
+      if (savedFlights.length !== 0 && flightToShow) {
+        savedFlights.forEach((savedFlight, index) => {
           const flightToCompare = {
             airline: savedFlight.data.airline,
             arrival_city: {
@@ -58,43 +59,64 @@ const CustomSeeFlightModal = ({
             return: savedFlight.data.return,
             ticket_price: savedFlight.data.ticket_price,
           };
-          const flightToShowWithoutUserToken = {
-            airline: flightToShow.airline,
-            arrival_city: {
-              airport_name: flightToShow.arrival_city.airport_name,
-              city_name: flightToShow.arrival_city.city_name,
-            },
-            arrival_date: flightToShow.arrival_date,
-            departure_city: {
-              airport_name: flightToShow.departure_city.airport_name,
-              city_name: flightToShow.departure_city.city_name,
-            },
-            departure_date: flightToShow.departure_date,
-            outbound: flightToShow.outbound,
-            return: flightToShow.return,
-            ticket_price: flightToShow.ticket_price,
-          };
+          let flightToShowWithoutUserToken;
+          if (flightToShow.data) {
+            flightToShowWithoutUserToken = {
+              airline: flightToShow.data.airline,
+              arrival_city: {
+                airport_name: flightToShow.data.arrival_city.airport_name,
+                city_name: flightToShow.data.arrival_city.city_name,
+              },
+              arrival_date: flightToShow.data.arrival_date,
+              departure_city: {
+                airport_name: flightToShow.data.departure_city.airport_name,
+                city_name: flightToShow.data.departure_city.city_name,
+              },
+              departure_date: flightToShow.data.departure_date,
+              outbound: flightToShow.data.outbound,
+              return: flightToShow.data.return,
+              ticket_price: flightToShow.data.ticket_price,
+            };
+          } else {
+            flightToShowWithoutUserToken = {
+              airline: flightToShow.airline,
+              arrival_city: {
+                airport_name: flightToShow.arrival_city.airport_name,
+                city_name: flightToShow.arrival_city.city_name,
+              },
+              arrival_date: flightToShow.arrival_date,
+              departure_city: {
+                airport_name: flightToShow.departure_city.airport_name,
+                city_name: flightToShow.departure_city.city_name,
+              },
+              departure_date: flightToShow.departure_date,
+              outbound: flightToShow.outbound,
+              return: flightToShow.return,
+              ticket_price: flightToShow.ticket_price,
+            };
+          }
+
           if (
             JSON.stringify(flightToCompare) ===
             JSON.stringify(flightToShowWithoutUserToken)
           ) {
             setIsSaveButtonPressed(true);
           }
-        }
-      });
-    }
-  }, []);
+        });
+      }
+    };
 
-  const [flight, setFlight] = useState(flightToShow);
+    checkFlights();
+  }, [flightToShow]);
+
   const [isSaveButtonPressed, setIsSaveButtonPressed] = useState(false);
 
   const onPress = async () => {
     if (!isSaveButtonPressed) {
-      const savedFlight = await addFlightToSavedFlights(flight, token);
-      setFlight(savedFlight);
+      await addFlightToSavedFlights(flightToShow, token, setFlightToShow);
       setIsSaveButtonPressed(true);
     } else {
-      deleteFlightFromSavedFlights(flight, savedFlights);
+      deleteFlightFromSavedFlights(flightToShow, savedFlights);
       setIsSaveButtonPressed(false);
     }
   };
@@ -156,17 +178,17 @@ const CustomSeeFlightModal = ({
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View style={{ flex: 10 }}>
-          {flight ? (
-            flight.hasOwnProperty("outbound") ? (
-              <SeeFlightRoundTrip item={flight} />
-            ) : flight.data ? (
-              flight.data.hasOwnProperty("outbound") ? (
-                <SeeFlightRoundTrip item={flight} />
+          {flightToShow ? (
+            flightToShow.hasOwnProperty("outbound") ? (
+              <SeeFlightRoundTrip item={flightToShow} />
+            ) : flightToShow.data ? (
+              flightToShow.data.hasOwnProperty("outbound") ? (
+                <SeeFlightRoundTrip item={flightToShow} />
               ) : (
-                <SeeFlightOneWay item={flight} />
+                <SeeFlightOneWay item={flightToShow} />
               )
             ) : (
-              <SeeFlightOneWay item={flight} />
+              <SeeFlightOneWay item={flightToShow} />
             )
           ) : null}
         </View>

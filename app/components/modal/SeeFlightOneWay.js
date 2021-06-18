@@ -13,9 +13,20 @@ const SeeFlightOneWay = ({ item }) => {
   useEffect(() => {
     let splitDepartureDate;
     if (item.data) {
-      splitDepartureDate = item.data.departure_date.toString().split(" ");
+      if (item.data.departure_date instanceof Date) {
+        splitDepartureDate = item.data.departure_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.data.departure_date
+          .toDate()
+          .toString()
+          .split(" ");
+      }
     } else {
-      splitDepartureDate = item.departure_date.toString().split(" ");
+      if (item.departure_date instanceof Date) {
+        splitDepartureDate = item.departure_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.departure_date.toDate().toString().split(" ");
+      }
     }
 
     const departureDateToShow =
@@ -65,12 +76,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -20,
     left: 10,
-    width: 190,
+    width: 200,
     height: 36,
     borderRadius: 10,
     backgroundColor: colors.PURPLE,
     borderWidth: 1,
     padding: 2,
+    justifyContent: "center",
+    alignItems: "center",
   },
   dateTextStyle: {
     ...globalStyles.boldText,

@@ -398,34 +398,34 @@ const addWhereToCity = (dispatch) => (whereToCity) => {
   dispatch({ type: "add_where_to_city", payload: whereToCity });
 };
 
-const addFlightToSavedFlights = (dispatch) => async (flight, token) => {
-  if (!flight.hasOwnProperty("data")) {
-    flight.user_token = token;
-  }
+const addFlightToSavedFlights =
+  (dispatch) => async (flight, token, setFlightToShow) => {
+    if (!flight.hasOwnProperty("data")) {
+      flight.user_token = token;
+    }
 
-  const documentRef = db.collection("flights_saved_flights").doc();
-  const id = documentRef.id;
-  if (flight.hasOwnProperty("data")) {
-    await documentRef.set(flight.data);
-  } else {
-    await documentRef.set(flight);
-  }
+    const documentRef = db.collection("flights_saved_flights").doc();
+    const id = documentRef.id;
+    if (flight.hasOwnProperty("data")) {
+      await documentRef.set(flight.data);
+    } else {
+      await documentRef.set(flight);
+    }
 
-  if (flight.hasOwnProperty("data")) {
-    flight.id = id;
-    dispatch({ type: "add_flight_to_saved_flights", payload: flight });
-    return flight;
-  } else {
-    const savedFlight = {
-      id: id,
-      data: flight,
-    };
+    if (flight.hasOwnProperty("data")) {
+      flight.id = id;
+      dispatch({ type: "add_flight_to_saved_flights", payload: flight });
+      setFlightToShow(flight);
+    } else {
+      const savedFlight = {
+        id: id,
+        data: flight,
+      };
 
-    dispatch({ type: "add_flight_to_saved_flights", payload: savedFlight });
-
-    return savedFlight;
-  }
-};
+      dispatch({ type: "add_flight_to_saved_flights", payload: savedFlight });
+      setFlightToShow(savedFlight);
+    }
+  };
 
 const deleteFlightFromSavedFlights =
   (dispatch) => async (flight, savedFlights) => {

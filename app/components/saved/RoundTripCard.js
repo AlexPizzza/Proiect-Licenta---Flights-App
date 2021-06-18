@@ -11,11 +11,33 @@ const RoundTripCard = ({ item, onPress }) => {
   const [arrivalDate, setArrivalDate] = useState("");
 
   useEffect(() => {
-    const splitDepartureDate = item.departure_date
-      .toDate()
-      .toString()
-      .split(" ");
-    const splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
+    let splitDepartureDate;
+    let splitArrivalDate;
+    if (item.data) {
+      if (item.data.departure_date instanceof Date) {
+        splitDepartureDate = item.data.departure_date.toString().split(" ");
+        splitArrivalDate = item.data.arrival_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.data.departure_date
+          .toDate()
+          .toString()
+          .split(" ");
+        splitArrivalDate = item.data.arrival_date
+          .toDate()
+          .toString()
+          .split(" ");
+      }
+    } else {
+      if (item.departure_date instanceof Date) {
+        splitDepartureDate = item.departure_date.toString().split(" ");
+        splitArrivalDate = item.arrival_date.toString().split(" ");
+      } else {
+        splitDepartureDate = item.departure_date.toDate().toString().split(" ");
+        splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
+      }
+      // splitDepartureDate = item.departure_date.toDate().toString().split(" ");
+      // splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
+    }
 
     const departureDateToShow =
       splitDepartureDate[0] +
@@ -37,7 +59,7 @@ const RoundTripCard = ({ item, onPress }) => {
 
     setDepartureDate(departureDateToShow);
     setArrivalDate(arrivalDateToShow);
-  }, []);
+  }, [item]);
 
   return (
     <Ripple
