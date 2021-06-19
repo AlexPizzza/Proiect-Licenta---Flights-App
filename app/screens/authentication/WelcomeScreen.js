@@ -18,7 +18,7 @@ const slides = [
   {
     key: "1",
     title: "Welcome to Flights!",
-    description: "Enjoy",
+    description: "",
     image: firstImage,
   },
   {

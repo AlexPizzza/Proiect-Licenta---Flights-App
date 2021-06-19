@@ -441,35 +441,36 @@ const deleteFlightFromSavedFlights =
   };
 
 const getSavedFlights = (dispatch) => async () => {
-  let list = [];
-  let flightsToDelete = [];
+  if (auth.currentUser !== null) {
+    let snapshot = await db.collection("flights_saved_flights").get();
+    if (!snapshot.empty) {
+      let list = [];
+      let flightsToDelete = [];
 
-  const date = new Date();
+      const date = new Date();
 
-  const token = auth.currentUser.uid;
+      const token = auth.currentUser.uid;
 
-  let snapshot = await db.collection("flights_saved_flights").get();
-  if (!snapshot.empty) {
-    snapshot.forEach((doc) => {
-      if (doc.data().user_token === token) {
-        const docDate = new Date(doc.data().departure_date);
+      snapshot.forEach((doc) => {
+        if (doc.data().user_token === token) {
+          const docDate = new Date(doc.data().departure_date);
 
-        if (date.getTime() >= docDate.getTime()) {
-          flightsToDelete.push({ id: doc.id, data: doc.data() });
-        } else {
-          list.push({ id: doc.id, data: doc.data() });
+          if (date.getTime() >= docDate.getTime()) {
+            flightsToDelete.push({ id: doc.id, data: doc.data() });
+          } else {
+            list.push({ id: doc.id, data: doc.data() });
+          }
         }
-      }
-    });
+      });
 
-    if (flightsToDelete.length !== 0) {
-      flightsToDelete.forEach((flight) =>
-        db.collection("flights_saved_flights").doc(flight.id).delete()
-      );
+      if (flightsToDelete.length !== 0) {
+        flightsToDelete.forEach((flight) =>
+          db.collection("flights_saved_flights").doc(flight.id).delete()
+        );
+      }
+      dispatch({ type: "get_saved_flights", payload: list });
     }
   }
-
-  dispatch({ type: "get_saved_flights", payload: list });
 };
 
 const getStatisticsFlights = (dispatch) => async () => {

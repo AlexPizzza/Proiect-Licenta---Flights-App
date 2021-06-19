@@ -4,8 +4,6 @@ import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Ripple from "react-native-material-ripple";
 import DashedLine from "react-native-dashed-line";
 
-// import plane from "../../../assets/plane.jpg";
-
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 

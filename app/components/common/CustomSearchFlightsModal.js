@@ -130,8 +130,10 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
 
   useEffect(() => {
     if (whereToCity !== null) {
-      setWhereFromText("Bucharest");
-      setWhereToText(whereToCity.city_name);
+      setWhereFromText("Bucharest (OTP)");
+      setWhereToText(
+        whereToCity.city_name + " (" + whereToCity.iata_code + ")"
+      );
       setDepartureCity(bucharest);
       setArrivalCity(whereToCity);
     }

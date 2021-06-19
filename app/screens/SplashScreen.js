@@ -48,9 +48,12 @@ const SplashScreen = () => {
   const [isLocationTextEmpty, setIsLocationTextEmpty] = useState(true);
 
   useEffect(() => {
-    checkIsFirstTime();
-    tryLocalSignIn();
-    getDate();
+    const getData = async () => {
+      await checkIsFirstTime();
+      await tryLocalSignIn();
+      getDate();
+    };
+    getData();
   }, []);
 
   if (!fontsLoaded || isLocationTextEmpty) {
@@ -68,6 +71,7 @@ const SplashScreen = () => {
         onFinish={() => {
           addUserLocation(locationText);
           setIsLocationTextEmpty(false);
+
           addPriceToCountries(
             recommendedCountries,
             popularDestinations,

@@ -35,8 +35,6 @@ const RoundTripCard = ({ item, onPress }) => {
         splitDepartureDate = item.departure_date.toDate().toString().split(" ");
         splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
       }
-      // splitDepartureDate = item.departure_date.toDate().toString().split(" ");
-      // splitArrivalDate = item.arrival_date.toDate().toString().split(" ");
     }
 
     const departureDateToShow =

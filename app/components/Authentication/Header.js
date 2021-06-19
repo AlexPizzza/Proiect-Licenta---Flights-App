@@ -15,7 +15,6 @@ const Header = ({ image }) => {
 };
 
 const { width, height } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   imageContainer: {
     width,

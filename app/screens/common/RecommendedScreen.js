@@ -63,7 +63,6 @@ const RecommendedScreen = ({ navigation, route }) => {
                   }}
                 >
                   <CityBar bdRadius={10} text="Bucharest" />
-                  {/* <CityBar bdRadius={10} text="Everywhere" /> */}
                 </View>
                 <Divider
                   style={{

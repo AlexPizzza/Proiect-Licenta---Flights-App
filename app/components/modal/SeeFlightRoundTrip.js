@@ -87,6 +87,16 @@ const SeeFlightRoundTrip = ({ item }) => {
           <FlightInfoRoundTrip item={item} />
         </View>
       </View>
+
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.headerTextStyle}>
+          Airline: {item.data ? item.data.airline : item.airline}
+        </Text>
+        <Text style={styles.headerTextStyle}>
+          Ticket price: {item.data ? item.data.ticket_price : item.ticket_price}{" "}
+          {"RON"}
+        </Text>
+      </View>
     </View>
   );
 };

@@ -4,16 +4,11 @@ import { Button } from "react-native-elements";
 import colors from "../../../global/colors";
 
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as FlightsContext } from "../../context/FlightsContext";
 
-const AuthButton = ({
-  authText,
-  fullName,
-  email,
-  password,
-  confirmPassword,
-  style,
-}) => {
+const AuthButton = ({ authText, email, password, confirmPassword, style }) => {
   const { signin, signup } = useContext(AuthContext);
+  const { getSavedFlights } = useContext(FlightsContext);
 
   return (
     <View style={[styles.buttonContainer, style]}>
@@ -29,10 +24,12 @@ const AuthButton = ({
         onPress={
           authText === "signin"
             ? async () => {
-                signin({ email, password });
+                signin({ email, password }, getSavedFlights);
               }
             : authText === "signup"
-            ? async () => signup({ fullName, email, password, confirmPassword })
+            ? async () => {
+                signup({ email, password, confirmPassword });
+              }
             : null
         }
       />

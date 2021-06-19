@@ -23,7 +23,9 @@ const ProfileScreen = ({ navigation }) => {
         <Avatar
           rounded
           size="large"
-          title={auth.currentUser.displayName[0]}
+          title={
+            auth.currentUser.displayName ? auth.currentUser.displayName[0] : "U"
+          }
           containerStyle={{
             backgroundColor: colors.PURPLE,
             marginTop: 20,

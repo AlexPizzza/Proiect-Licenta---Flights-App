@@ -42,15 +42,27 @@ const SeeFlightOneWay = ({ item }) => {
   }, []);
 
   return (
-    <View style={styles.outerView}>
-      <View style={styles.innerView}>
-        <View style={styles.dateView}>
-          <Text style={styles.dateTextStyle}>{departureDate}</Text>
+    <View>
+      <View style={styles.outerView}>
+        <View style={styles.innerView}>
+          <View style={styles.dateView}>
+            <Text style={styles.dateTextStyle}>{departureDate}</Text>
+          </View>
+
+          <TextFromCityToAirport item={item} isFrom={true} />
+
+          <FlightInfoOneWay item={item} />
         </View>
+      </View>
 
-        <TextFromCityToAirport item={item} isFrom={true} />
-
-        <FlightInfoOneWay item={item} />
+      <View style={{ alignItems: "center", marginTop: 2 }}>
+        <Text style={styles.headerTextStyle}>
+          Airline: {item.data ? item.data.airline : item.airline}
+        </Text>
+        <Text style={styles.headerTextStyle}>
+          Ticket price: {item.data ? item.data.ticket_price : item.ticket_price}{" "}
+          {"RON"}
+        </Text>
       </View>
     </View>
   );
@@ -90,6 +102,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
     fontSize: 20,
     color: colors.WHITE,
+  },
+  headerTextStyle: {
+    ...globalStyles.boldText,
+    ...globalStyles.marginHorizontal,
+    fontSize: 24,
+    color: colors.BLACK,
+    marginTop: 12,
   },
 });
 

@@ -42,11 +42,13 @@ const CustomSearchLocation = ({
 
   useState(() => {
     if (isWhereFrom && whereFromText !== "Where from?") {
-      setLocationText(whereFromText);
-      getLocations(whereFromText);
+      const location = whereFromText.split(" (")[0];
+      setLocationText(location);
+      getLocations(location);
     } else if (!isWhereFrom && whereToText !== "Where to?") {
-      setLocationText(whereToText);
-      getLocations(whereToText);
+      const location = whereToText.split(" (")[0];
+      setLocationText(location);
+      getLocations(location);
     }
   }, []);
 

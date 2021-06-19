@@ -82,10 +82,9 @@ const SearchScreen = ({ navigation }) => {
       <View style={styles.nameContainer}>
         <Text style={globalStyles.headerText}>Hi</Text>
         <Text style={globalStyles.headerBoldText}>
-          {" "}
           {auth.currentUser.displayName
-            ? auth.currentUser.displayName.split(" ")[0]
-            : "Name"}
+            ? " " + auth.currentUser.displayName.split(" ")[0]
+            : null}
           ,
         </Text>
       </View>

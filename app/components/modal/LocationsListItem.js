@@ -23,14 +23,22 @@ const LocationsListItem = ({
       rippleColor={colors.PURPLE}
       rippleOpacity={0.8}
       onPress={() => {
-        onPress(item.city_name ? item.city_name : item.capital);
+        onPress(
+          item.city_name
+            ? item.city_name + " (" + item.iata_code + ")"
+            : item.capital
+        );
         setCity(item);
         clearLocations();
         setLocationModalVisible(false);
         setModalVisible(true);
       }}
       onLongPress={() => {
-        onPress(item.city_name ? item.city_name : item.capital);
+        onPress(
+          item.city_name
+            ? item.city_name + "(" + item.iata_code + ")"
+            : item.capital
+        );
         setCity(item);
         clearLocations();
         setLocationModalVisible(false);

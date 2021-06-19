@@ -44,14 +44,8 @@ const authReducer = (state, action) => {
 
 const signup =
   (dispatch) =>
-  async ({ fullName, email, password, confirmPassword }) => {
+  async ({ email, password, confirmPassword }) => {
     let errors = [];
-
-    if (!fullName) {
-      errors.push("Name must be provided.");
-    } else if (fullName.length < 2) {
-      errors.push("Name is too short.");
-    }
 
     if (!email) {
       errors.push("Email must be provided.");
@@ -73,14 +67,15 @@ const signup =
           email,
           password
         );
-        await authUser.user.updateProfile({
-          displayName: fullName,
-        });
+        // await authUser.user.updateProfile({
+        //   displayName: fullName,
+        // });
 
         const token = authUser.user.uid;
         await AsyncStorage.setItem("token", token);
-        dispatch({ type: "signin", payload: token });
+
         navigation.navigate("SignIn");
+        dispatch({ type: "signin", payload: token });
       } catch (error) {
         if (error.message.toLowerCase().includes("email"))
           dispatch({ type: "add_email_error", payload: error.message });
@@ -105,12 +100,15 @@ const signup =
 
 const signin =
   (dispatch) =>
-  async ({ email, password }) => {
+  async ({ email, password }, getSavedFlights) => {
     try {
       const authUser = await auth.signInWithEmailAndPassword(email, password);
 
+      getSavedFlights();
+
       const token = authUser.user.uid;
       await AsyncStorage.setItem("token", token);
+
       dispatch({ type: "signin", payload: token });
     } catch (error) {
       console.log(error);

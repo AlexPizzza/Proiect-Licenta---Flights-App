@@ -10,18 +10,6 @@ import { Context as FlightsContext } from "../../context/FlightsContext";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const list = [
-  {
-    title: "Zbor 1",
-  },
-  {
-    title: "Zbor 2",
-  },
-  {
-    title: "Zbor 3",
-  },
-];
-
 const SavedScreen = () => {
   const {
     state: { savedFlights, flightToShow },

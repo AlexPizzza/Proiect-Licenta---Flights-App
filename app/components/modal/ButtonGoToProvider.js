@@ -47,11 +47,13 @@ const ButtonGoToProvider = ({ item }) => {
   const [airline, setAirline] = useState("");
   useEffect(() => {
     if (item.data) {
-      setAirline(item.data.airline.trim().toLowerCase());
+      const flightAirline = item.data.airline.replace(/\s+/g, "").toLowerCase();
+      setAirline(flightAirline);
     } else {
-      setAirline(item.airline.trim().toLowerCase());
+      const flightAirline = item.airline.replace(/\s+/g, "").toLowerCase();
+      setAirline(flightAirline);
     }
-  }, []);
+  }, [item]);
 
   const handlePress = useCallback(async () => {
     let url;
@@ -128,7 +130,7 @@ const ButtonGoToProvider = ({ item }) => {
     } else {
       Alert.alert(`URL format is bad: ${url}`);
     }
-  }, [url]);
+  }, [airline]);
 
   return (
     <Ripple

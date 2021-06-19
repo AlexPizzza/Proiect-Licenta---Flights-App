@@ -49,7 +49,7 @@ const SignUp = () => {
     <View style={styles.formContainer}>
       <WelcomeText
         headerText="Create account"
-        normalText="Let us know your name, email and password"
+        normalText="Let us know your email and password"
       />
 
       <Formik
@@ -63,7 +63,7 @@ const SignUp = () => {
       >
         {({ handleChange, handleBlur, values, errors, touched }) => (
           <View style={styles.inputsContainer}>
-            <Input
+            {/* <Input
               placeholder="Full Name"
               focusable
               autoCapitalize="words"
@@ -85,7 +85,7 @@ const SignUp = () => {
               errorMessage={
                 state.fullNameError || (touched.fullName && errors.fullName)
               }
-            />
+            /> */}
             <Input
               placeholder="Enter your email"
               autoCapitalize="none"
@@ -158,7 +158,6 @@ const SignUp = () => {
 
             <AuthButton
               authText="signup"
-              fullName={values.fullName}
               email={values.email}
               password={values.password}
               confirmPassword={values.confirmPassword}
