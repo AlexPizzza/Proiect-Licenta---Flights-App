@@ -10,7 +10,7 @@ import { Context as FlightsContext } from "../../context/FlightsContext";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const CityCard = ({ item }) => {
+const CityCard = ({ item, currency }) => {
   const { addWhereToCity } = useContext(FlightsContext);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -44,7 +44,10 @@ const CityCard = ({ item }) => {
           <Text style={styles.itemTitle}>{item.city_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
-          <Text style={styles.itemPrice}>from {item.price} RON</Text>
+          <Text style={styles.itemPrice}>
+            from {Math.ceil(item.price / currency.rate / 5) * 5}{" "}
+            {currency.currency_iso}
+          </Text>
         </View>
       </Ripple>
     </View>

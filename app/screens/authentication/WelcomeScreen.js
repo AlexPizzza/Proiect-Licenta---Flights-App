@@ -17,7 +17,7 @@ import fourthImage from "../../../assets/welcome/4.png";
 const slides = [
   {
     key: "1",
-    title: "Welcome to Flights!",
+    title: "Welcome to Fly!",
     description: "",
     image: firstImage,
   },

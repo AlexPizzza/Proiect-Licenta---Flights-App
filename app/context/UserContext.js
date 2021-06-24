@@ -1,5 +1,128 @@
 import createDataContext from "./createDataContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { parseString } from "react-native-xml2js";
+
+const bnrLink = "https://www.bnr.ro/nbrfxrates.xml";
+const currenciesList = [
+  {
+    currency_iso: "AED",
+    currency_name: "United Arab Emirates dirham",
+  },
+  {
+    currency_iso: "AUD",
+    currency_name: "Australian dollar",
+  },
+  {
+    currency_iso: "BGN",
+    currency_name: "Bulgarian lev",
+  },
+  {
+    currency_iso: "BRL",
+    currency_name: "Brazilian real",
+  },
+  {
+    currency_iso: "CAD",
+    currency_name: "Canadian dollar",
+  },
+  {
+    currency_iso: "CHF",
+    currency_name: "Swiss franc",
+  },
+  {
+    currency_iso: "CNY",
+    currency_name: "Chinese yuan renminbi",
+  },
+  {
+    currency_iso: "CZK",
+    currency_name: "Czech koruna",
+  },
+  {
+    currency_iso: "DKK",
+    currency_name: "Danish krone",
+  },
+  {
+    currency_iso: "EGP",
+    currency_name: "Egyptian pound",
+  },
+  {
+    currency_iso: "EUR",
+    currency_name: "Euro",
+  },
+  {
+    currency_iso: "GBP",
+    currency_name: "British pound sterling",
+  },
+  {
+    currency_iso: "HRK",
+    currency_name: "Croatian kuna",
+  },
+  {
+    currency_iso: "INR",
+    currency_name: "Indian rupee",
+  },
+  {
+    currency_iso: "JPY",
+    currency_name: "Japanese yen",
+  },
+  {
+    currency_iso: "KRW",
+    currency_name: "South Korean won",
+  },
+  {
+    currency_iso: "MDL",
+    currency_name: "Moldovan leu",
+  },
+  {
+    currency_iso: "MXN",
+    currency_name: "Mexican peso",
+  },
+  {
+    currency_iso: "NOK",
+    currency_name: "Norwegian krone",
+  },
+  {
+    currency_iso: "NZD",
+    currency_name: "New Zealand dollar",
+  },
+  {
+    currency_iso: "PLN",
+    currency_name: "Polish złoty",
+  },
+  {
+    currency_iso: "RON",
+    currency_name: "Romanian leu",
+    rate: 1,
+  },
+  {
+    currency_iso: "RSD",
+    currency_name: "Serbian dinar",
+  },
+  {
+    currency_iso: "RUB",
+    currency_name: "Russian ruble",
+  },
+  {
+    currency_iso: "SEK",
+    currency_name: "Swedish krona",
+  },
+  {
+    currency_iso: "TRY",
+    currency_name: "Turkish lira",
+  },
+  {
+    currency_iso: "UAH",
+    currency_name: "Ukrainian hryvnia",
+  },
+  {
+    currency_iso: "USD",
+    currency_name: "United States dollar",
+  },
+  {
+    currency_iso: "ZAR",
+    currency_name: "South African rand",
+  },
+];
 
 const userReducer = (state, action) => {
   switch (action.type) {
@@ -15,6 +138,10 @@ const userReducer = (state, action) => {
       return { isFirstTime: action.payload, errorMessage: "" };
     case "clear_error_message":
       return { ...state, errorMessage: "" };
+    case "add_currencies":
+      return { ...state, currencies: action.payload };
+    case "change_current_currency":
+      return { ...state, currentCurrency: action.payload };
     default:
       return state;
   }
@@ -94,10 +221,66 @@ const addUserLocationError = (dispatch) => (errorMsg) => {
   dispatch({ type: "add_user_location_error", payload: errorMsg });
 };
 
+const addCurrencies = (dispatch) => () => {
+  axios
+    .get(bnrLink)
+    .then((response) => response.data)
+    .then((response) => {
+      parseString(response, function (err, result) {
+        const rates = result.DataSet.Body[0].Cube[0].Rate;
+        rates.forEach((rate) => {
+          currenciesList.forEach((currency) => {
+            if (rate.$.currency === currency.currency_iso) {
+              currency.rate = rate._;
+
+              if (
+                currency.currency_iso === "JPY" ||
+                currency.currency_iso === "KRW"
+              ) {
+                currency.rate = rate._ / 100;
+              }
+            }
+          });
+        });
+        dispatch({ type: "add_currencies", payload: currenciesList });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: "add_currencies", payload: [] });
+    });
+};
+
+const changeCurrentCurrency = (disptach) => async (currency) => {
+  await AsyncStorage.setItem("currency", JSON.stringify(currency));
+
+  disptach({ type: "change_current_currency", payload: currency });
+};
+
+const getCurrentCurrency = (dispatch) => async () => {
+  const unparsedCurrency = await AsyncStorage.getItem("currency");
+  if (unparsedCurrency !== null && unparsedCurrency !== undefined) {
+    const parsedCurrency = JSON.parse(unparsedCurrency);
+    dispatch({ type: "change_current_currency", payload: parsedCurrency });
+  } else {
+    dispatch({
+      type: "change_current_currency",
+      payload: {
+        currency_iso: "RON",
+        currency_name: "Romanian leu",
+        rate: 1,
+      },
+    });
+  }
+};
+
 export const { Context, Provider } = createDataContext(
   userReducer,
   {
+    addCurrencies,
     addUserRating,
+    changeCurrentCurrency,
+    getCurrentCurrency,
     getUserRating,
     addUserLocation,
     addUserLocationError,
@@ -110,5 +293,7 @@ export const { Context, Provider } = createDataContext(
     isFirstTime: true,
     errorMessage: "",
     userRating: 0,
+    currencies: [],
+    currentCurrency: null,
   }
 );

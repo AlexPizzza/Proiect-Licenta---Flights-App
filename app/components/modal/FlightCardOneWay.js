@@ -13,6 +13,7 @@ const FlightCardOneWay = ({
   setSeeFlightModalVisible,
   setFlightsModalVisible,
   setFlightToShow,
+  currency,
 }) => {
   return (
     <View style={styles.container}>
@@ -101,7 +102,10 @@ const FlightCardOneWay = ({
           </View>
 
           <View style={styles.textViewPrice}>
-            <Text style={styles.itemPrice}>{item.ticket_price} RON</Text>
+            <Text style={styles.itemPrice}>
+              {Math.ceil(item.ticket_price / currency.rate / 5) * 5}{" "}
+              {currency.currency_iso}
+            </Text>
           </View>
         </View>
       </Ripple>

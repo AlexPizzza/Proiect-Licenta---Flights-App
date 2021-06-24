@@ -6,6 +6,7 @@ import RoundTripCard from "../../components/saved/RoundTripCard";
 import OneWayCard from "../../components/saved/OneWayCard";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -15,6 +16,10 @@ const SavedScreen = () => {
     state: { savedFlights, flightToShow },
     addFlightToShow,
   } = useContext(FlightsContext);
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
+
   const [seeFlightModalVisible, setSeeFlightModalVisible] = useState(false);
   const [modalFlight, setModalFlight] = useState(flightToShow);
 
@@ -68,6 +73,7 @@ const SavedScreen = () => {
                   addFlightToShow(item);
                   setSeeFlightModalVisible(true);
                 }}
+                currency={currentCurrency}
               />
             ))}
           </View>
@@ -84,6 +90,7 @@ const SavedScreen = () => {
                   addFlightToShow(item);
                   setSeeFlightModalVisible(true);
                 }}
+                currency={currentCurrency}
               />
             ))}
           </View>

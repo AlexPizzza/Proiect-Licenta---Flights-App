@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -13,6 +13,7 @@ import EstimatedPrices from "../../components/common/EstimatedPrices";
 import CityBar from "../../components/common/CityBar";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -21,6 +22,10 @@ const CitiesScreen = () => {
   const {
     state: { cities },
   } = useContext(FlightsContext);
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
+
   return (
     <View style={styles.container}>
       <View>
@@ -50,7 +55,11 @@ const CitiesScreen = () => {
               }}
             />
             {cities.map((item, index) => (
-              <CityCard key={"key" + index} item={item.data} />
+              <CityCard
+                key={"key" + index}
+                item={item.data}
+                currency={currentCurrency}
+              />
             ))}
           </ScrollView>
         )}

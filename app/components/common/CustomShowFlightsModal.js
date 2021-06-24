@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Dimensions,
   Modal,
@@ -11,6 +11,8 @@ import {
 import ModalCloseButton from "../modal/ModalCloseButton";
 import FlightCardRoundTrip from "../modal/FlightCardRoundTrip";
 import FlightCardOneWay from "../modal/FlightCardOneWay";
+
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -30,6 +32,10 @@ const CustomShowFlightsModal = ({
   setSeeFlightModalVisible,
   setFlightToShow,
 }) => {
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
+
   const [modalFirstDate, setModalFirstDate] = useState("");
   const [modalSecondDate, setModalSecondDate] = useState("");
   const [modalThirdDate, setModalThirdDate] = useState("");
@@ -169,6 +175,7 @@ const CustomShowFlightsModal = ({
                   setFlightsModalVisible={setFlightsModalVisible}
                   setSeeFlightModalVisible={setSeeFlightModalVisible}
                   setFlightToShow={setFlightToShow}
+                  currency={currentCurrency}
                 />
               ))
             : flightsToShow.map((item, index) => (
@@ -178,6 +185,7 @@ const CustomShowFlightsModal = ({
                   setFlightsModalVisible={setFlightsModalVisible}
                   setSeeFlightModalVisible={setSeeFlightModalVisible}
                   setFlightToShow={setFlightToShow}
+                  currency={currentCurrency}
                 />
               ))}
         </ScrollView>

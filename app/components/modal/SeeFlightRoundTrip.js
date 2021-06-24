@@ -7,7 +7,7 @@ import FlightInfoRoundTrip from "./FlightInfoRoundTrip";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const SeeFlightRoundTrip = ({ item }) => {
+const SeeFlightRoundTrip = ({ item, currency }) => {
   const [departureDate, setDepartureDate] = useState("");
   const [arrivalDate, setArrivalDate] = useState("");
 
@@ -93,8 +93,11 @@ const SeeFlightRoundTrip = ({ item }) => {
           Airline: {item.data ? item.data.airline : item.airline}
         </Text>
         <Text style={styles.headerTextStyle}>
-          Ticket price: {item.data ? item.data.ticket_price : item.ticket_price}{" "}
-          {"RON"}
+          Ticket price:{" "}
+          {item.data
+            ? Math.ceil(item.data.ticket_price / currency.rate / 5) * 5
+            : Math.ceil(item.ticket_price / currency.rate / 5) * 5}{" "}
+          {currency.currency_iso}
         </Text>
       </View>
     </View>

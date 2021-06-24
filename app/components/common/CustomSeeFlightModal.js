@@ -19,6 +19,7 @@ import SeeFlightOneWay from "../modal/SeeFlightOneWay";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { Context as AuthContext } from "../../context/AuthContext";
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -38,6 +39,9 @@ const CustomSeeFlightModal = ({
   const {
     state: { token },
   } = useContext(AuthContext);
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
 
   useEffect(() => {
     const checkFlights = () => {
@@ -180,15 +184,24 @@ const CustomSeeFlightModal = ({
         <View style={{ flex: 10 }}>
           {flightToShow ? (
             flightToShow.hasOwnProperty("outbound") ? (
-              <SeeFlightRoundTrip item={flightToShow} />
+              <SeeFlightRoundTrip
+                item={flightToShow}
+                currency={currentCurrency}
+              />
             ) : flightToShow.data ? (
               flightToShow.data.hasOwnProperty("outbound") ? (
-                <SeeFlightRoundTrip item={flightToShow} />
+                <SeeFlightRoundTrip
+                  item={flightToShow}
+                  currency={currentCurrency}
+                />
               ) : (
-                <SeeFlightOneWay item={flightToShow} />
+                <SeeFlightOneWay
+                  item={flightToShow}
+                  currency={currentCurrency}
+                />
               )
             ) : (
-              <SeeFlightOneWay item={flightToShow} />
+              <SeeFlightOneWay item={flightToShow} currency={currentCurrency} />
             )
           ) : null}
         </View>

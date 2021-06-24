@@ -1,46 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 import { ListItem } from "react-native-elements";
-
 import Ripple from "react-native-material-ripple";
+
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const list = [
-  {
-    title: "Currency",
-    subTitle: "Romanian Leu",
-  },
-];
+const SettingsScreen = ({ navigation }) => {
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
 
-const SettingsScreen = () => {
+  const onPress = () => {
+    navigation.navigate("Currencies");
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.settingsHeaderText}>Settings</Text>
-      {list.map((item, index) => (
-        <Ripple
-          key={index}
-          rippleColor={colors.PURPLE}
-          rippleOpacity={0.8}
-          onLongPress={() => {}}
-          delayLongPress={150}
-        >
-          <ListItem bottomDivider>
-            <ListItem.Content>
-              <ListItem.Title style={styles.title}>{item.title}</ListItem.Title>
-              <ListItem.Subtitle style={styles.title}>
-                {item.subTitle}
-              </ListItem.Subtitle>
-            </ListItem.Content>
-            <ListItem.Chevron
-              size={20}
-              iconStyle={{ color: colors.PURPLE_LIGHT }}
-            />
-          </ListItem>
-        </Ripple>
-      ))}
+      <Ripple
+        rippleColor={colors.PURPLE}
+        rippleOpacity={0.8}
+        onPress={onPress}
+        onLongPress={onPress}
+        delayLongPress={150}
+      >
+        <ListItem bottomDivider>
+          <ListItem.Content>
+            <ListItem.Title style={styles.title}>Currency</ListItem.Title>
+            <ListItem.Subtitle style={styles.title}>
+              {currentCurrency.currency_name}
+            </ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron
+            size={20}
+            iconStyle={{ color: colors.PURPLE_LIGHT }}
+          />
+        </ListItem>
+      </Ripple>
     </View>
   );
 };

@@ -6,7 +6,7 @@ import Ripple from "react-native-material-ripple";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const OneWayCard = ({ item, onPress }) => {
+const OneWayCard = ({ item, onPress, currency }) => {
   const [departureDate, setDepartureDate] = useState("");
 
   useEffect(() => {
@@ -72,8 +72,8 @@ const OneWayCard = ({ item, onPress }) => {
         <View style={styles.priceContainer}>
           <Text style={styles.priceTextStyle}>Ticket price: </Text>
           <Text style={styles.priceTextStyle}>
-            {item.ticket_price}
-            {" RON"}
+            {Math.ceil(item.ticket_price / currency.rate / 5) * 5}{" "}
+            {currency.currency_iso}
           </Text>
         </View>
       </View>

@@ -7,7 +7,7 @@ import FlightInfoOneWay from "./FlightInfoOneWay";
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
-const SeeFlightOneWay = ({ item }) => {
+const SeeFlightOneWay = ({ item, currency }) => {
   const [departureDate, setDepartureDate] = useState("");
 
   useEffect(() => {
@@ -60,8 +60,11 @@ const SeeFlightOneWay = ({ item }) => {
           Airline: {item.data ? item.data.airline : item.airline}
         </Text>
         <Text style={styles.headerTextStyle}>
-          Ticket price: {item.data ? item.data.ticket_price : item.ticket_price}{" "}
-          {"RON"}
+          Ticket price:{" "}
+          {item.data
+            ? Math.ceil(item.data.ticket_price / currency.rate / 5) * 5
+            : Math.ceil(item.ticket_price / currency.rate / 5) * 5}{" "}
+          {currency.currency_iso}
         </Text>
       </View>
     </View>

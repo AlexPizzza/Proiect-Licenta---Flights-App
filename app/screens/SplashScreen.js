@@ -23,6 +23,8 @@ const SplashScreen = () => {
     checkIsFirstTime,
     addUserLocation,
     getUserRating,
+    addCurrencies,
+    getCurrentCurrency,
   } = useContext(UserContext);
 
   const {
@@ -64,6 +66,8 @@ const SplashScreen = () => {
           await getUserRating();
           await getStatisticsFlights();
           getCountriesBySearchType();
+          addCurrencies();
+          getCurrentCurrency();
 
           getSavedFlights();
           await Promise.all([new Promise((res) => setTimeout(res, 2000))]);

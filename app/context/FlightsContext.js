@@ -180,7 +180,7 @@ const addPriceToCountries =
   ) => {
     recommendedCountries.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -195,7 +195,7 @@ const addPriceToCountries =
 
     popularDestinations.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -210,7 +210,7 @@ const addPriceToCountries =
 
     quickGetaways.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -222,7 +222,7 @@ const addPriceToCountries =
 
     longerTrips.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -234,7 +234,7 @@ const addPriceToCountries =
 
     lastMinute.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -246,7 +246,7 @@ const addPriceToCountries =
 
     planAhead.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userCoords.latitude,
         userCoords.longitude,
         element.data.latitude,
@@ -322,7 +322,7 @@ const addPriceToRecommendedCountries =
   (dispatch) => (countries, userLat, userLong) => {
     countries.forEach((element) => {
       element.data.price = generatePrice(
-        30,
+        1,
         userLat,
         userLong,
         element.data.latitude,
@@ -344,7 +344,7 @@ const addCities = (dispatch) => async (country_iso2, userCoords) => {
 
   citiesList.forEach((element) => {
     element.data.price = generatePrice(
-      30,
+      1,
       userCoords.latitude,
       userCoords.longitude,
       element.data.latitude,

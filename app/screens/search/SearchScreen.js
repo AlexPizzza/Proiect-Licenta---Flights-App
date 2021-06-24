@@ -62,14 +62,15 @@ const SearchScreen = ({ navigation }) => {
         setModalVisible={setModalVisible}
       />
       <View style={styles.location}>
-        <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />
+        {state.userLocation !== undefined ? (
+          <FontAwesome5 name="map-marker-alt" size={28} color={colors.ORANGE} />
+        ) : null}
 
         <View style={styles.locationText}>
           <Text style={globalStyles.headerBoldText}>
             {state.userLocation !== undefined
-              ? state.userLocation.split(",")[0]
-              : locationText.split(",")[0]}
-            ,
+              ? state.userLocation.split(",")[0] + ","
+              : locationText.split(",")[0] + ","}
           </Text>
           <Text style={globalStyles.headerText}>
             {state.userLocation !== undefined
