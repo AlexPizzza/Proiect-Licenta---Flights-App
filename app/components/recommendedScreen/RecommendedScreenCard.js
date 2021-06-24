@@ -8,7 +8,7 @@ import { Context as FlightsContext } from "../../context/FlightsContext";
 import globalStyles from "../../../global/globalStyles";
 import colors from "../../../global/colors";
 
-const RecommendedScreenCard = ({ item, onPress }) => {
+const RecommendedScreenCard = ({ item, onPress, currency }) => {
   const {
     state: { cities, userCoords },
     addCities,
@@ -46,7 +46,10 @@ const RecommendedScreenCard = ({ item, onPress }) => {
           <Text style={styles.itemTitle}>{item.country_name}</Text>
         </View>
         <View style={styles.textViewPrice}>
-          <Text style={styles.itemPrice}>from {item.price} RON</Text>
+          <Text style={styles.itemPrice}>
+            from {Math.ceil(item.price / currency.rate / 5) * 5}{" "}
+            {currency.currency_iso}
+          </Text>
         </View>
       </Ripple>
     </View>

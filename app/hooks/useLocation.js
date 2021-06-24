@@ -13,7 +13,7 @@ export default () => {
   const { addUserCoordinates } = useContext(FlightsContext);
 
   useEffect(() => {
-    (async () => {
+    const geUserLocation = async () => {
       try {
         let { status } = await Location.requestPermissionsAsync();
         if (status !== "granted") {
@@ -42,7 +42,8 @@ export default () => {
       } catch (error) {
         addUserLocationError(error);
       }
-    })();
+    };
+    geUserLocation();
   }, []);
   return [locationText];
 };

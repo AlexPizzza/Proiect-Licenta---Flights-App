@@ -29,6 +29,7 @@ const SplashScreen = () => {
 
   const {
     state: {
+      exploreEverywhere,
       recommendedCountries,
       popularDestinations,
       quickGetaways,
@@ -76,15 +77,18 @@ const SplashScreen = () => {
           addUserLocation(locationText);
           setIsLocationTextEmpty(false);
 
-          addPriceToCountries(
-            recommendedCountries,
-            popularDestinations,
-            quickGetaways,
-            longerTrips,
-            lastMinute,
-            planAhead,
-            userCoords
-          );
+          setTimeout(() => {
+            addPriceToCountries(
+              exploreEverywhere,
+              recommendedCountries,
+              popularDestinations,
+              quickGetaways,
+              longerTrips,
+              lastMinute,
+              planAhead,
+              userCoords
+            );
+          }, 600);
         }}
         onError={() => {}}
       />

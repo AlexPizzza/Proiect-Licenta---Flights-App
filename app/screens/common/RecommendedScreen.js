@@ -7,6 +7,7 @@ import EstimatedPrices from "../../components/common/EstimatedPrices";
 import CityBar from "../../components/common/CityBar";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
+import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -14,6 +15,7 @@ import globalStyles from "../../../global/globalStyles";
 const RecommendedScreen = ({ navigation, route }) => {
   const {
     state: {
+      exploreEverywhere,
       recommendedCountries,
       popularDestinations,
       quickGetaways,
@@ -22,6 +24,9 @@ const RecommendedScreen = ({ navigation, route }) => {
       planAhead,
     },
   } = useContext(FlightsContext);
+  const {
+    state: { currentCurrency },
+  } = useContext(UserContext);
 
   const { searchType } = route.params;
 
@@ -47,6 +52,8 @@ const RecommendedScreen = ({ navigation, route }) => {
             ? lastMinute
             : searchType === "plan_ahead"
             ? planAhead
+            : searchType === "explore_everywhere"
+            ? exploreEverywhere
             : null
         }
         keyExtractor={(item) => item.id}
@@ -82,6 +89,7 @@ const RecommendedScreen = ({ navigation, route }) => {
               <RecommendedScreenCard
                 item={item.data}
                 onPress={goToCitiesScreen}
+                currency={currentCurrency}
               />
             );
         }}

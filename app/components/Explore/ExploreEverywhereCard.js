@@ -1,5 +1,6 @@
 import React from "react";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Ripple from "react-native-material-ripple";
 
@@ -9,13 +10,23 @@ import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
 const ExploreEverywhereCard = () => {
+  const navigation = useNavigation();
+
+  const goToExploreCountries = () => {
+    navigation.navigate("Recommended", {
+      title: "Explore Everywhere",
+      searchType: "explore_everywhere",
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Ripple
         rippleColor={colors.EXPLORE_CARD_TAP}
         rippleOpacity={0.4}
         rippleContainerBorderRadius={8}
-        onLongPress={() => {}}
+        onPress={goToExploreCountries}
+        onLongPress={goToExploreCountries}
         delayLongPress={150}
         style={styles.rippleContainer}
       >

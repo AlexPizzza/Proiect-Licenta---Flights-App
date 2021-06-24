@@ -6,6 +6,11 @@ import sorter from "../functions/sorter";
 
 const flightsReducer = (state, action) => {
   switch (action.type) {
+    case "add_explore_everywhere_countries":
+      return {
+        ...state,
+        exploreEverywhere: action.payload,
+      };
     case "add_recommended_countries":
       return {
         ...state,
@@ -129,7 +134,14 @@ const getRecommendedCountries = (dispatch) => async () => {
 const getCountriesBySearchType = (dispatch) => async () => {
   try {
     let list = [];
-    let snapshot = await db.collection("flights_popular_destinations").get();
+    let snapshot = await db.collection("flights_explore_everywhere").get();
+    snapshot.forEach((doc) => {
+      list.push({ id: doc.id, data: doc.data() });
+    });
+    dispatch({ type: "add_explore_everywhere_countries", payload: list });
+
+    list = [];
+    snapshot = await db.collection("flights_popular_destinations").get();
     snapshot.forEach((doc) => {
       list.push({ id: doc.id, data: doc.data() });
     });
@@ -170,6 +182,7 @@ const getCountriesBySearchType = (dispatch) => async () => {
 const addPriceToCountries =
   (dispatch) =>
   (
+    exploreEverywhere,
     recommendedCountries,
     popularDestinations,
     quickGetaways,
@@ -178,6 +191,21 @@ const addPriceToCountries =
     planAhead,
     userCoords
   ) => {
+    exploreEverywhere.forEach((element) => {
+      element.data.price = generatePrice(
+        1,
+        userCoords.latitude,
+        userCoords.longitude,
+        element.data.latitude,
+        element.data.longitude
+      );
+    });
+    exploreEverywhere.sort(sorter);
+    dispatch({
+      type: "add_explore_everywhere_countries",
+      payload: exploreEverywhere,
+    });
+
     recommendedCountries.forEach((element) => {
       element.data.price = generatePrice(
         1,
