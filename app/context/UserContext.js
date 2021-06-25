@@ -178,12 +178,14 @@ const setValueIsFirstTime = (dispatch) => async (value) => {
 };
 
 const addUserRating = (dispatch) => async (rating) => {
-  await AsyncStorage.setItem("rating", JSON.stringify(rating));
+  if (rating !== null || rating !== undefined) {
+    await AsyncStorage.setItem("rating", JSON.stringify(rating));
 
-  dispatch({
-    type: "add_user_rating",
-    payload: rating,
-  });
+    dispatch({
+      type: "add_user_rating",
+      payload: rating,
+    });
+  }
 };
 
 const getUserRating = (dispatch) => async () => {

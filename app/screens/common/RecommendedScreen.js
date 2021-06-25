@@ -4,13 +4,11 @@ import { Divider } from "react-native-elements";
 
 import RecommendedScreenCard from "../../components/recommendedScreen/RecommendedScreenCard";
 import EstimatedPrices from "../../components/common/EstimatedPrices";
-import CityBar from "../../components/common/CityBar";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
-import globalStyles from "../../../global/globalStyles";
 
 const RecommendedScreen = ({ navigation, route }) => {
   const {
@@ -61,21 +59,6 @@ const RecommendedScreen = ({ navigation, route }) => {
           if (index === 0) {
             return (
               <View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    marginVertical: 10,
-                    ...globalStyles.marginHorizontal,
-                  }}
-                >
-                  <CityBar bdRadius={10} text="Bucharest" />
-                </View>
-                <Divider
-                  style={{
-                    backgroundColor: colors.BLACK,
-                  }}
-                />
                 <EstimatedPrices />
                 <Divider
                   style={{

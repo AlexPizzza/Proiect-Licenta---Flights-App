@@ -44,7 +44,10 @@ const flightsReducer = (state, action) => {
     case "add_cities":
       return {
         ...state,
-        cities: action.payload,
+        cities: {
+          ...state.cities,
+          [action.attribute]: action.payload,
+        },
       };
     case "clear_cities":
       return {
@@ -361,35 +364,35 @@ const addPriceToRecommendedCountries =
     dispatch({ type: "add_recommended_countries", payload: countries });
   };
 
-const addCities = (dispatch) => async (country_iso2, userCoords) => {
-  let citiesList = [];
+const addCities =
+  (dispatch) => async (country_iso2, userCoords, citiesContext) => {
+    if (!citiesContext.hasOwnProperty(country_iso2)) {
+      let citiesList = [];
 
-  const citiesRef = db.collection("flights_cities_" + country_iso2);
-  const cities = await citiesRef.orderBy("image", "asc").get();
-  cities.forEach((doc) => {
-    citiesList.push({ id: doc.id, data: doc.data() });
-  });
+      const citiesRef = db.collection("flights_cities_" + country_iso2);
+      const cities = await citiesRef.orderBy("image", "asc").get();
+      cities.forEach((doc) => {
+        citiesList.push({ id: doc.id, data: doc.data() });
+      });
 
-  citiesList.forEach((element) => {
-    element.data.price = generatePrice(
-      1,
-      userCoords.latitude,
-      userCoords.longitude,
-      element.data.latitude,
-      element.data.longitude
-    );
-  });
+      citiesList.forEach((element) => {
+        element.data.price = generatePrice(
+          1,
+          userCoords.latitude,
+          userCoords.longitude,
+          element.data.latitude,
+          element.data.longitude
+        );
+      });
 
-  citiesList.sort(sorter);
-  dispatch({
-    type: "add_cities",
-    payload: citiesList,
-  });
-};
-
-const clearCities = (dispatch) => () => {
-  dispatch({ type: "clear_cities", payload: [] });
-};
+      citiesList.sort(sorter);
+      dispatch({
+        type: "add_cities",
+        attribute: country_iso2,
+        payload: citiesList,
+      });
+    }
+  };
 
 const addUserCoordinates = (dispatch) => (coords) => {
   dispatch({ type: "add_user_coords", payload: coords });
@@ -584,7 +587,6 @@ export const { Context, Provider } = createDataContext(
     addToStatistics,
     getSavedFlights,
     deleteFlightFromSavedFlights,
-    clearCities,
     addPriceToCountries,
     addPriceToRecommendedCountries,
     addUserCoordinates,

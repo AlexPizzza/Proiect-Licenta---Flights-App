@@ -1,24 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import { Divider } from "react-native-elements";
 
 import CityCard from "../../components/common/CityCard";
 import EstimatedPrices from "../../components/common/EstimatedPrices";
-import CityBar from "../../components/common/CityBar";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { Context as UserContext } from "../../context/UserContext";
 
 import colors from "../../../global/colors";
-import globalStyles from "../../../global/globalStyles";
 
-const CitiesScreen = () => {
+const CitiesScreen = ({ route }) => {
+  const { country_iso2 } = route.params;
+
   const {
     state: { cities },
   } = useContext(FlightsContext);
@@ -26,35 +20,28 @@ const CitiesScreen = () => {
     state: { currentCurrency },
   } = useContext(UserContext);
 
+  const [citiesToShow, setCitiesToShow] = useState([]);
+
+  useEffect(() => {
+    if (cities && cities.hasOwnProperty(country_iso2)) {
+      setCitiesToShow(cities[country_iso2]);
+    }
+  }, [cities]);
+
   return (
     <View style={styles.container}>
       <View>
-        {!cities ? (
+        {!citiesToShow ? (
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-                marginVertical: 10,
-                ...globalStyles.marginHorizontal,
-              }}
-            >
-              <CityBar bdRadius={10} text="Bucharest" />
-            </View>
-            <Divider
-              style={{
-                backgroundColor: colors.BLACK,
-              }}
-            />
             <EstimatedPrices />
             <Divider
               style={{
                 backgroundColor: colors.BLACK,
               }}
             />
-            {cities.map((item, index) => (
+            {citiesToShow.map((item, index) => (
               <CityCard
                 key={"key" + index}
                 item={item.data}

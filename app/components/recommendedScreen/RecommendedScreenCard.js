@@ -12,14 +12,10 @@ const RecommendedScreenCard = ({ item, onPress, currency }) => {
   const {
     state: { cities, userCoords },
     addCities,
-    clearCities,
   } = useContext(FlightsContext);
 
   const addCitiesBackToList = () => {
-    if (cities.length !== 0) {
-      clearCities();
-    }
-    addCities(item.country_iso2, userCoords);
+    addCities(item.country_iso2, userCoords, cities);
   };
 
   return (
