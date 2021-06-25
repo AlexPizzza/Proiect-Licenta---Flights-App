@@ -40,6 +40,8 @@ const YourDetailsScreen = () => {
                 signout();
               } else if (item.title === "Account management") {
                 navigation.navigate("AccountManagement");
+              } else if (item.title === "Login info") {
+                navigation.navigate("LoginInfo");
               }
             }}
             onLongPress={() => {
@@ -47,6 +49,8 @@ const YourDetailsScreen = () => {
                 signout();
               } else if (item.title === "Account management") {
                 navigation.navigate("AccountManagement");
+              } else if (item.title === "Login info") {
+                navigation.navigate("LoginInfo");
               }
             }}
             delayLongPress={150}

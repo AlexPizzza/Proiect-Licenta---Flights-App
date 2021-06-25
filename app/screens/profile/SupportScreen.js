@@ -21,67 +21,33 @@ const termsAndPolicies = [
   },
 ];
 
-const SupportScreen = () => {
+const SupportScreen = ({ navigation }) => {
   const [ratingModalVisible, setRatingModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
-      <View style={styles.subContainer}>
-        <Text style={styles.headerText}>Support</Text>
+      <Text style={styles.headerText}>Support</Text>
 
-        <Text style={styles.subHeaderText}>Feedback</Text>
+      <Text style={styles.subHeaderText}>Feedback</Text>
 
-        <RatingModal
-          ratingModalVisible={ratingModalVisible}
-          setRatingModalVisible={setRatingModalVisible}
-        />
-        <View style={{ marginBottom: 30 }}>
-          {feedback.map((item, index) => (
-            <Ripple
-              key={index}
-              rippleColor={colors.PURPLE}
-              rippleOpacity={0.8}
-              onPress={() => {
-                if (item.title === "Rating") {
-                  setRatingModalVisible(true);
-                }
-              }}
-              onLongPress={() => {
-                if (item.title === "Rating") {
-                  setRatingModalVisible(true);
-                }
-              }}
-              delayLongPress={150}
-            >
-              <ListItem bottomDivider>
-                <ListItem.Content>
-                  <ListItem.Title style={styles.title}>
-                    {item.title}
-                  </ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron
-                  size={20}
-                  iconStyle={{ color: colors.PURPLE_LIGHT }}
-                />
-              </ListItem>
-            </Ripple>
-          ))}
-        </View>
-
-        <Text style={styles.subHeaderText}>Third-party licenses</Text>
-        {termsAndPolicies.map((item, index) => (
+      <RatingModal
+        ratingModalVisible={ratingModalVisible}
+        setRatingModalVisible={setRatingModalVisible}
+      />
+      <View style={{ marginBottom: 30 }}>
+        {feedback.map((item, index) => (
           <Ripple
             key={index}
             rippleColor={colors.PURPLE}
             rippleOpacity={0.8}
             onPress={() => {
-              if (item.title === "Third-party licenses") {
-                navigation.navigate("ThirdPartyLicenses");
+              if (item.title === "Rating") {
+                setRatingModalVisible(true);
               }
             }}
             onLongPress={() => {
-              if (item.title === "Third-party licenses") {
-                navigation.navigate("ThirdPartyLicenses");
+              if (item.title === "Rating") {
+                setRatingModalVisible(true);
               }
             }}
             delayLongPress={150}
@@ -100,6 +66,36 @@ const SupportScreen = () => {
           </Ripple>
         ))}
       </View>
+
+      <Text style={styles.subHeaderText}>Third-party licenses</Text>
+      {termsAndPolicies.map((item, index) => (
+        <Ripple
+          key={index}
+          rippleColor={colors.PURPLE}
+          rippleOpacity={0.8}
+          onPress={() => {
+            if (item.title === "Third-party licenses") {
+              navigation.navigate("ThirdPartyLicenses");
+            }
+          }}
+          onLongPress={() => {
+            if (item.title === "Third-party licenses") {
+              navigation.navigate("ThirdPartyLicenses");
+            }
+          }}
+          delayLongPress={150}
+        >
+          <ListItem bottomDivider>
+            <ListItem.Content>
+              <ListItem.Title style={styles.title}>{item.title}</ListItem.Title>
+            </ListItem.Content>
+            <ListItem.Chevron
+              size={20}
+              iconStyle={{ color: colors.PURPLE_LIGHT }}
+            />
+          </ListItem>
+        </Ripple>
+      ))}
     </View>
   );
 };

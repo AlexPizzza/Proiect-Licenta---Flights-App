@@ -67,9 +67,6 @@ const signup =
           email,
           password
         );
-        // await authUser.user.updateProfile({
-        //   displayName: fullName,
-        // });
 
         const token = authUser.user.uid;
         await AsyncStorage.setItem("token", token);

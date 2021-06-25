@@ -27,7 +27,7 @@ const AccountManagementScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
-        <Text style={styles.yourDetailsHeaderText}>Manage your account</Text>
+        <Text style={styles.headerText}>Manage your account</Text>
         {list.map((item, index) => (
           <Ripple
             key={index}
@@ -96,9 +96,9 @@ const styles = StyleSheet.create({
   subContainer: {
     paddingLeft: globalStyles.marginHorizontal.value,
   },
-  yourDetailsHeaderText: {
+  headerText: {
     ...globalStyles.headerBoldText,
-    fontSize: 40,
+    fontSize: 38,
     ...globalStyles.marginHorizontal,
     marginBottom: 16,
   },
