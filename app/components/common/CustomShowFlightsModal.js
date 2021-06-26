@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Dimensions,
+  Image,
   Modal,
   ScrollView,
   StyleSheet,
@@ -13,6 +14,8 @@ import FlightCardRoundTrip from "../modal/FlightCardRoundTrip";
 import FlightCardOneWay from "../modal/FlightCardOneWay";
 
 import { Context as UserContext } from "../../context/UserContext";
+
+import noFlightsImage from "../../../assets/no_flights_found.png";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -190,7 +193,12 @@ const CustomShowFlightsModal = ({
               ))}
         </ScrollView>
       ) : (
-        <Text>No flights to show :(</Text>
+        <View style={styles.noFlightsView}>
+          <Image source={noFlightsImage} style={styles.imageStyle} />
+          <Text style={styles.noFlightsFoundText}>
+            No flights found for selected dates!
+          </Text>
+        </View>
       )}
     </Modal>
   );
@@ -223,6 +231,20 @@ const styles = StyleSheet.create({
   },
   scrollViewStyle: {
     backgroundColor: colors.WHITE,
+  },
+  noFlightsView: {
+    margin: 10,
+    marginTop: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageStyle: {
+    width: "100%",
+    height: undefined,
+    aspectRatio: 3 / 4,
+  },
+  noFlightsFoundText: {
+    ...globalStyles.boldText,
   },
 });
 

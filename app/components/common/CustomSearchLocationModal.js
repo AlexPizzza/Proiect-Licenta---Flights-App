@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  Image,
+  KeyboardAvoidingView,
   Modal,
   StyleSheet,
   Text,
@@ -15,6 +17,8 @@ import LocationsListItem from "../modal/LocationsListItem";
 import { Feather } from "@expo/vector-icons";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
+
+import noLocationsImage from "../../../assets/no_locations_found.png";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -33,6 +37,7 @@ const CustomSearchLocation = ({
 }) => {
   const [locationText, setLocationText] = useState("");
   const [userIsTyping, setUserIsTyping] = useState(false);
+  const [noLocations, setNoLocations] = useState(false);
 
   const {
     state: { locations },
@@ -111,14 +116,24 @@ const CustomSearchLocation = ({
               setArrivalCity(null);
             }
             setUserIsTyping(false);
+            setNoLocations(false);
           }}
           inputStyle={styles.inputStyle}
           onChangeText={(text) => {
             setUserIsTyping(true);
             setLocationText(text);
-            if (text.length > 2) {
+            if (text.length > 1) {
               getLocations(text);
-            } else {
+              setTimeout(() => {
+                if (locations.length === 0 && noLocations === false) {
+                  setNoLocations(true);
+                  setUserIsTyping(false);
+                }
+              }, 2.5 * 1000);
+            }
+            if (text.length <= 1) {
+              setNoLocations(false);
+              setUserIsTyping(false);
               clearLocations();
             }
           }}
@@ -137,6 +152,13 @@ const CustomSearchLocation = ({
             }}
           >
             <ActivityIndicator size="large" color={colors.PURPLE} />
+          </View>
+        ) : locations.length === 0 && noLocations ? (
+          <View style={styles.noLocationsView}>
+            <Image source={noLocationsImage} style={styles.imageStyle} />
+            <Text style={styles.noLocationsFoundText}>
+              No locations found for '{locationText}'!
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -183,6 +205,18 @@ const styles = StyleSheet.create({
     ...globalStyles.normalText,
     color: colors.SEARCH_INPUT_TEXT,
     marginLeft: 10,
+  },
+  noLocationsView: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageStyle: {
+    width: "100%",
+    height: undefined,
+    aspectRatio: 5 / 6,
+  },
+  noLocationsFoundText: {
+    ...globalStyles.boldText,
   },
 });
 
