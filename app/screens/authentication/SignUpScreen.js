@@ -1,10 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import {
-  KeyboardAvoidingView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 import Footer from "../../components/authentication/Footer";
 import Header from "../../components/authentication/Header";
@@ -18,9 +13,8 @@ import colors from "../../../global/colors";
 import authImage from "../../../assets/auth.jpg";
 
 const SignUpScreen = ({ navigation }) => {
-  const { clearEmailErrorMessage, clearPasswordErrorMessage } = useContext(
-    AuthContext
-  );
+  const { clearEmailErrorMessage, clearPasswordErrorMessage } =
+    useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("blur", () => {
@@ -40,9 +34,9 @@ const SignUpScreen = ({ navigation }) => {
       <View style={styles.imageAndFormContainer}>
         <CustomImage image={authImage} />
 
-        <KeyboardAvoidingView style={{ flex: 5 }} behavior="height">
+        <View style={{ flex: 5 }}>
           <SignUp />
-        </KeyboardAvoidingView>
+        </View>
 
         <Footer
           basicText="Already have an account?"

@@ -15,11 +15,7 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import AuthButton from "./AuthButton";
 
 const SignupSchema = Yup.object().shape({
-  fullName: Yup.string()
-    .min(2, "Name is too short.")
-    .max(25, "Name is too long.")
-    .required("Required"),
-  email: Yup.string().email("Email badly formatted!").required("Required"),
+  email: Yup.string().email("Email badly formatted!").required("Required."),
   password: Yup.string()
     .matches(
       "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]",
@@ -29,7 +25,7 @@ const SignupSchema = Yup.object().shape({
     .required("No password provided."),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords do not match.")
-    .required("Required"),
+    .required("Required."),
 });
 
 const SignUp = () => {

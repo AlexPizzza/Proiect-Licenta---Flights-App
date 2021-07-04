@@ -111,7 +111,7 @@ const signin =
       console.log(error);
       if (error.message.toLowerCase().includes("email"))
         dispatch({ type: "add_email_error", payload: error.message });
-      else if (error.message.toLowerCase().includes("user"))
+      else if (error.message.toLowerCase().includes("there is no user"))
         dispatch({
           type: "add_email_error",
           payload: "No user found with this email.",

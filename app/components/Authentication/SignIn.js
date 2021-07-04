@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Input } from "react-native-elements";
 import { Formik } from "formik";
 
@@ -14,11 +14,8 @@ import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
 
 const SignIn = () => {
-  const {
-    state,
-    clearEmailErrorMessage,
-    clearPasswordErrorMessage,
-  } = useContext(AuthContext);
+  const { state, clearEmailErrorMessage, clearPasswordErrorMessage } =
+    useContext(AuthContext);
 
   return (
     <View style={styles.formContainer}>
@@ -75,7 +72,6 @@ const SignIn = () => {
               )}
               errorStyle={[globalStyles.normalText, styles.errorMessage]}
               errorMessage={state.passwordError}
-              contextMenuHidden={true}
             />
 
             <AuthButton
@@ -91,6 +87,7 @@ const SignIn = () => {
   );
 };
 
+const { width, height } = Dimensions.get("window");
 const styles = StyleSheet.create({
   errorMessage: {
     color: "red",
@@ -105,6 +102,7 @@ const styles = StyleSheet.create({
   },
   inputsContainer: {
     flex: 4,
+    height: height,
   },
   authButton: {
     marginTop: 30,

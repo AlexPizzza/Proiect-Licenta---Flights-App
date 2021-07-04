@@ -48,12 +48,17 @@ const SearchScreen = ({ navigation }) => {
   useEffect(() => {
     const filteredResults = getFilteredResults();
     setFilteredResults(filteredResults);
-    setDisplayName(auth.currentUser.displayName);
+    if (auth.currentUser.displayName) {
+      setDisplayName(auth.currentUser.displayName);
+    }
   }, []);
 
   useEffect(() => {
     if (isFocused) {
-      if (displayName !== auth.currentUser.displayName) {
+      if (
+        auth.currentUser.displayName &&
+        displayName !== auth.currentUser.displayName
+      ) {
         setDisplayName(auth.currentUser.displayName);
       }
     }
