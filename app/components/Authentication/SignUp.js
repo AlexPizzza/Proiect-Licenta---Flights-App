@@ -4,11 +4,7 @@ import { Input } from "react-native-elements";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import WelcomeText from "./WelcomeText";
 
@@ -39,7 +35,6 @@ const SignupSchema = Yup.object().shape({
 const SignUp = () => {
   const {
     state,
-    clearFullNameErrorMessage,
     clearEmailErrorMessage,
     clearPasswordErrorMessage,
     clearConfirmPasswordErrorMessage,
@@ -63,29 +58,6 @@ const SignUp = () => {
       >
         {({ handleChange, handleBlur, values, errors, touched }) => (
           <View style={styles.inputsContainer}>
-            {/* <Input
-              placeholder="Full Name"
-              focusable
-              autoCapitalize="words"
-              value={values.fullName}
-              onChangeText={(text) => {
-                handleChange("fullName")(text);
-                clearFullNameErrorMessage();
-              }}
-              onBlur={handleBlur("fullName")}
-              leftIcon={() => (
-                <Ionicons
-                  name="ios-person"
-                  size={globalStyles.authIconSize}
-                  color={colors.FOOTER}
-                  style={{ marginRight: 4 }}
-                />
-              )}
-              errorStyle={[globalStyles.normalText, styles.errorMessage]}
-              errorMessage={
-                state.fullNameError || (touched.fullName && errors.fullName)
-              }
-            /> */}
             <Input
               placeholder="Enter your email"
               autoCapitalize="none"

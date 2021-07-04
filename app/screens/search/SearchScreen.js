@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import Ripple from "react-native-material-ripple";
 
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -24,6 +25,8 @@ const SearchScreen = ({ navigation }) => {
   } = useContext(FlightsContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [filteredResults, setFilteredResults] = useState([]);
+  const [displayName, setDisplayName] = useState("");
+  const isFocused = useIsFocused();
 
   let [locationText] = useLocation();
 
@@ -45,7 +48,16 @@ const SearchScreen = ({ navigation }) => {
   useEffect(() => {
     const filteredResults = getFilteredResults();
     setFilteredResults(filteredResults);
+    setDisplayName(auth.currentUser.displayName);
   }, []);
+
+  useEffect(() => {
+    if (isFocused) {
+      if (displayName !== auth.currentUser.displayName) {
+        setDisplayName(auth.currentUser.displayName);
+      }
+    }
+  }, [isFocused]);
 
   const goToRecommendedScreen = () => {
     navigation.navigate("Recommended", { searchType: "recommended" });
@@ -81,10 +93,7 @@ const SearchScreen = ({ navigation }) => {
       <View style={styles.nameContainer}>
         <Text style={globalStyles.headerText}>Hi</Text>
         <Text style={globalStyles.headerBoldText}>
-          {auth.currentUser.displayName
-            ? " " + auth.currentUser.displayName.split(" ")[0]
-            : null}
-          ,
+          {displayName !== "" ? " " + displayName.split(" ")[0] : null},
         </Text>
       </View>
 

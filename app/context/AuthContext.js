@@ -71,7 +71,6 @@ const signup =
         const token = authUser.user.uid;
         await AsyncStorage.setItem("token", token);
 
-        navigation.navigate("SignIn");
         dispatch({ type: "signin", payload: token });
       } catch (error) {
         if (error.message.toLowerCase().includes("email"))
@@ -80,6 +79,7 @@ const signup =
           dispatch({ type: "add_password_error", payload: error.message });
       }
     } else {
+      console.log(errors);
       errors.forEach((el) => {
         if (el.toLowerCase().includes("name"))
           dispatch({ type: "add_fullName_error", payload: el });

@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import CustomSeeFlightModal from "../../components/common/CustomSeeFlightModal";
 import RoundTripCard from "../../components/saved/RoundTripCard";
@@ -7,6 +7,8 @@ import OneWayCard from "../../components/saved/OneWayCard";
 
 import { Context as FlightsContext } from "../../context/FlightsContext";
 import { Context as UserContext } from "../../context/UserContext";
+
+import noSavedFlights from "../../../assets/no_saved_flights.png";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";
@@ -62,6 +64,15 @@ const SavedScreen = () => {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
+        {roundTripFlights.length === 0 && oneWayFlights.length === 0 ? (
+          <View style={styles.imageView}>
+            <Image source={noSavedFlights} style={styles.imageStyle} />
+            <Text style={styles.noSavedFlightsText}>
+              Currently no saved flights!
+            </Text>
+          </View>
+        ) : null}
+
         {roundTripFlights.length !== 0 ? (
           <View style={styles.savedFlightsContainer}>
             <Text style={styles.subHeaderTextStyle}>Round trip flights</Text>
@@ -110,6 +121,20 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 20,
     borderBottomWidth: 1,
+  },
+  imageView: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+    ...globalStyles.marginHorizontal,
+  },
+  imageStyle: {
+    width: "100%",
+    height: undefined,
+    aspectRatio: 4 / 5,
+  },
+  noSavedFlightsText: {
+    ...globalStyles.boldText,
   },
   subHeaderContainer: {
     ...globalStyles.marginHorizontal,

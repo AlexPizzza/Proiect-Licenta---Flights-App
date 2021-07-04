@@ -19,6 +19,7 @@ const ChangeFullNameModal = ({
     await auth.currentUser.updateProfile({
       displayName: fullName,
     });
+    await auth.currentUser.reload();
   };
 
   const [fullNameModal, setFullNameModal] = useState("");
