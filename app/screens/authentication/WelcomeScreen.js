@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { StatusBar, StyleSheet, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-import Slide from "../../components/welcome/Slide";
-import Button from "../../components/welcome/Button";
+import Slide from "../../components/Welcome/Slide";
+import Button from "../../components/Welcome/Button";
 
 import { Context as UserContext } from "../../context/UserContext";
 

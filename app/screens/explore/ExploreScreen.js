@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import SearchBar from "../../components/common/SearchBar";
-import ExploreEverywhereCard from "../../components/explore/ExploreEverywhereCard";
-import ExploreBasicCard from "../../components/explore/ExploreBasicCard";
+import ExploreEverywhereCard from "../../components/Explore/ExploreEverywhereCard";
+import ExploreBasicCard from "../../components/Explore/ExploreBasicCard";
 import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
 
 import popularDestinationsImage from "../../../assets/explore/popular-destinations.jpg";

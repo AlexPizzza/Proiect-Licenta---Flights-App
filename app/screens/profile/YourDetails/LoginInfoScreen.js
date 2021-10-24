@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { auth } from "../../../config/firebase";
 
-import ChangeFullNameButton from "../../../components/profile/loginInfo/ChangeFullNameButton";
-import ChangeFullNameModal from "../../../components/profile/loginInfo/ChangeFullNameModal";
+import ChangeFullNameButton from "../../../components/Profile/loginInfo/ChangeFullNameButton";
+import ChangeFullNameModal from "../../../components/Profile/loginInfo/ChangeFullNameModal";
 
 import colors from "../../../../global/colors";
 import globalStyles from "../../../../global/globalStyles";

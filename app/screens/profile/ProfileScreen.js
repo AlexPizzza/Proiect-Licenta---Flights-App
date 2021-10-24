@@ -6,7 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import { auth } from "../../config/firebase";
 
-import ProfileCard from "../../components/profile/ProfileCard";
+import ProfileCard from "../../components/Profile/ProfileCard";
 
 import settingsImage from "../../../assets/profile/settings.png";
 import supportImage from "../../../assets/profile/support.png";

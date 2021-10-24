@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ListItem } from "react-native-elements";
 import Ripple from "react-native-material-ripple";
 
-import RatingModal from "../../components/profile/support/RatingModal";
+import RatingModal from "../../components/Profile/support/RatingModal";
 
 import colors from "../../../global/colors";
 import globalStyles from "../../../global/globalStyles";

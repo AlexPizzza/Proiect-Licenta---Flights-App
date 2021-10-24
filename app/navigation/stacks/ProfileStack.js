@@ -1,12 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "../../screens/profile/ProfileScreen";
-import SettingsScreen from "../../screens/profile/SettingsScreen";
-import SupportScreen from "../../screens/profile/SupportScreen";
-import YourDetailsStack from "./profile/YourDetailsStack";
-import SettingsStack from "./profile/SettingsStack";
-import SupportStack from "./profile/SupportStack";
-import StatisticsStack from "./profile/StatisticsStack";
+import YourDetailsStack from "./Profile/YourDetailsStack";
+import SettingsStack from "./Profile/SettingsStack";
+import SupportStack from "./Profile/SupportStack";
+import StatisticsStack from "./Profile/StatisticsStack";
 
 const Stack = createStackNavigator();
 

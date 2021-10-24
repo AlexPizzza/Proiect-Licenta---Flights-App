@@ -5,7 +5,7 @@ import Ripple from "react-native-material-ripple";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import RecommendedCard from "../../components/search/RecommendedCard";
+import RecommendedCard from "../../components/Search/RecommendedCard";
 import SearchBar from "../../components/common/SearchBar";
 import CustomSearchFlightsModal from "../../components/common/CustomSearchFlightsModal";
 

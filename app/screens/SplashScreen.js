@@ -54,6 +54,7 @@ const SplashScreen = () => {
     const getData = async () => {
       await checkIsFirstTime();
       await tryLocalSignIn();
+      addCurrencies();
       getDate();
     };
     getData();
@@ -67,7 +68,6 @@ const SplashScreen = () => {
           await getUserRating();
           await getStatisticsFlights();
           getCountriesBySearchType();
-          addCurrencies();
           getCurrentCurrency();
 
           getSavedFlights();
